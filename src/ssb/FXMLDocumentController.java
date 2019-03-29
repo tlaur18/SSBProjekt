@@ -25,6 +25,7 @@ public class FXMLDocumentController implements Initializable {
         // TODO
         /*
         WHAT THE FUCK IS GOING HERE
+        MIN KONTO BLIVER REGISTERET SOM EN ANDEN KONTO HVAD FOREGÅR DER HER?
         */
     }    
     

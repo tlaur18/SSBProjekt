@@ -1,9 +1,0 @@
-.menuText {
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-    -fx-font-size: 14px;
-}
-
-.menuText:focused {
-    -fx-text-inner-color: white;
-}

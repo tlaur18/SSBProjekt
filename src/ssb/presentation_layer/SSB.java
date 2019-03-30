@@ -1,4 +1,4 @@
-package ssb;
+package ssb.presentation_layer;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -17,7 +17,7 @@ public class SSB extends Application {
         stage.setMaximized(true);
         stage.setMinWidth(900);
         stage.setMinHeight(350);
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("fxml_documents/main_layout.fxml"));
         
         Scene scene = new Scene(root);
         

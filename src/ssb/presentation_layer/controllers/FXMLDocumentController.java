@@ -1,34 +1,31 @@
-package ssb;
+package ssb.presentation_layer.controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
+import javafx.scene.control.Button;
 
 /**
  *
- * @author olive
+ * @author oliver
  */
 public class FXMLDocumentController implements Initializable {
     
     @FXML
-    private Label label;
+    private Button sagerBtn;
+    @FXML
+    private Button navnBtn;
     
     @FXML
-    private void handleButtonAction(ActionEvent event) {
+    private void sagerOnAction(ActionEvent event) {
+        System.out.println("Sager pressed");
     }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        /*
-        WHAT THE FUCK IS GOING HERE
-        MIN KONTO BLIVER REGISTERET SOM EN ANDEN KONTO HVAD FOREGÅR DER HER?
-        DET HER ER UNDERLIGT
-        JA JEG ER ENIG
-        */
     }    
     
 }

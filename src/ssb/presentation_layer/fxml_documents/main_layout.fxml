@@ -21,7 +21,7 @@
     <left>
         <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #2775DC;" BorderPane.alignment="CENTER">
             <children>
-                <Button fx:id="sagerBtn" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#sagerOnAction" prefHeight="30.0" prefWidth="45.0" styleClass="menuButtons" text="Sager" VBox.vgrow="ALWAYS">
+                <Button fx:id="sagerFaneBtn" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#sagerOnAction" prefHeight="30.0" prefWidth="45.0" styleClass="menuButtons" text="Sager" VBox.vgrow="ALWAYS">
                     <VBox.margin>
                         <Insets />
                     </VBox.margin>
@@ -65,7 +65,7 @@
     <top>
         <HBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #0B4A9C;" BorderPane.alignment="CENTER">
             <children>
-                <ImageView fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                <ImageView fx:id="homeBtn" fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
                     <image>
                         <Image url="@../../ressources/images/home.png" />
                     </image>
@@ -73,7 +73,7 @@
                         <Insets />
                     </HBox.margin>
                 </ImageView>
-                <ImageView fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" rotate="-180.0" HBox.hgrow="ALWAYS">
+                <ImageView fx:id="backBtn" fitHeight="30.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" rotate="-180.0" HBox.hgrow="ALWAYS">
                     <image>
                         <Image url="@../../ressources/images/back_arrow.png" />
                     </image>
@@ -81,7 +81,7 @@
                         <Insets left="10.0" />
                     </HBox.margin>
                 </ImageView>
-                <TextField minHeight="-Infinity" minWidth="-Infinity" prefHeight="22.0" prefWidth="446.0" promptText="Søg, eller skriv en kommando" style="-fx-background-color: black;" styleClass="menuText" HBox.hgrow="ALWAYS">
+                <TextField fx:id="searchCommandTxtField" minHeight="-Infinity" minWidth="-Infinity" prefHeight="22.0" prefWidth="446.0" promptText="Søg, eller skriv en kommando" style="-fx-background-color: black;" styleClass="menuText" HBox.hgrow="ALWAYS">
                     <HBox.margin>
                         <Insets left="28.0" right="40.0" top="5.0" />
                     </HBox.margin>
@@ -102,39 +102,39 @@
             <children>
                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS">
                     <children>
-                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="orderingButtons" text="Navn" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                        <Button fx:id="sortNameBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="orderingButtons" text="Navn" textAlignment="CENTER" HBox.hgrow="ALWAYS">
                             <HBox.margin>
                                 <Insets />
                             </HBox.margin>
                         </Button>
-                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="orderingButtons" text="Beboer" HBox.hgrow="ALWAYS">
+                        <Button fx:id="sortResidentBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="orderingButtons" text="Beboer" HBox.hgrow="ALWAYS">
                             <HBox.margin>
                                 <Insets />
                             </HBox.margin>
                         </Button>
-                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="orderingButtons" text="Type" HBox.hgrow="ALWAYS">
+                        <Button fx:id="sortTypeBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="orderingButtons" text="Type" HBox.hgrow="ALWAYS">
                             <HBox.margin>
                                 <Insets />
                             </HBox.margin>
                         </Button>
-                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="orderingButtons" text="Ændringsdato" HBox.hgrow="ALWAYS">
+                        <Button fx:id="sortEditBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="orderingButtons" text="Ændringsdato" HBox.hgrow="ALWAYS">
                             <HBox.margin>
                                 <Insets />
                             </HBox.margin>
                         </Button>
-                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="orderingButtons" text="Oprettelsesdato" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="sortCreationBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="orderingButtons" text="Oprettelsesdato" HBox.hgrow="ALWAYS" />
                     </children>
                 </HBox>
-                <ListView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
+                <ListView fx:id="documentsListView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
                 <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
                     <children>
-                        <TextField promptText="Søg efter en beboer" VBox.vgrow="ALWAYS" />
-                        <TextField promptText="Søg efter dokument navn" VBox.vgrow="ALWAYS">
+                        <TextField fx:id="searchResidentTxtField" promptText="Søg efter en beboer" VBox.vgrow="ALWAYS" />
+                        <TextField fx:id="searchDocNameTxtField" promptText="Søg efter dokument navn" VBox.vgrow="ALWAYS">
                             <VBox.margin>
                                 <Insets top="8.0" />
                             </VBox.margin>
                         </TextField>
-                        <Button alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="createVUMDocument" text="Opret VUM-dokument" textAlignment="CENTER" VBox.vgrow="ALWAYS">
+                        <Button fx:id="createVUMDocBtn" onAction="#createVUMOnAction" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="createVUMDocument" text="Opret VUM-dokument" textAlignment="CENTER" VBox.vgrow="ALWAYS">
                             <VBox.margin>
                                 <Insets top="8.0" />
                             </VBox.margin>

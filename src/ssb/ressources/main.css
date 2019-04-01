@@ -2,7 +2,7 @@
     -fx-text-fill: #212121;
     -fx-font-weight: bold;
     -fx-font-size: 14px;
-    -fx-background-color: #C5CAE9;
+    -fx-background-color: #CFD8DC;
     -fx-prompt-text-fill: #757575;
 }
 
@@ -16,7 +16,7 @@
 }
 
 .menuButtons:hover {
-    -fx-background-color: #303F9F;
+    -fx-background-color: #455A64;
     -fx-text-fill: white;
     -fx-cursor: hand;
 }
@@ -26,17 +26,18 @@
     -fx-border-width: 0;
     -fx-background-radius: 0;
     -fx-background-color: transparent;
+    -fx-text-alignment: left;
 }
 
 .orderingButtons:hover {
-    -fx-background-color: #C5CAE9;
+    -fx-background-color: #CFD8DC;
 }
 
 .createVUMDocument {
-    -fx-background-color: #03A9F4;
+    -fx-background-color: #009688;
     -fx-border-radius: 16 16 16 16;
     -fx-background-radius: 16 16 16 16;
-    -fx-text-fill: #212121;
+    -fx-text-fill: #FFFFFF;
 }
 
 .createVUMDocument:hover {
@@ -48,9 +49,9 @@
 }
 
 #topToolBar {
-    -fx-background-color: #303F9F;
+    -fx-background-color: #455A64;
 }
 
 #leftToolBar {
-    -fx-background-color: #3F51B5;
+    -fx-background-color: #607D8B;
 }

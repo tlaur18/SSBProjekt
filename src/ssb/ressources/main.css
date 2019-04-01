@@ -27,6 +27,8 @@
     -fx-background-radius: 0;
     -fx-background-color: transparent;
     -fx-text-alignment: left;
+    -fx-text-fill: #212121;
+    ;
 }
 
 .orderingButtons:hover {

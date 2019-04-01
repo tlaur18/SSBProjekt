@@ -109,27 +109,27 @@
             <children>
                 <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS">
                     <children>
-                        <Button fx:id="sortNameBtn" alignment="BASELINE_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" styleClass="orderingButtons" text="Navn" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                        <Button fx:id="sortNameBtn" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="100.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" prefWidth="180.0" styleClass="orderingButtons" text="Navn" HBox.hgrow="ALWAYS">
                             <HBox.margin>
                                 <Insets />
                             </HBox.margin>
                         </Button>
-                        <Button fx:id="sortResidentBtn" alignment="BASELINE_LEFT" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefWidth="70.0" styleClass="orderingButtons" text="Beboer" HBox.hgrow="ALWAYS">
+                        <Button fx:id="sortResidentBtn" alignment="BASELINE_LEFT" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" mnemonicParsing="false" prefWidth="180.0" styleClass="orderingButtons" text="Beboer" HBox.hgrow="NEVER">
                             <HBox.margin>
                                 <Insets />
                             </HBox.margin>
                         </Button>
-                        <Button fx:id="sortTypeBtn" alignment="BASELINE_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="orderingButtons" text="Type" HBox.hgrow="ALWAYS">
+                        <Button fx:id="sortTypeBtn" alignment="BASELINE_LEFT" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" mnemonicParsing="false" prefWidth="180.0" styleClass="orderingButtons" text="Type" HBox.hgrow="NEVER">
                             <HBox.margin>
                                 <Insets />
                             </HBox.margin>
                         </Button>
-                        <Button fx:id="sortEditBtn" alignment="BASELINE_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="orderingButtons" text="Ændringsdato" HBox.hgrow="ALWAYS">
+                        <Button fx:id="sortEditBtn" alignment="BASELINE_LEFT" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" mnemonicParsing="false" prefWidth="180.0" styleClass="orderingButtons" text="Ændringsdato" HBox.hgrow="NEVER">
                             <HBox.margin>
                                 <Insets />
                             </HBox.margin>
                         </Button>
-                        <Button fx:id="sortCreationBtn" alignment="BASELINE_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="orderingButtons" text="Oprettelsesdato" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="sortCreationBtn" alignment="BASELINE_LEFT" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" mnemonicParsing="false" prefWidth="180.0" styleClass="orderingButtons" text="Oprettelsesdato" HBox.hgrow="NEVER" />
                     </children>
                 </HBox>
                 <ListView fx:id="documentsListView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">

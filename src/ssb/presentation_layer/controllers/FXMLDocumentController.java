@@ -48,14 +48,15 @@ public class FXMLDocumentController implements Initializable {
     private TableView<Document> vumDocumentTableView;
     private ObservableList<Document> observableDocuments;
     private final String NEW_BEBOER_CHOICE = "Ny beboer";
-    private final List<Resident> residents = new ArrayList<>(Arrays.asList(new Resident("Oliver"), new Resident("Nicolai"), new Resident("Michael")));
+    private final List<Resident> residents = new ArrayList<>(Arrays.asList(new Resident("Oliver", "van Komen", "05437218", "457385-1546"), 
+        new Resident("Nicolai", "van Komen", "05437218", "457385-1546")));
     private final Employee employee = new Employee(Employee.job.SAGSBEHANDLER, residents);
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // ArrayList med VUM-dokumenter
         List<Document> documents = new ArrayList<>(Arrays.asList(new Document(residents.get(0), Document.type.SAGSÅBNING),
-            new Document(residents.get(1), Document.type.UDREDNING), new Document(residents.get(2), Document.type.BESTILLING)));
+            new Document(residents.get(1), Document.type.UDREDNING)));
 
         // ObservableList som opdateres hvis "documents" Arraylisten opdateres
         observableDocuments = FXCollections.observableArrayList(documents);
@@ -92,7 +93,7 @@ public class FXMLDocumentController implements Initializable {
             choices.add(NEW_BEBOER_CHOICE);
         }
         employee.getResidents().forEach((resident) -> {
-            choices.add(resident.getName());
+            choices.add(resident.getFirstName() + resident.getLastName());
         });
 
         ChoiceDialog<String> dialog = new ChoiceDialog<>("", choices);

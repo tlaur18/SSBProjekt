@@ -24,7 +24,7 @@ public class Document {
     }
 
     private void generateDocumentName() {
-        this.documentName = associatedResident.getName().substring(0, 3) + type.toString().substring(0, 3) + " Test";
+        this.documentName = associatedResident.getFirstName().substring(0, 3) + type.toString().substring(0, 3) + " Test";
     }
 
     private void setCreationDate() {
@@ -40,7 +40,7 @@ public class Document {
     }
 
     public String getAssociatedResident() {
-        return associatedResident.getName();
+        return associatedResident.getFirstName();
     }
 
     public type getType() {

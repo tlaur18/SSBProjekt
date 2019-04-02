@@ -1,13 +1,12 @@
 package ssb.domain_layer;
 
-public class Resident {
-    private final String name;
+import java.util.ArrayList;
+import java.util.List;
 
-    public Resident(String name) {
-        this.name = name;
-    }
+public class Resident extends Person {
+    private final List<Case> cases = new ArrayList<>();
 
-    public String getName() {
-        return name;
+    public Resident(String firstName, String lastName, String phoneNr, String cprNr) {
+        super(firstName, lastName, phoneNr, cprNr);
     }
 }

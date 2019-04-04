@@ -2,6 +2,7 @@ package ssb.domain_layer;
 
 import java.util.ArrayList;
 import java.util.List;
+import ssb.domain_layer.Employee.Employee;
 
 public class Department {
 
@@ -67,5 +68,31 @@ public class Department {
         residents.add(resident);
     }
     
-    //HER MANGLER DER LIDT TILFØJELSES- OG FJERNELSES-METODER.
+    public void removeResident(String residentID) {
+        List<Resident> toRemove = new ArrayList();
+        
+        for (Resident res : residents) {
+            if (residentID.equals(res.getID())) {
+                toRemove.add(res);
+            }
+        }
+        
+        residents.removeAll(toRemove);
+    }
+    
+    public void addEmployee(Employee employee) {
+        employees.add(employee);
+    }
+    
+    public void removeEmployee(String employeeID) {
+        List<Employee> toRemove = new ArrayList();
+        
+        for (Employee emp : employees) {
+            if (employeeID.equals(emp.getID())) {
+                toRemove.add(emp);
+            }
+        }
+        
+        employees.removeAll(toRemove);
+    }
 }

@@ -126,29 +126,29 @@
                         <Insets right="8.0" top="24.0" />
                     </GridPane.margin>
                 </VBox>
-                <TableView fx:id="vumDocumentTableView" focusTraversable="false" onMouseClicked="#openDocumentAction" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                <TableView id="tableView" fx:id="vumDocumentTableView" focusTraversable="false" onMouseClicked="#openDocumentAction" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                     <columns>
-                        <TableColumn editable="false" resizable="false" text="Dokument navn">
+                        <TableColumn id="tableColumn" editable="false" resizable="false" text="Dokument navn">
                             <cellValueFactory>
                                 <PropertyValueFactory property="documentName" />
                             </cellValueFactory>
                         </TableColumn>
-                        <TableColumn editable="false" resizable="false" text="Beboer">
+                        <TableColumn id="tableColumn" editable="false" resizable="false" text="Beboer">
                             <cellValueFactory>
                                 <PropertyValueFactory property="associatedResident" />
                             </cellValueFactory>
                         </TableColumn>
-                        <TableColumn editable="false" resizable="false" text="Dokument Type">
+                        <TableColumn id="tableColumn" editable="false" resizable="false" text="Dokument Type">
                             <cellValueFactory>
                                 <PropertyValueFactory property="type" />
                             </cellValueFactory>
                         </TableColumn>
-                        <TableColumn editable="false" resizable="false" text="Redigerings Dato">
+                        <TableColumn id="tableColumn" editable="false" resizable="false" text="Redigerings Dato">
                             <cellValueFactory>
                                 <PropertyValueFactory property="editDate" />
                             </cellValueFactory>
                         </TableColumn>
-                        <TableColumn editable="false" resizable="false" text="Oprettelses Dato">
+                        <TableColumn id="tableColumn" editable="false" resizable="false" text="Oprettelses Dato">
                             <cellValueFactory>
                                 <PropertyValueFactory property="creationDate" />
                             </cellValueFactory>

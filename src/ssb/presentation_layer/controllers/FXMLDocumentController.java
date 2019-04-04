@@ -21,7 +21,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import ssb.domain_layer.Document;
-import ssb.domain_layer.Employee;
+import ssb.domain_layer.Employee.Employee;
+import ssb.domain_layer.Employee.Sagsbehandler;
+import ssb.domain_layer.Employee.SocialPædagog;
+import ssb.domain_layer.Employee.Socialrådgiver;
 import ssb.domain_layer.Resident;
 
 /**
@@ -50,7 +53,7 @@ public class FXMLDocumentController implements Initializable {
     private final String NEW_BEBOER_CHOICE = "Ny beboer";
     private final List<Resident> residents = new ArrayList<>(Arrays.asList(new Resident("Oliver", "van Komen", "05437218", "457385-1546"), 
         new Resident("Nicolai", "van Komen", "05437218", "457385-1546")));
-    private final Employee employee = new Employee(Employee.job.SAGSBEHANDLER, residents);
+    private final Employee employee = new SocialPædagog(residents);
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -66,6 +69,10 @@ public class FXMLDocumentController implements Initializable {
         for (Object column : vumDocumentTableView.getColumns().toArray()) {
             TableColumn<Document, ?> column1 = (TableColumn<Document, ?>) column;
             column1.prefWidthProperty().bind(vumDocumentTableView.widthProperty().divide(5));
+        }
+        
+        if (!employee.canAccessCreateDocBtn()) {
+            createVUMDocBtn.setVisible(false);
         }
     }
 
@@ -89,7 +96,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void createVUMOnAction(ActionEvent event) {
         List<String> choices = new ArrayList<>();
-        if (employee.getJobType().equals(Employee.job.SAGSBEHANDLER)) {
+        if (employee.canCreateOpencaseDoc()) {
             choices.add(NEW_BEBOER_CHOICE);
         }
         employee.getResidents().forEach((resident) -> {

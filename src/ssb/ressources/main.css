@@ -57,3 +57,19 @@
 #leftToolBar {
     -fx-background-color: #607D8B;
 }
+
+.table-view {
+    -fx-base: #CFD8DC;
+    -fx-control-inner-background: #FFFFFF;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #607D8B;
+}
+
+
+.table-view .column-header .label {
+    -fx-text-fill: #212121;
+    -fx-alignment: center-left;
+    -fx-padding: 1;
+}

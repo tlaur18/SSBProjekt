@@ -6,14 +6,24 @@ import java.util.List;
 
 public class Process {
     private final Date creationDate;
-    private final List<Document> documents;
+    private final List<Document> documents = new ArrayList<>();
+    private final Resident associatedResident;
 
-    public Process(ArrayList<Document> documents) {
+    public Process(Resident associatedResident) {
         creationDate = new Date();
-        this.documents = documents;
+        this.associatedResident = associatedResident;
     }
     
     public void endCase() {
         
+    }
+
+    public List<Document> getDocuments() {
+        return documents;
+    }
+    
+    public void addDocument(Document document) {
+        document.setResidentName(associatedResident.getFirstName() + " " + associatedResident.getLastName());
+        documents.add(document);
     }
 }

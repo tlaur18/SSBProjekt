@@ -48,17 +48,30 @@ public class FXMLDocumentController implements Initializable {
     private Button createVUMDocBtn;
     @FXML
     private TableView<Document> vumDocumentTableView;
+
+    private final Employee employee = new SocialPædagog("Michael", "tester", "telefon-nummer", "cpr nummer");
+    private final Resident oliver = new Resident("Oliver", "van Komen", "05050505", "0202-432125");
+    private final Process mentaltHandicap = new Process(oliver);
     private ObservableList<Document> observableDocuments;
     private final String NEW_BEBOER_CHOICE = "Ny beboer";
-    private final List<Document> documents = new ArrayList<>(Arrays.asList(new Document(Document.type.UDREDNING), new Document(Document.type.AFGØRELSE)));
-    private final List<Process> processes = new ArrayList<>(Arrays.asList(new Process((ArrayList<Document>) documents)));
-    private final Resident oliver = new Resident("Oliver", "van Komen", "05050505", "0202-432125", (ArrayList<Process>) processes);
-    private final Employee employee = new SocialPædagog(new ArrayList<>(Arrays.asList(oliver)), "Michael", "tester", "telefon-nummer", "cpr nummer");
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        Resident thomas = new Resident("Thomas", "Steenfeldt", "782357823", "1245435-1234");
+        Process retarderet = new Process(thomas);
+        retarderet.addDocument(new Document(Document.type.FAGLIGVURDERING));
+        retarderet.addDocument(new Document(Document.type.FAGLIGVURDERING));
+        retarderet.addDocument(new Document(Document.type.FAGLIGVURDERING));
+        retarderet.addDocument(new Document(Document.type.SAGSÅBNING));
+        thomas.addProcess(retarderet);
+        employee.addResident(oliver);
+        employee.addResident(thomas);
+        oliver.addProcess(mentaltHandicap);
+        mentaltHandicap.addDocument(new Document(Document.type.UDREDNING));
+        mentaltHandicap.addDocument(new Document(Document.type.AFGØRELSE));
+        mentaltHandicap.addDocument(new Document(Document.type.BESTILLING));
         // ObservableList som opdateres hvis "documents" Arraylisten opdateres
-        observableDocuments = FXCollections.observableArrayList(documents);
+        observableDocuments = FXCollections.observableArrayList(employee.getResidentDocuments());
 
         // Forbinder tableView med observable list med dokumenterne
         vumDocumentTableView.setItems(observableDocuments);

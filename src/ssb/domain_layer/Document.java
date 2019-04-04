@@ -10,19 +10,15 @@ public class Document {
     }
 
     private String documentName;
+    private String residentName;
     private final type type;
     private Date editDate;
     private Date creationDate;
 
     public Document(type type) {
         this.type = type;
-        generateDocumentName();
         setEditDate();
         setCreationDate();
-    }
-
-    private void generateDocumentName() {
-        this.documentName = type.toString().substring(0, 3) + " Test";
     }
 
     private void setCreationDate() {
@@ -34,7 +30,11 @@ public class Document {
     }
 
     public String getDocumentName() {
-        return documentName;
+        return generateDocumentName();
+    }
+
+    private String generateDocumentName() {
+        return documentName = residentName.substring(0, 3) + type.toString().substring(0, 3) + " Test";
     }
 
     public type getType() {
@@ -49,14 +49,21 @@ public class Document {
         return creationDate;
     }
 
+    public String getResidentName() {
+        return residentName;
+    }
+
+    public void setResidentName(String residentName) {
+        this.residentName = residentName;
+    }
+
     @Override
     public String toString() {
-        return "documentName=" + documentName 
-            + "\ntype=" + type 
-            + "\neditDate=" + editDate 
+        return "documentName=" + documentName
+            + "\nassociatedResident=" + residentName
+            + "\ntype=" + type
+            + "\neditDate=" + editDate
             + "\ncreationDate=" + creationDate;
     }
-    
-    
 
 }

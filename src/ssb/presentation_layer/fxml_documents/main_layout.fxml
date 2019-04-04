@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ssb.presentation_layer.controllers.FXMLDocumentController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ssb.presentation_layer.controllers.FXMLDocumentController">
     <stylesheets>
         <URL value="@../../ressources/main.css" />
     </stylesheets>
@@ -133,9 +133,9 @@
                                 <PropertyValueFactory property="documentName" />
                             </cellValueFactory>
                         </TableColumn>
-                        <TableColumn id="tableColumn" editable="false" resizable="false" text="Beboer">
+                        <TableColumn id="tableColumn" fx:id="beboerColumn" editable="false" resizable="false" text="Beboer">
                             <cellValueFactory>
-                                <PropertyValueFactory property="associatedResident" />
+                                <PropertyValueFactory property="residentName" />
                             </cellValueFactory>
                         </TableColumn>
                         <TableColumn id="tableColumn" editable="false" resizable="false" text="Dokument Type">

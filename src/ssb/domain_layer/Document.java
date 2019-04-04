@@ -10,13 +10,11 @@ public class Document {
     }
 
     private String documentName;
-    private final Resident associatedResident;
     private final type type;
     private Date editDate;
     private Date creationDate;
 
-    public Document(Resident associatedResident, type type) {
-        this.associatedResident = associatedResident;
+    public Document(type type) {
         this.type = type;
         generateDocumentName();
         setEditDate();
@@ -24,7 +22,7 @@ public class Document {
     }
 
     private void generateDocumentName() {
-        this.documentName = associatedResident.getFirstName().substring(0, 3) + type.toString().substring(0, 3) + " Test";
+        this.documentName = type.toString().substring(0, 3) + " Test";
     }
 
     private void setCreationDate() {
@@ -37,10 +35,6 @@ public class Document {
 
     public String getDocumentName() {
         return documentName;
-    }
-
-    public String getAssociatedResident() {
-        return associatedResident.getFirstName();
     }
 
     public type getType() {
@@ -58,7 +52,6 @@ public class Document {
     @Override
     public String toString() {
         return "documentName=" + documentName 
-            + "\nassociatedResident=" + associatedResident 
             + "\ntype=" + type 
             + "\neditDate=" + editDate 
             + "\ncreationDate=" + creationDate;

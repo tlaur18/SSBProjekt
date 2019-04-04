@@ -1,16 +1,12 @@
 package ssb.domain_layer;
 
-public class Person {
+public abstract class Person {
 
-    private String firstName;
-    private String lastName;
-    private String phoneNr;
-    private String cprNr;
-    private String ID;
-
-    public Person() {
-        this("N/A", "N/A", "N/A", "N/A");
-    }
+    private final String firstName;
+    private final String lastName;
+    private final String phoneNr;
+    private final String cprNr;
+    private final String ID;
 
     public Person(String firstName, String lastName, String phoneNr, String cprNr) {
         this.firstName = firstName;

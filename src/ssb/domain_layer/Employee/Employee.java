@@ -1,13 +1,14 @@
 package ssb.domain_layer.Employee;
 
 import java.util.List;
+import ssb.domain_layer.Person;
 import ssb.domain_layer.Resident;
 
-public class Employee {
+public abstract class Employee extends Person{
     private boolean canAccessCreateDocBtn;
     private boolean canPrintDoc;
     private boolean canEditDoc;
-    private boolean canCreateOpencaseDoc;
+    private boolean canCreateNewProcessDoc;
     private boolean canCreateReportDocs;
     private boolean canCloseCase;
     private boolean canCreateNotification;
@@ -15,7 +16,8 @@ public class Employee {
     
     private final List<Resident> residents;
     
-    public Employee(List<Resident> residents) {
+    public Employee(List<Resident> residents, String firstName, String lastName, String phoneNr, String cprNr) {
+        super(firstName, lastName, phoneNr, cprNr);
         this.residents = residents;
     }
 
@@ -51,12 +53,12 @@ public class Employee {
         residents.add(newResident);
     }
 
-    public final boolean canCreateOpencaseDoc() {
-        return canCreateOpencaseDoc;
+    public final boolean canCreateNewProcessDoc() {
+        return canCreateNewProcessDoc;
     }
 
-    protected final void setCanCreateOpencaseDoc(boolean canCreateOpencaseDoc) {
-        this.canCreateOpencaseDoc = canCreateOpencaseDoc;
+    protected final void setCanCreateNewProcessDoc(boolean canCreateNewProcessDoc) {
+        this.canCreateNewProcessDoc = canCreateNewProcessDoc;
     }
 
     public final boolean canCreateReportDocs() {

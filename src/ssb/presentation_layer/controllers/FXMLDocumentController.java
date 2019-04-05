@@ -161,16 +161,15 @@ public class FXMLDocumentController implements Initializable {
                 URL url = new File("src/ssb/presentation_layer/fxml_documents/test_view.fxml").toURL();
                 stage.setScene(new Scene(FXMLLoader.load(url)));
                 stage.setTitle("Oliver forsøger");
-                test_viewController.init(this);
                 stage.show();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
-    public void saveDocument() {
+    public void saveDocument(Document doc) {
         System.out.println("this is second base!");
-     //   observableDocuments.add(doc);
+       observableDocuments.add(doc);
         System.out.println("this is 3rd base, you will never get here");
     }
 }

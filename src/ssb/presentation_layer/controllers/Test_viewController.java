@@ -80,10 +80,6 @@ public class Test_viewController implements Initializable {
         selectedCheckbox = new ArrayList<CheckBox>();
         loadCheckbox();
     }
-    
-    public void init(FXMLDocumentController controller) {
-        this.fxmlDocumentController = controller;
-    }
 
     private void loadCheckbox() {
         checkbox.add(CheckBox1);
@@ -124,23 +120,16 @@ public class Test_viewController implements Initializable {
         URL url = new File("src/ssb/presentation_layer/fxml_documents/main_layout.fxml").toURL();
         System.out.println(doc.toString());
         FXMLLoader loader = new FXMLLoader(url);
+        Parent root = (Parent) loader.load();
         fxmlDocumentController = loader.getController();
+        fxmlDocumentController.saveDocument(doc);
         System.out.println("u got to 1st base");
         
     }
 
     @FXML
     private void cancelBttn(ActionEvent event) {
-        try {
-            Stage stage = new Stage();
-            URL url = new File("src/ssb/presentation_layer/fxml_documents/main_layout.fxml").toURL();
-            stage.setScene(new Scene(FXMLLoader.load(url)));
-            stage.initOwner(saveBttn.getScene().getWindow());
-            stage.setTitle("Morten er awesome!");
-            stage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            Stage stage = (Stage) cancelBttn.getScene().getWindow();
+            stage.close();
     }
 }

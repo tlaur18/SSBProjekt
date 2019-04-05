@@ -14,10 +14,8 @@ public class SSB extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        stage.setMaximized(true);
-        stage.setMinWidth(900);
-        stage.setMinHeight(350);
-        Parent root = FXMLLoader.load(getClass().getResource("fxml_documents/main_layout.fxml"));
+        stage.setTitle("Log ind");
+        Parent root = FXMLLoader.load(getClass().getResource("fxml_documents/login_layout.fxml"));
         
         Scene scene = new Scene(root);
         

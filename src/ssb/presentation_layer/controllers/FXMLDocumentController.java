@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -31,6 +32,7 @@ import ssb.domain_layer.Document;
 import ssb.domain_layer.Employee.Employee;
 import ssb.domain_layer.Employee.SocialPædagog;
 import ssb.domain_layer.Resident;
+import ssb.presentation_layer.fxml_documents.InformationBridge;
 
 /**
  *
@@ -54,6 +56,7 @@ public class FXMLDocumentController implements Initializable {
     private Button createVUMDocBtn;
     @FXML
     private TableView<Document> vumDocumentTableView;
+    private final InformationBridge tester = InformationBridge.getINSTANCE();
 
 //    private final Employee employee = new SocialPædagog("Michael", "tester", "telefon-nummer", "cpr nummer");
 //    private final Resident oliver = new Resident("Oliver", "van Komen", "05050505", "0202-432125");
@@ -62,17 +65,6 @@ public class FXMLDocumentController implements Initializable {
 //    private final String NEW_BEBOER_CHOICE = "Ny beboer";
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        try {
-            Stage stage = new Stage();
-            URL url2 = new File("src/ssb/presentation_layer/fxml_documents/login_layout.fxml").toURL();
-            stage.setScene(new Scene(FXMLLoader.load(url2)));
-            stage.setTitle("Log in");
-            stage.initStyle(StageStyle.UNDECORATED);
-            stage.showAndWait();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        
 //        Resident thomas = new Resident("Thomas", "Steenfeldt", "782357823", "1245435-1234");
 //        Process retarderet = new Process(thomas);
 //        retarderet.addDocument(new Document(Document.type.FAGLIGVURDERING));
@@ -116,6 +108,17 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void sagerOnAction(ActionEvent event) {
         System.out.println("Sager pressed");
+    }
+
+    public void logIn() {
+        try {
+            Stage stage = new Stage();
+            URL url = new File("src/ssb/presentation_layer/fxml_documents/main_layout.fxml").toURL();
+            stage.setScene(new Scene(FXMLLoader.load(url)));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

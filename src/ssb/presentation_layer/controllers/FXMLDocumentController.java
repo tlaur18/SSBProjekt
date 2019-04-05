@@ -24,11 +24,14 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import ssb.domain_layer.Process;
 import ssb.domain_layer.Document;
 import ssb.domain_layer.Employee.Employee;
+import ssb.domain_layer.Employee.Sagsbehandler;
 import ssb.domain_layer.Employee.SocialPædagog;
 import ssb.domain_layer.Resident;
+import ssb.presentation_layer.controllers.Test_viewController;
 
 /**
  *
@@ -52,8 +55,9 @@ public class FXMLDocumentController implements Initializable {
     private Button createVUMDocBtn;
     @FXML
     private TableView<Document> vumDocumentTableView;
-
-    private final Employee employee = new SocialPædagog("Michael", "tester", "telefon-nummer", "cpr nummer");
+    
+    private Test_viewController test_viewController;
+    private final Employee employee = new Sagsbehandler("Michael", "tester", "telefon-nummer", "cpr nummer");
     private final Resident oliver = new Resident("Oliver", "van Komen", "05050505", "0202-432125");
     private final Process mentaltHandicap = new Process(oliver);
     private ObservableList<Document> observableDocuments;
@@ -124,15 +128,49 @@ public class FXMLDocumentController implements Initializable {
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()) {
             System.out.println("Your choice: " + result.get());
+           selectVUMDialog(result.get());
+        }
+    }
+    
+    
+    private void selectVUMDialog(String name){
+        List<String> choices = new ArrayList<>();
+        if (employee.canCreateNewProcessDoc()) {
+            choices.add(Document.type.SAGSÅBNING.toString());
+        }
+        
+        choices.add(Document.type.AFGØRELSE.toString());
+        choices.add(Document.type.BESTILLING.toString());
+        choices.add(Document.type.FAGLIGVURDERING.toString());
+        choices.add(Document.type.HANDLEPLAN.toString());
+        choices.add(Document.type.INDSTILLING.toString());
+        choices.add(Document.type.OPFØLGNING.toString());
+        choices.add(Document.type.STATUSNOTAT.toString());
+        choices.add(Document.type.UDREDNING.toString());
+
+        ChoiceDialog<String> dialog = new ChoiceDialog<>("", choices);
+        dialog.setTitle("Opret VUM-Dokument");
+        dialog.setHeaderText("");
+        dialog.setContentText("Vælg en dokument type fra listen: ");
+        
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            System.out.println("Your choice: " + result.get());
             try {
                 Stage stage = new Stage();
                 URL url = new File("src/ssb/presentation_layer/fxml_documents/test_view.fxml").toURL();
                 stage.setScene(new Scene(FXMLLoader.load(url)));
                 stage.setTitle("Oliver forsøger");
+                test_viewController.init(this);
                 stage.show();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+    }
+    public void saveDocument() {
+        System.out.println("this is second base!");
+     //   observableDocuments.add(doc);
+        System.out.println("this is 3rd base, you will never get here");
     }
 }

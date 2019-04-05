@@ -19,7 +19,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ssb.presentation_layer.controllers.FXMLDocumentController">
     <stylesheets>
-        <URL value="@../../ressources/main.css" />
+        <URL value="@../../ressources/css_files/main.css" />
     </stylesheets>
     <left>
         <VBox id="leftToolBar" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="200.0" prefWidth="104.0" BorderPane.alignment="CENTER">

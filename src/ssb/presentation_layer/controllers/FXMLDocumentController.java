@@ -32,6 +32,7 @@ import ssb.domain_layer.Employee.Sagsbehandler;
 import ssb.domain_layer.Employee.SocialPædagog;
 import ssb.domain_layer.Resident;
 import ssb.presentation_layer.controllers.Test_viewController;
+import ssb.presentation_layer.fxml_documents.InformationBridge;
 
 /**
  *
@@ -112,28 +113,29 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void createVUMOnAction(ActionEvent event) {
-        List<String> choices = new ArrayList<>();
+        List<Resident> choices = new ArrayList<>();
         if (employee.canCreateNewProcessDoc()) {
-            choices.add(NEW_BEBOER_CHOICE);
+            choices.add(oliver);
         }
+        
         employee.getResidents().forEach((resident) -> {
-            choices.add(resident.getFirstName() + resident.getLastName());
+            choices.add(resident);
         });
 
-        ChoiceDialog<String> dialog = new ChoiceDialog<>("", choices);
+        ChoiceDialog<Resident> dialog = new ChoiceDialog<>(oliver ,choices);
         dialog.setTitle("Opret VUM-Dokument");
         dialog.setHeaderText("Vælg beboer");
         dialog.setContentText("Vælg den beboer VUM-dokumentet skal tilknyttes til: ");
 
-        Optional<String> result = dialog.showAndWait();
+        Optional<Resident> result = dialog.showAndWait();
         if (result.isPresent()) {
-            System.out.println("Your choice: " + result.get());
+            System.out.println("Your choice: " + result.get().toString());
            selectVUMDialog(result.get());
         }
     }
     
     
-    private void selectVUMDialog(String name){
+    private void selectVUMDialog(Resident resident){
         List<String> choices = new ArrayList<>();
         if (employee.canCreateNewProcessDoc()) {
             choices.add(Document.type.SAGSÅBNING.toString());
@@ -147,10 +149,11 @@ public class FXMLDocumentController implements Initializable {
         choices.add(Document.type.OPFØLGNING.toString());
         choices.add(Document.type.STATUSNOTAT.toString());
         choices.add(Document.type.UDREDNING.toString());
-
+        
+        InformationBridge.getINSTANCE().putChosenResident(resident);
         ChoiceDialog<String> dialog = new ChoiceDialog<>("", choices);
         dialog.setTitle("Opret VUM-Dokument");
-        dialog.setHeaderText("");
+        dialog.setHeaderText("Vælg dokument type til: " + resident.toString());
         dialog.setContentText("Vælg en dokument type fra listen: ");
         
         Optional<String> result = dialog.showAndWait();
@@ -160,7 +163,7 @@ public class FXMLDocumentController implements Initializable {
                 Stage stage = new Stage();
                 URL url = new File("src/ssb/presentation_layer/fxml_documents/test_view.fxml").toURL();
                 stage.setScene(new Scene(FXMLLoader.load(url)));
-                stage.setTitle("Oliver forsøger");
+                stage.setTitle("Morten er awesome");
                 stage.show();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -169,7 +172,19 @@ public class FXMLDocumentController implements Initializable {
     }
     public void saveDocument(Document doc) {
         System.out.println("this is second base!");
-       observableDocuments.add(doc);
+        Resident res = InformationBridge.getINSTANCE().getChosenResident();
+        System.out.println(res.toString());
+       
+            mentaltHandicap.addDocument(doc);
+        
+       
+        observableDocuments = FXCollections.observableArrayList(employee.getResidentDocuments());
+        vumDocumentTableView.setItems(observableDocuments);
+        for (Object column : vumDocumentTableView.getColumns().toArray()) {
+            TableColumn<Document, ?> column1 = (TableColumn<Document, ?>) column;
+            column1.prefWidthProperty().bind(vumDocumentTableView.widthProperty().divide(5));
+        }
+        System.out.println(res.getDocuments());
         System.out.println("this is 3rd base, you will never get here");
     }
 }

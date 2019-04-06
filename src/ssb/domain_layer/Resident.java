@@ -26,4 +26,13 @@ public class Resident extends Person {
         }
         return allDocumentsForAllResidents;
     }
+    public List<Process> getProcess(){
+        return this.processes;
+    }
+    
+    public String toString(){
+        String string = "";
+        string += this.getFirstName() + " " + this.getLastName();
+        return string;
+    }
 }

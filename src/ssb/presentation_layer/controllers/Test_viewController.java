@@ -123,7 +123,6 @@ public class Test_viewController implements Initializable {
         Parent root = (Parent) loader.load();
         fxmlDocumentController = loader.getController();
         fxmlDocumentController.saveDocument(doc);
-        System.out.println("u got to 1st base");
         
     }
 

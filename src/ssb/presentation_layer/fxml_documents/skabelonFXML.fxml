@@ -15,8 +15,8 @@
    <top>
       <Label prefHeight="2.0" prefWidth="55.0" text="Skabelon" BorderPane.alignment="CENTER" />
    </top>
-   <left>
-      <TabPane prefHeight="327.0" prefWidth="551.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+   <center>
+      <TabPane prefHeight="327.0" prefWidth="551.0" rotateGraphic="true" side="LEFT" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
           <Tab text="Tab 1">
                <content>
@@ -62,5 +62,5 @@
           <Tab text="Tab 2" />
         </tabs>
       </TabPane>
-   </left>
+   </center>
 </BorderPane>

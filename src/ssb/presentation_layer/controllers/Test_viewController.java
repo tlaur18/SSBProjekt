@@ -118,7 +118,6 @@ public class Test_viewController implements Initializable {
         sortCheckBox();
         Document doc = new Document(Document.type.SAGSÅBNING, selectedCheckbox);
         URL url = new File("src/ssb/presentation_layer/fxml_documents/main_layout.fxml").toURL();
-        System.out.println(doc.toString());
         FXMLLoader loader = new FXMLLoader(url);
         Parent root = (Parent) loader.load();
         fxmlDocumentController = loader.getController();

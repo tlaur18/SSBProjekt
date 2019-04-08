@@ -6,9 +6,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Observable;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -56,18 +58,21 @@ public class FXMLDocumentController implements Initializable {
     private Button createVUMDocBtn;
     @FXML
     private TableView<Document> vumDocumentTableView;
-    
+
     private Test_viewController test_viewController;
     private final Employee employee = new Sagsbehandler("Michael", "tester", "telefon-nummer", "cpr nummer");
     private final Resident oliver = new Resident("Oliver", "van Komen", "05050505", "0202-432125");
+    private final Resident thomas = new Resident("Thomas", "Steenfeldt", "782357823", "1245435-1234");
+    private ObservableList<Document> allDocuments = FXCollections.observableArrayList();
     private final Process mentaltHandicap = new Process(oliver);
+    private final Process retarderet = new Process(thomas);
     private ObservableList<Document> observableDocuments;
+    private boolean updateList = true;
     private final String NEW_BEBOER_CHOICE = "Ny beboer";
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        Resident thomas = new Resident("Thomas", "Steenfeldt", "782357823", "1245435-1234");
-        Process retarderet = new Process(thomas);
+
         retarderet.addDocument(new Document(Document.type.FAGLIGVURDERING));
         retarderet.addDocument(new Document(Document.type.FAGLIGVURDERING));
         retarderet.addDocument(new Document(Document.type.FAGLIGVURDERING));
@@ -80,17 +85,13 @@ public class FXMLDocumentController implements Initializable {
         mentaltHandicap.addDocument(new Document(Document.type.AFGØRELSE));
         mentaltHandicap.addDocument(new Document(Document.type.BESTILLING));
         // ObservableList som opdateres hvis "documents" Arraylisten opdateres
-        observableDocuments = FXCollections.observableArrayList(employee.getResidentDocuments());
 
         // Forbinder tableView med observable list med dokumenterne
+       observableDocuments = mentaltHandicap.getDocuments();
         vumDocumentTableView.setItems(observableDocuments);
         for (Object column : vumDocumentTableView.getColumns().toArray()) {
             TableColumn<Document, ?> column1 = (TableColumn<Document, ?>) column;
             column1.prefWidthProperty().bind(vumDocumentTableView.widthProperty().divide(5));
-        }
-
-        if (!employee.canAccessCreateDocBtn()) {
-            createVUMDocBtn.setVisible(false);
         }
     }
 
@@ -117,12 +118,12 @@ public class FXMLDocumentController implements Initializable {
         if (employee.canCreateNewProcessDoc()) {
             choices.add(oliver);
         }
-        
+
         employee.getResidents().forEach((resident) -> {
             choices.add(resident);
         });
 
-        ChoiceDialog<Resident> dialog = new ChoiceDialog<>(oliver ,choices);
+        ChoiceDialog<Resident> dialog = new ChoiceDialog<>(oliver, choices);
         dialog.setTitle("Opret VUM-Dokument");
         dialog.setHeaderText("Vælg beboer");
         dialog.setContentText("Vælg den beboer VUM-dokumentet skal tilknyttes til: ");
@@ -130,17 +131,16 @@ public class FXMLDocumentController implements Initializable {
         Optional<Resident> result = dialog.showAndWait();
         if (result.isPresent()) {
             System.out.println("Your choice: " + result.get().toString());
-           selectVUMDialog(result.get());
+            selectVUMDialog(result.get());
         }
     }
-    
-    
-    private void selectVUMDialog(Resident resident){
+
+    private void selectVUMDialog(Resident resident) {
         List<String> choices = new ArrayList<>();
         if (employee.canCreateNewProcessDoc()) {
             choices.add(Document.type.SAGSÅBNING.toString());
         }
-        
+
         choices.add(Document.type.AFGØRELSE.toString());
         choices.add(Document.type.BESTILLING.toString());
         choices.add(Document.type.FAGLIGVURDERING.toString());
@@ -149,13 +149,13 @@ public class FXMLDocumentController implements Initializable {
         choices.add(Document.type.OPFØLGNING.toString());
         choices.add(Document.type.STATUSNOTAT.toString());
         choices.add(Document.type.UDREDNING.toString());
-        
+
         InformationBridge.getINSTANCE().putChosenResident(resident);
         ChoiceDialog<String> dialog = new ChoiceDialog<>("", choices);
         dialog.setTitle("Opret VUM-Dokument");
         dialog.setHeaderText("Vælg dokument type til: " + resident.toString());
         dialog.setContentText("Vælg en dokument type fra listen: ");
-        
+
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()) {
             System.out.println("Your choice: " + result.get());
@@ -170,21 +170,20 @@ public class FXMLDocumentController implements Initializable {
             }
         }
     }
+
     public void saveDocument(Document doc) {
         System.out.println("this is second base!");
         Resident res = InformationBridge.getINSTANCE().getChosenResident();
         System.out.println(res.toString());
-       
-            mentaltHandicap.addDocument(doc);
-        
-       
-        observableDocuments = FXCollections.observableArrayList(employee.getResidentDocuments());
-        vumDocumentTableView.setItems(observableDocuments);
-        for (Object column : vumDocumentTableView.getColumns().toArray()) {
-            TableColumn<Document, ?> column1 = (TableColumn<Document, ?>) column;
-            column1.prefWidthProperty().bind(vumDocumentTableView.widthProperty().divide(5));
+
+        for (Process pros : res.getProcess()) {
+            pros.addDocument(doc);
+            System.out.println(pros.getDocuments());
+            
+
         }
-        System.out.println(res.getDocuments());
         System.out.println("this is 3rd base, you will never get here");
     }
+
+
 }

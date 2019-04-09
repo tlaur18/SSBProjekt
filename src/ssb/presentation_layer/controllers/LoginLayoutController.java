@@ -1,13 +1,22 @@
 package ssb.presentation_layer.controllers;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import ssb.domain_layer.Employee.Employee;
+import ssb.domain_layer.InformationBridge;
 import ssb.domain_layer.LoginManager;
 
 /**
@@ -23,6 +32,9 @@ public class LoginLayoutController implements Initializable {
     private PasswordField passwordTxtField;
     @FXML
     private Button logInBtn;
+    @FXML
+    private Label ugyldigtLoginLabel;
+
     private String enteredUsername;
     private String enteredPassword;
 
@@ -36,29 +48,30 @@ public class LoginLayoutController implements Initializable {
         enteredUsername = userNameTxtField.getText();
         enteredPassword = passwordTxtField.getText();
         LoginManager loginManager = new LoginManager();
-        String userID = loginManager.checkUserInformation(enteredUsername, enteredPassword);
-        loginManager.setLoggedInUser(userID);
-        System.out.println(userID);
-//        if (validInformation) {
-//            InformationBridge.getINSTANCE().setLoggedInEmployee(loginManager.setLoggedInUser());
-//        }
-//        InformationBridge.getINSTANCE().setLoggedInEmployee(loggedInEmployee);
-        
-        
-        
-        
-        
-        
-        
-        
-        
-//        try {
-//            URL url3 = new File("src/ssb/presentation_layer/fxml_documents/main_layout.fxml").toURL();
-//            FXMLLoader loader = new FXMLLoader(url3);
-//            Parent root = (Parent) loader.load();
-//            FXMLDocumentController controller = loader.getController();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        String userID = loginManager.checkUserInput(enteredUsername, enteredPassword);
+        Employee employeeToBeLoggedIn = loginManager.setLoggedInUser(userID);
+        if (employeeToBeLoggedIn != null) {
+            InformationBridge.getINSTANCE().setLoggedInEmployee(employeeToBeLoggedIn);
+             changeStage();
+        } else {
+            ugyldigtLoginLabel.setVisible(true);
+            return;
+        }
+    }
+    
+    private void changeStage() {
+        try {
+            URL url3 = new File("src/ssb/presentation_layer/fxml_documents/main_layout.fxml").toURL();
+            FXMLLoader loader = new FXMLLoader(url3);
+            Parent root = (Parent) loader.load();
+            Stage mainStage = new Stage();
+            mainStage.setMinHeight(450);
+            mainStage.setMinWidth(800);
+            mainStage.setScene(new Scene(root));
+            ((Stage) ugyldigtLoginLabel.getScene().getWindow()).close(); //close login stage
+            mainStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

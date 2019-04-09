@@ -1,1 +1,7 @@
-<employeeID>,<employeeFirstName>,<employeeLastName>,<employeePhoneNr>,<employeeCPRNR>,<employeeRole>
+nickru0412,nicolai,kruuse,60487580,123456-7890,socialrådgiver
+micped1302,michael,pedersen,60825359,123456-7891,sagsbehandler
+morjen1506,morten,jensen,22300758,123456-7892,socialrådgiver
+tholau1609,thomas,laursen,30953669,123456-7893,socialrådgiver
+olivan0211,oliver,van komen,93930585,123456-7894,socialrådgiver
+lonbor1234,lone,borgersen,12345678,123456-7895,socialpædagog 
+jepsch1234,jeppe,schmidt,12345678,123456-7896,vikar

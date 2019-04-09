@@ -1,4 +1,4 @@
-package ssb.presentation_layer.fxml_documents;
+package ssb.domain_layer;
 
 import java.util.ArrayList;
 import java.util.HashMap;

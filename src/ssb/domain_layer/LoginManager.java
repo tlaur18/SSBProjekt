@@ -61,19 +61,18 @@ public class LoginManager {
         List<Resident> associatedResidents = new ArrayList<>();
 
         for (Entry<String, List<String>> residentData : workData.loadResidents().entrySet()) {
-            System.out.println(residentData.toString());
-            if (residentData.getValue().get(residentData.getValue().size() - 1).trim().equals(employee.getID().trim())) {
+            if (residentData.getValue().get(residentData.getValue().size() - 1).trim().equals(employee.getID())) {
                 Resident newResident = new Resident(residentData.getValue().get(0), residentData.getValue().get(1), residentData.getValue().get(2), residentData.getValue().get(3));
                 associatedResidents.add(newResident);
             }
         }
 
-        HashMap<String, List<String>> documentData = workData.loadDocuments();
+        List<Pair<String, List<String>>> documentData = workData.loadDocuments();
         for (Resident resident : associatedResidents) {
-            for (Entry<String, List<String>> document : documentData.entrySet()) {
+            for (Pair<String, List<String>> document : documentData) {
                 if (resident.getID().equals(document.getKey())) {
                     for (Document.type type : Document.type.values()) {
-                        if (type.toString().equals(document.getValue().get(0))) {
+                        if (type.toString().equalsIgnoreCase(document.getValue().get(0))) {
                             Date creationDate = new SimpleDateFormat("dd/MM/yyyy").parse(document.getValue().get(1));
                             Date editDate = new SimpleDateFormat("dd/MM/yyyy").parse(document.getValue().get(2));
                             Document loadedDocument = new Document(type, creationDate, editDate);
@@ -85,6 +84,5 @@ public class LoginManager {
             }
             employee.addResident(resident);
         }
-        System.out.println(employee.getResidentDocuments().toString());
     }
 }

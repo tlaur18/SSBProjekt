@@ -60,7 +60,6 @@ public class FXMLDocumentController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         //Henter employee der lige er logget ind fra informationBridge
         employee = informationBridge.getLoggedInEmployee();
-        System.out.println(employee.getResidentDocuments().toString());
         
         // ObservableList som opdateres hvis "documents" Arraylisten opdateres
         observableDocuments = FXCollections.observableArrayList(employee.getResidentDocuments());

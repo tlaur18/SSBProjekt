@@ -143,18 +143,14 @@ public class Test_viewController implements Initializable {
         selectedBox = doc.getSelectedCheckbox();
 
         for (CheckBox checkBoxList : checkbox) {
-            CheckBox checkboxList = checkBoxList;
-//            System.out.println("Dette er fra Listen: " + checkboxList);
+            System.out.println(checkBoxList.getId());
             for (Map.Entry<CheckBox, Boolean> set : selectedBox.entrySet()) {
                 if (set.getValue() == true) {
-                    CheckBox checkBoxMap = set.getKey();
-//                    System.out.println("Dette er fra Mappet: " + checkBoxMap);
-//                    System.out.println("dette er en checkbox test: " + set.getKey());
-//                    System.out.println("Dette er en anden checkbox test fra Array: " + checkBoxList);
-                    System.out.println(checkboxList.equals(checkBoxMap));
-//                    if (checkBoxList.equals(set.getKey())) {
+//                    System.out.println(set.getKey().getId());
+//                    System.out.println(set.getKey().equals(checkBoxList));
+                    if (checkBoxList.getId().equals(set.getKey().getId())) {
                     checkBoxList.setSelected(true);
-//                    }
+                    }
                 }
             }
         }

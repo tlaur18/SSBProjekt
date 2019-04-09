@@ -2,10 +2,12 @@ package ssb.domain_layer;
 
 import java.util.ArrayList;
 import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class Resident extends Person {
 
-    private final List<Process> processes = new ArrayList<>();
+    private final ObservableList<Process> processes = FXCollections.observableArrayList();
 
     public Resident(String firstName, String lastName, String phoneNr, String cprNr) {
         super(firstName, lastName, phoneNr, cprNr);
@@ -19,8 +21,8 @@ public class Resident extends Person {
         processes.remove(process);
     }
 
-    public List<Document> getDocuments() {
-        List<Document> allDocumentsForAllResidents = new ArrayList<>();
+    public ObservableList<Document> getDocuments() {
+        ObservableList allDocumentsForAllResidents = FXCollections.observableArrayList();
         for (Process process : processes) {
             allDocumentsForAllResidents.addAll(process.getDocuments());
         }

@@ -2,6 +2,8 @@ package ssb.domain_layer.Employee;
 
 import java.util.ArrayList;
 import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import ssb.domain_layer.Document;
 import ssb.domain_layer.Person;
 import ssb.domain_layer.Resident;
@@ -17,13 +19,13 @@ public abstract class Employee extends Person {
     private boolean canCreateNotification;
     private boolean canSeeNotifications;
 
-    private final List<Resident> residents = new ArrayList<>();
+    private final ObservableList<Resident> residents = FXCollections.observableArrayList();
 
     public Employee(String firstName, String lastName, String phoneNr, String cprNr) {
         super(firstName, lastName, phoneNr, cprNr);
     }
 
-    public List<Resident> getResidents() {
+    public ObservableList<Resident> getResidents() {
         return residents;
     }
 
@@ -99,8 +101,8 @@ public abstract class Employee extends Person {
         this.canSeeNotifications = canSeeNotifications;
     }
 
-    public List<Document> getResidentDocuments() {
-        List<Document> allDocumentsForAllResidents = new ArrayList<>();
+    public ObservableList<Document> getResidentDocuments() {
+        ObservableList<Document> allDocumentsForAllResidents = FXCollections.observableArrayList();
         for (Resident resident : residents) {
             allDocumentsForAllResidents.addAll(resident.getDocuments());
         }

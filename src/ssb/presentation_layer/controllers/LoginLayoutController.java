@@ -3,7 +3,10 @@ package ssb.presentation_layer.controllers;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.text.ParseException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -48,17 +51,21 @@ public class LoginLayoutController implements Initializable {
         enteredUsername = userNameTxtField.getText();
         enteredPassword = passwordTxtField.getText();
         LoginManager loginManager = new LoginManager();
-        String userID = loginManager.checkUserInput(enteredUsername, enteredPassword);
-        Employee employeeToBeLoggedIn = loginManager.setLoggedInUser(userID);
+        String employeeID = loginManager.checkUserLogIn(enteredUsername, enteredPassword);
+        Employee employeeToBeLoggedIn = loginManager.setLoggedInUser(employeeID);
         if (employeeToBeLoggedIn != null) {
             InformationBridge.getINSTANCE().setLoggedInEmployee(employeeToBeLoggedIn);
-             changeStage();
+            try {
+                loginManager.setEmployeeWorkData(employeeToBeLoggedIn);
+            } catch (ParseException ex) {
+                System.out.println("Date format invalid.");
+            }
+            changeStage();
         } else {
             ugyldigtLoginLabel.setVisible(true);
-            return;
         }
     }
-    
+
     private void changeStage() {
         try {
             URL url3 = new File("src/ssb/presentation_layer/fxml_documents/main_layout.fxml").toURL();

@@ -1,9 +1,7 @@
 package ssb.data_layer;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -20,11 +18,11 @@ public class LogInData {
         final HashMap<String, Pair<String, String>> userLogins = new HashMap<>();
         try (Scanner scanner = new Scanner(LOGIN_DATA_FILE).useDelimiter(",|\n")) {
             while (scanner.hasNext()) {
-                String userID = scanner.next();
+                String employeeID = scanner.next();
                 String userName = scanner.next();
                 String password = scanner.next();
                 Pair<String, String> userNameAndPassword = new Pair<>(userName, password);
-                userLogins.put(userID, userNameAndPassword);
+                userLogins.put(employeeID, userNameAndPassword);
             }
         } catch (FileNotFoundException ex) {
             System.out.println("The file you want to open doesn't exist");
@@ -38,7 +36,7 @@ public class LogInData {
     public HashMap<String, List<String>> loadEmployeeData() {
         /*
         Manually adding document to the file doesn't work so in order to make it work this needs to be run if it ever needs it
-        */
+         */
 //        try (BufferedWriter writer = new BufferedWriter(new FileWriter(EMPLOYEE_DATA_FILE))) {
 //            String test = "nickru0412,nicolai,kruuse,60487580,123456-7890,socialrådgiver" + System.lineSeparator()
 //                + "micped1302,michael,pedersen,60825359,123456-7891,sagsbehandler" + System.lineSeparator()
@@ -62,12 +60,11 @@ public class LogInData {
                 String employeeCPR = scanner.next();
                 String employeeRole = scanner.next();
                 employeeData.put(employeeID, new ArrayList<>(Arrays.asList(employeeFirstname,
-                    employeeLastName, employeePhoneNr, employeeCPR, employeeRole)));
+                        employeeLastName, employeePhoneNr, employeeCPR, employeeRole)));
             }
         } catch (FileNotFoundException ex) {
             System.out.println("The file you want to open doesn't exist");
         }
         return employeeData;
     }
-
 }

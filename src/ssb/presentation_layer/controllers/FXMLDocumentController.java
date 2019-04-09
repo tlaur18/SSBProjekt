@@ -4,11 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -26,13 +24,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import ssb.domain_layer.Process;
 import ssb.domain_layer.Document;
 import ssb.domain_layer.Employee.Employee;
-import ssb.domain_layer.Employee.SocialPædagog;
-import ssb.domain_layer.Resident;
 import ssb.domain_layer.InformationBridge;
+import ssb.domain_layer.Resident;
 
 /**
  *
@@ -56,33 +51,22 @@ public class FXMLDocumentController implements Initializable {
     private Button createVUMDocBtn;
     @FXML
     private TableView<Document> vumDocumentTableView;
-    private final InformationBridge tester = InformationBridge.getINSTANCE();
 
-    private final Employee employee = new SocialPædagog("Michael", "tester", "telefon-nummer", "cpr nummer");
-    private final Resident oliver = new Resident("Oliver", "van Komen", "05050505", "0202-432125");
-    private final Process mentaltHandicap = new Process(oliver);
+    private final InformationBridge informationBridge = InformationBridge.getINSTANCE();
     private ObservableList<Document> observableDocuments;
-    private final String NEW_BEBOER_CHOICE = "Ny beboer";
+    private Employee employee;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        Resident thomas = new Resident("Thomas", "Steenfeldt", "782357823", "1245435-1234");
-        Process retarderet = new Process(thomas);
-        retarderet.addDocument(new Document(Document.type.FAGLIGVURDERING));
-        retarderet.addDocument(new Document(Document.type.FAGLIGVURDERING));
-        retarderet.addDocument(new Document(Document.type.FAGLIGVURDERING));
-        retarderet.addDocument(new Document(Document.type.SAGSÅBNING));
-        thomas.addProcess(retarderet);
-        employee.addResident(oliver);
-        employee.addResident(thomas);
-        oliver.addProcess(mentaltHandicap);
-        mentaltHandicap.addDocument(new Document(Document.type.UDREDNING));
-        mentaltHandicap.addDocument(new Document(Document.type.AFGØRELSE));
-        mentaltHandicap.addDocument(new Document(Document.type.BESTILLING));
+        //Henter employee der lige er logget ind fra informationBridge
+        employee = informationBridge.getLoggedInEmployee();
+        System.out.println(employee.getResidentDocuments().toString());
+        
         // ObservableList som opdateres hvis "documents" Arraylisten opdateres
         observableDocuments = FXCollections.observableArrayList(employee.getResidentDocuments());
-
         // Forbinder tableView med observable list med dokumenterne
         vumDocumentTableView.setItems(observableDocuments);
+        // Sætter kolonner til at fylde 20% af bredden
         for (Object column : vumDocumentTableView.getColumns().toArray()) {
             TableColumn<Document, ?> column1 = (TableColumn<Document, ?>) column;
             column1.prefWidthProperty().bind(vumDocumentTableView.widthProperty().divide(5));
@@ -110,22 +94,11 @@ public class FXMLDocumentController implements Initializable {
         System.out.println("Sager pressed");
     }
 
-    public void logIn() {
-        try {
-            Stage stage = new Stage();
-            URL url = new File("src/ssb/presentation_layer/fxml_documents/main_layout.fxml").toURL();
-            stage.setScene(new Scene(FXMLLoader.load(url)));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     @FXML
     private void createVUMOnAction(ActionEvent event) {
         List<String> choices = new ArrayList<>();
         if (employee.canCreateNewProcessDoc()) {
-            choices.add(NEW_BEBOER_CHOICE);
+            choices.add("Ny beboer");
         }
         employee.getResidents().forEach((resident) -> {
             choices.add(resident.getFirstName() + resident.getLastName());

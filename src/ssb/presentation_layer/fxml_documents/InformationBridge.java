@@ -2,6 +2,7 @@ package ssb.presentation_layer.fxml_documents;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import ssb.domain_layer.Document;
 import ssb.domain_layer.Employee.Employee;
 import ssb.domain_layer.Resident;
 
@@ -14,6 +15,7 @@ public class InformationBridge {
     private final HashMap<String, Boolean> booleanInformation;
     private final HashMap<String, ArrayList<?>> arrayListInformation;
     private Resident chosenResident;
+    private Document chosenDocument;
     private Employee loggedInEmployee = null;
 
     private InformationBridge() {
@@ -63,11 +65,12 @@ public class InformationBridge {
     public ArrayList<?> getArrayListValue(String key) {
         return arrayListInformation.get(key);
     }
+
     public void putChosenResident(Resident resident) {
         this.chosenResident = resident;
     }
-    
-    public Resident getChosenResident(){
+
+    public Resident getChosenResident() {
         return this.chosenResident;
     }
 
@@ -77,6 +80,14 @@ public class InformationBridge {
 
     public void setLoggedInEmployee(Employee loggedInEmployee) {
         this.loggedInEmployee = loggedInEmployee;
+    }
+
+    public Document getChosenDocument() {
+        return this.chosenDocument;
+    }
+
+    public void setChosenDocument(Document document) {
+        this.chosenDocument = document;
     }
 
     public static InformationBridge getINSTANCE() {

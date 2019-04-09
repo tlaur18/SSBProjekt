@@ -1,6 +1,7 @@
 package ssb.domain_layer;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -15,14 +16,14 @@ public class Document {
     private final type type;
     private Date editDate;
     private Date creationDate;
-    private List selectedCheckBox;
+    private HashMap selectedCheckBox;
 
     public Document(type type) {
         this.type = type;
         setEditDate();
         setCreationDate();
     }
-    public Document(type type, List selectedCheckBox) {
+    public Document(type type, HashMap selectedCheckBox) {
         this.type = type;
         this.selectedCheckBox = selectedCheckBox;
         setEditDate();
@@ -60,7 +61,7 @@ public class Document {
     public String getResidentName() {
         return residentName;
     }
-    public List getSelectedCheckbox() {
+    public HashMap getSelectedCheckbox() {
         return this.selectedCheckBox;
     }
 

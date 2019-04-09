@@ -2,6 +2,7 @@ package ssb.presentation_layer.controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,6 +17,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -29,6 +31,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import ssb.domain_layer.Process;
 import ssb.domain_layer.Document;
+import ssb.domain_layer.DocumentManager;
 import ssb.domain_layer.Employee.Employee;
 import ssb.domain_layer.Employee.Sagsbehandler;
 import ssb.domain_layer.Employee.SocialPædagog;
@@ -68,11 +71,13 @@ public class FXMLDocumentController implements Initializable {
     private final Process retarderet = new Process(thomas);
     private ObservableList<Document> observableDocuments;
     private boolean updateList = true;
+    private final DocumentManager docuManager = new DocumentManager();
     private final String NEW_BEBOER_CHOICE = "Ny beboer";
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
+        InformationBridge.getINSTANCE().setLoggedInEmployee(employee);
         retarderet.addDocument(new Document(Document.type.FAGLIGVURDERING));
         retarderet.addDocument(new Document(Document.type.FAGLIGVURDERING));
         retarderet.addDocument(new Document(Document.type.FAGLIGVURDERING));
@@ -84,10 +89,11 @@ public class FXMLDocumentController implements Initializable {
         mentaltHandicap.addDocument(new Document(Document.type.UDREDNING));
         mentaltHandicap.addDocument(new Document(Document.type.AFGØRELSE));
         mentaltHandicap.addDocument(new Document(Document.type.BESTILLING));
+//        docuManager.loadAllDocuments(InformationBridge.getINSTANCE().getLoggedInEmployee());
         // ObservableList som opdateres hvis "documents" Arraylisten opdateres
 
         // Forbinder tableView med observable list med dokumenterne
-       observableDocuments = mentaltHandicap.getDocuments();
+        observableDocuments = mentaltHandicap.getDocuments();
         vumDocumentTableView.setItems(observableDocuments);
         for (Object column : vumDocumentTableView.getColumns().toArray()) {
             TableColumn<Document, ?> column1 = (TableColumn<Document, ?>) column;
@@ -96,14 +102,19 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    public void openDocumentAction(MouseEvent event) {
+    public void openDocumentAction(MouseEvent event) throws MalformedURLException, IOException {
         Document selectedDocument = vumDocumentTableView.getSelectionModel().getSelectedItem();
         if (selectedDocument != null && event.getClickCount() == 2) {
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("VUM-Dokument");
-            alert.setHeaderText("Se her! Jeg fandt et dokument :O *Insert pikachu face here*");
-            alert.setContentText(selectedDocument.toString());
-            alert.showAndWait();
+            InformationBridge.getINSTANCE().setChosenDocument(selectedDocument);
+
+            URL url = new File("src/ssb/presentation_layer/fxml_documents/test_view.fxml").toURL();
+            FXMLLoader loader = new FXMLLoader(url);
+            Parent root = (Parent) loader.load();
+            test_viewController = loader.getController();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(FXMLLoader.load(url)));
+            stage.setTitle("Morten er awesome");
+            stage.show();
         }
     }
 
@@ -115,11 +126,11 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void createVUMOnAction(ActionEvent event) {
         List<Resident> choices = new ArrayList<>();
-        if (employee.canCreateNewProcessDoc()) {
+        if (InformationBridge.getINSTANCE().getLoggedInEmployee().canCreateNewProcessDoc()) {
             choices.add(oliver);
         }
 
-        employee.getResidents().forEach((resident) -> {
+        InformationBridge.getINSTANCE().getLoggedInEmployee().getResidents().forEach((resident) -> {
             choices.add(resident);
         });
 
@@ -137,7 +148,7 @@ public class FXMLDocumentController implements Initializable {
 
     private void selectVUMDialog(Resident resident) {
         List<String> choices = new ArrayList<>();
-        if (employee.canCreateNewProcessDoc()) {
+        if (InformationBridge.getINSTANCE().getLoggedInEmployee().canCreateNewProcessDoc()) {
             choices.add(Document.type.SAGSÅBNING.toString());
         }
 
@@ -178,12 +189,10 @@ public class FXMLDocumentController implements Initializable {
 
         for (Process pros : res.getProcess()) {
             pros.addDocument(doc);
+//            docuManager.addDocument(doc);
             System.out.println(pros.getDocuments());
-            
-
         }
         System.out.println("this is 3rd base, you will never get here");
     }
-
 
 }

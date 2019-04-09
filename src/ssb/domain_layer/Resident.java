@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 public class Resident extends Person {
 
     private final ObservableList<Process> processes = FXCollections.observableArrayList();
+    
 
     public Resident(String firstName, String lastName, String phoneNr, String cprNr) {
         super(firstName, lastName, phoneNr, cprNr);
@@ -27,6 +28,7 @@ public class Resident extends Person {
             allDocumentsForAllResidents.addAll(process.getDocuments());
         }
         return allDocumentsForAllResidents;
+      
     }
     public List<Process> getProcess(){
         return this.processes;

@@ -16,7 +16,6 @@ public class Process {
     public Process(Resident associatedResident) {
         creationDate = new Date();
         this.associatedResident = associatedResident;
-
     }
 
     public void endCase() {

@@ -6,7 +6,10 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,6 +21,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.stage.Stage;
 import ssb.domain_layer.Document;
+import ssb.presentation_layer.fxml_documents.InformationBridge;
 
 /**
  * FXML Controller class
@@ -67,18 +71,22 @@ public class Test_viewController implements Initializable {
     @FXML
     private Button cancelBttn;
 
+    private HashMap<CheckBox, Boolean> selectedBox = new HashMap<CheckBox, Boolean>();
     private FXMLDocumentController fxmlDocumentController;
-    private List<CheckBox> checkbox;
-    private List<CheckBox> selectedCheckbox;
+    private ArrayList<CheckBox> checkbox = new ArrayList<CheckBox>();
+    private List<CheckBox> selectedCheckbox = new ArrayList<CheckBox>();
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        checkbox = new ArrayList<CheckBox>();
-        selectedCheckbox = new ArrayList<CheckBox>();
         loadCheckbox();
+        if (InformationBridge.getINSTANCE().getChosenDocument() != null) {
+            System.out.println("Loading Documents");
+            loadDocumentContent(InformationBridge.getINSTANCE().getChosenDocument());
+
+        }
     }
 
     private void loadCheckbox() {
@@ -105,7 +113,8 @@ public class Test_viewController implements Initializable {
     private void sortCheckBox() {
         for (CheckBox checkbox : checkbox) {
             if (checkbox.isSelected()) {
-                selectedCheckbox.add(checkbox);
+                selectedBox.put(checkbox, true);
+                System.out.println(selectedBox.keySet());
                 System.out.println("I have added this item to the selected list" + checkbox);
             } else {
                 System.out.println("this item is not added: " + checkbox);
@@ -114,20 +123,40 @@ public class Test_viewController implements Initializable {
     }
 
     @FXML
-    private void saveBttn(ActionEvent event) throws IOException{
+    private void saveBttn(ActionEvent event) throws IOException {
         sortCheckBox();
-        Document doc = new Document(Document.type.SAGSÅBNING, selectedCheckbox);
+        Document doc = new Document(Document.type.SAGSÅBNING, selectedBox);
         URL url = new File("src/ssb/presentation_layer/fxml_documents/main_layout.fxml").toURL();
         FXMLLoader loader = new FXMLLoader(url);
         Parent root = (Parent) loader.load();
         fxmlDocumentController = loader.getController();
         fxmlDocumentController.saveDocument(doc);
-        
     }
 
     @FXML
     private void cancelBttn(ActionEvent event) {
-            Stage stage = (Stage) cancelBttn.getScene().getWindow();
-            stage.close();
+        Stage stage = (Stage) cancelBttn.getScene().getWindow();
+        stage.close();
+    }
+
+    public void loadDocumentContent(Document doc) {
+        selectedBox = doc.getSelectedCheckbox();
+
+        for (CheckBox checkBoxList : checkbox) {
+            CheckBox checkboxList = checkBoxList;
+//            System.out.println("Dette er fra Listen: " + checkboxList);
+            for (Map.Entry<CheckBox, Boolean> set : selectedBox.entrySet()) {
+                if (set.getValue() == true) {
+                    CheckBox checkBoxMap = set.getKey();
+//                    System.out.println("Dette er fra Mappet: " + checkBoxMap);
+//                    System.out.println("dette er en checkbox test: " + set.getKey());
+//                    System.out.println("Dette er en anden checkbox test fra Array: " + checkBoxList);
+                    System.out.println(checkboxList.equals(checkBoxMap));
+//                    if (checkBoxList.equals(set.getKey())) {
+                    checkBoxList.setSelected(true);
+//                    }
+                }
+            }
+        }
     }
 }

@@ -98,11 +98,15 @@ public class FXMLDocumentController implements Initializable {
     public void openDocumentAction(MouseEvent event) {
         Document selectedDocument = vumDocumentTableView.getSelectionModel().getSelectedItem();
         if (selectedDocument != null && event.getClickCount() == 2) {
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("VUM-Dokument");
-            alert.setHeaderText("Se her! Jeg fandt et dokument :O *Insert pikachu face here*");
-            alert.setContentText(selectedDocument.toString());
-            alert.showAndWait();
+            try {
+                Stage stage = new Stage();
+                URL url = new File("src/ssb/presentation_layer/fxml_documents/skabelon.fxml").toURL();
+                stage.setScene(new Scene(FXMLLoader.load(url)));
+                stage.setTitle("Morten er awesome");
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

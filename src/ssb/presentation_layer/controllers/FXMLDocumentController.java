@@ -101,7 +101,7 @@ public class FXMLDocumentController implements Initializable {
         if (selectedDocument != null && event.getClickCount() == 2) {
             try {
                 Stage stage = new Stage();
-                URL url = new File("src/ssb/presentation_layer/fxml_documents/skabelon.fxml").toURL();
+                URL url = new File("src/ssb/presentation_layer/fxml_documents/sagsåbning.fxml").toURL();
                 stage.setScene(new Scene(FXMLLoader.load(url)));
                 stage.setTitle("Morten er awesome");
                 stage.show();

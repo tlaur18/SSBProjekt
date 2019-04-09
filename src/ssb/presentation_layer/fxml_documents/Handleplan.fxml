@@ -160,7 +160,6 @@
                      </padding>
                   </GridPane>
                </content></Tab>
-          <Tab text="Untitled Tab 2" />
         </tabs>
       </TabPane>
    </center>

@@ -5,13 +5,10 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Observable;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,8 +16,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TableColumn;
@@ -34,9 +29,7 @@ import ssb.domain_layer.Document;
 import ssb.domain_layer.DocumentManager;
 import ssb.domain_layer.Employee.Employee;
 import ssb.domain_layer.Employee.Sagsbehandler;
-import ssb.domain_layer.Employee.SocialPædagog;
 import ssb.domain_layer.Resident;
-import ssb.presentation_layer.controllers.Test_viewController;
 import ssb.presentation_layer.fxml_documents.InformationBridge;
 
 /**
@@ -172,7 +165,7 @@ public class FXMLDocumentController implements Initializable {
             System.out.println("Your choice: " + result.get());
             try {
                 Stage stage = new Stage();
-                URL url = new File("src/ssb/presentation_layer/fxml_documents/test_view.fxml").toURL();
+                URL url = new File("src/ssb/presentation_layer/fxml_documents/Handleplan.fxml").toURL();
                 stage.setScene(new Scene(FXMLLoader.load(url)));
                 stage.setTitle("Morten er awesome");
                 stage.show();

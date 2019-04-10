@@ -85,7 +85,6 @@ public class Test_viewController implements Initializable {
         if (InformationBridge.getINSTANCE().getChosenDocument() != null) {
             System.out.println("Loading Documents");
             loadDocumentContent(InformationBridge.getINSTANCE().getChosenDocument());
-
         }
     }
 
@@ -140,7 +139,7 @@ public class Test_viewController implements Initializable {
     }
 
     public void loadDocumentContent(Document doc) {
-        selectedBox = doc.getSelectedCheckbox();
+        selectedBox = doc.getSelectedCheckboxes();
 
         for (CheckBox checkBoxList : checkbox) {
             System.out.println(checkBoxList.getId());

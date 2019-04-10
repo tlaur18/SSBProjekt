@@ -2,8 +2,9 @@ package ssb.domain_layer;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Random;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextField;
 
 public class Document {
 
@@ -16,18 +17,18 @@ public class Document {
     private final type type;
     private Date editDate;
     private Date creationDate;
-    private HashMap selectedCheckBox;
+    private HashMap<CheckBox, Boolean> selectedCheckBoxes;
+    private HashMap<TextField, String> textFieldInput;
 
     public Document(type type) {
         this.type = type;
         setEditDate();
         setCreationDate();
     }
+    
     public Document(type type, HashMap selectedCheckBox) {
-        this.type = type;
-        this.selectedCheckBox = selectedCheckBox;
-        setEditDate();
-        setCreationDate();
+        this(type);
+        this.selectedCheckBoxes = selectedCheckBox;
     }
 
     private void setCreationDate() {
@@ -61,8 +62,21 @@ public class Document {
     public String getResidentName() {
         return residentName;
     }
-    public HashMap getSelectedCheckbox() {
-        return this.selectedCheckBox;
+    
+    public HashMap<CheckBox, Boolean> getSelectedCheckboxes() {
+        return this.selectedCheckBoxes;
+    }
+    
+    public void setSelectedCheckboxes(HashMap<CheckBox, Boolean> selectedCheckBoxes) {
+        this.selectedCheckBoxes = selectedCheckBoxes;
+    }
+    
+    public HashMap<TextField, String> getTextFieldInput() {
+        return textFieldInput;
+    }
+    
+    public void setTextFieldInput(HashMap<TextField, String> textFieldInput) {
+        this.textFieldInput = textFieldInput;
     }
 
     public void setResidentName(String residentName) {

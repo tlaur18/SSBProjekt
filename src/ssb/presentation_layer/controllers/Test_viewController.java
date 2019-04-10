@@ -85,7 +85,6 @@ public class Test_viewController implements Initializable {
         if (InformationBridge.getINSTANCE().getChosenDocument() != null) {
             System.out.println("Loading Documents");
             loadDocumentContent(InformationBridge.getINSTANCE().getChosenDocument());
-
         }
     }
 

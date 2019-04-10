@@ -62,7 +62,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private TableView<Document> vumDocumentTableView;
 
-    private Test_viewController test_viewController;
+    private SagsåbningController sagsåbningController;
     private final Employee employee = new Sagsbehandler("Michael", "tester", "telefon-nummer", "cpr nummer");
     private final Resident oliver = new Resident("Oliver", "van Komen", "05050505", "0202-432125");
     private final Resident thomas = new Resident("Thomas", "Steenfeldt", "782357823", "1245435-1234");
@@ -102,19 +102,41 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    public void openDocumentAction(MouseEvent event) throws MalformedURLException, IOException {
+    public void openDocumentAction(MouseEvent event) throws IOException {
         Document selectedDocument = vumDocumentTableView.getSelectionModel().getSelectedItem();
         if (selectedDocument != null && event.getClickCount() == 2) {
             InformationBridge.getINSTANCE().setChosenDocument(selectedDocument);
-
-            URL url = new File("src/ssb/presentation_layer/fxml_documents/test_view.fxml").toURL();
+            loadDocumentController(selectedDocument);
+        }
+    }
+        private void loadDocumentController(Document document) throws MalformedURLException, IOException {
+        switch(document.getType()) {
+            case AFGØRELSE:
+                break;
+            case BESTILLING:
+                break;
+            case FAGLIGVURDERING:
+                break;
+            case HANDLEPLAN:
+                break;
+            case INDSTILLING:
+                break;
+            case OPFØLGNING:
+                break;
+            case SAGSÅBNING:
+           URL url = new File("src/ssb/presentation_layer/fxml_documents/sagsåbning.fxml").toURL();
             FXMLLoader loader = new FXMLLoader(url);
             Parent root = (Parent) loader.load();
-            test_viewController = loader.getController();
+            sagsåbningController = loader.getController();
             Stage stage = new Stage();
             stage.setScene(new Scene(FXMLLoader.load(url)));
             stage.setTitle("Morten er awesome");
             stage.show();
+                break;
+            case STATUSNOTAT:
+                break;
+            case UDREDNING:
+                break;
         }
     }
 
@@ -194,5 +216,4 @@ public class FXMLDocumentController implements Initializable {
         }
         System.out.println("this is 3rd base, you will never get here");
     }
-
 }

@@ -5,19 +5,30 @@
  */
 package ssb.presentation_layer.controllers;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TreeItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+import ssb.domain_layer.Document;
+import ssb.presentation_layer.fxml_documents.InformationBridge;
 
 /**
  * FXML Controller class
@@ -51,7 +62,7 @@ public class SagsåbningController implements Initializable {
     @FXML
     private CheckBox dropdownAndreCheck;
     @FXML
-    private CheckBox HenvendelseCheckJa2;
+    private CheckBox henvendelseCheckJa2;
     @FXML
     private CheckBox henvendelseCheckNej2;
     @FXML
@@ -63,7 +74,7 @@ public class SagsåbningController implements Initializable {
     @FXML
     private CheckBox vaergemaalKontaktCheck;
     @FXML
-    private CheckBox RepresentationBisidderCheck;
+    private CheckBox representationBisidderCheck;
     @FXML
     private CheckBox partsRepresentantCheck;
     @FXML
@@ -78,43 +89,117 @@ public class SagsåbningController implements Initializable {
     private CheckBox forlobNejCheck;
     @FXML
     private TextArea forlobAftalerTxtA;
+    @FXML
+    private Button saveButton;
+    @FXML
+    private Button cancelButton;
 
-    private HashMap<CheckBox, String> selectedBoxesHashMap = new HashMap<CheckBox, String>();
+    private HashMap<CheckBox, Boolean> selectedBoxesHashMap = new HashMap<CheckBox, Boolean>();
     private HashMap<TextArea, String> textAreaInfoHashMap = new HashMap<TextArea, String>();
     private ArrayList<CheckBox> checkboxesArrayList = new ArrayList<CheckBox>();
     private ArrayList<TextArea> textAreas = new ArrayList<TextArea>();
+    private FXMLDocumentController fxmlDocumentController;
+
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        loadCheckbox(parentBorderPane);;
+        loadCheckbox(parentBorderPane);
+         if (InformationBridge.getINSTANCE().getChosenDocument() != null) {
+            System.out.println("Loading Documents");
+            loadDocumentContent(InformationBridge.getINSTANCE().getChosenDocument());
+
+        }
     }
 
     private void loadCheckbox(Pane pane) {
-        for (Node child : pane.getChildren()) {
-            System.out.println("testing Pane");
-            if (child instanceof CheckBox) {
-                checkboxesArrayList.add((CheckBox) child);
-                System.out.println("Dette er en test af array:");
-
+      
+        // adding all checkboxes to the checkboxArray, to be used in later iteration.
+        checkboxesArrayList.add(henvendelseCheckNej1);
+        checkboxesArrayList.add(henvendelseJaCheck1);
+        checkboxesArrayList.add(dropdownborgerCheck);
+        checkboxesArrayList.add(dropdownpaaRoerendeCheck);
+        checkboxesArrayList.add(dropdownLaegeCheck);
+        checkboxesArrayList.add(dropdownHospitalCheck);
+        checkboxesArrayList.add(dropdownAndenCheck);
+        checkboxesArrayList.add(dropdownIndsatsCheck);
+        checkboxesArrayList.add(dropdownAndenKommmuneCheck);
+        checkboxesArrayList.add(dropdownAndreCheck);
+        checkboxesArrayList.add(henvendelseCheckJa2);
+        checkboxesArrayList.add(henvendelseCheckNej2);
+        checkboxesArrayList.add(vaergemaalParag5Check);
+        checkboxesArrayList.add(vaergemaalParag6check);
+        checkboxesArrayList.add(vaergemaalParag7Check);
+        checkboxesArrayList.add(vaergemaalKontaktCheck);
+        checkboxesArrayList.add(representationBisidderCheck);
+        checkboxesArrayList.add(partsRepresentantCheck);
+        checkboxesArrayList.add(representationFuldmagtCheck);
+        checkboxesArrayList.add(rettighederCheck);
+        checkboxesArrayList.add(forlobJaCheck);
+        checkboxesArrayList.add(forlobNejCheck);
+        
+        //Adding all TextAreas to Array, to be used in later iteration.
+        textAreas.add(henvendelseTXTa1);
+        textAreas.add(representationTxtA);
+        textAreas.add(forlobAftalerTxtA);
+    }
+    private void sortCheckBox() {
+        for (CheckBox checkbox : checkboxesArrayList) {
+            if (checkbox.isSelected()) {
+                selectedBoxesHashMap.put(checkbox, true);
+            } else {
+                System.out.println("this item is not added: " + checkbox);
             }
-            if (child instanceof TextArea) {
-                textAreas.add((TextArea) child);
-                System.out.println("Dette er en test af array:");
-            }
+        }
+    }
+    private void sortTeaxArea() {
+        for (TextArea textArea : textAreas) {
+                textAreaInfoHashMap.put(textArea, textArea.getText());
+                System.out.println(textAreaInfoHashMap.keySet());
+        }
+    }
 
-            if (child instanceof TabPane){
-                System.out.println("3");
-                for(Node child1 : ((TabPane) child).getChildrenUnmodifiable()){
-                    if(child1 instanceof CheckBox) {
-                        System.out.println("hejsa");
+    @FXML
+    private void saveButtonOnAction(ActionEvent event) throws MalformedURLException, IOException {
+        sortCheckBox();
+        sortTeaxArea();
+        Document doc = new Document(Document.type.SAGSÅBNING, selectedBoxesHashMap, textAreaInfoHashMap);
+        URL url = new File("src/ssb/presentation_layer/fxml_documents/main_layout.fxml").toURL();
+        FXMLLoader loader = new FXMLLoader(url);
+        Parent root = (Parent) loader.load();
+        fxmlDocumentController = loader.getController();
+        fxmlDocumentController.saveDocument(doc);
+        Stage stage = (Stage) saveButton.getScene().getWindow();
+        stage.close();
+    }
+
+    
+    @FXML
+    private void cancelButtonOnAction(ActionEvent event) {
+        Stage stage = (Stage) cancelButton.getScene().getWindow();
+        stage.close();
+    }
+        public void loadDocumentContent(Document doc) {
+        selectedBoxesHashMap = doc.getSelectedCheckbox();
+        textAreaInfoHashMap = doc.getTextAreas();
+
+        for (CheckBox checkBoxList : checkboxesArrayList) {
+            for (Map.Entry<CheckBox, Boolean> set : selectedBoxesHashMap.entrySet()) {
+                if (set.getValue() == true) {
+                    if (checkBoxList.getId().equals(set.getKey().getId())) {
+                    checkBoxList.setSelected(true);
                     }
                 }
             }
         }
-
+        for (TextArea textArea : textAreas) {
+            for (Map.Entry<TextArea, String> set: textAreaInfoHashMap.entrySet()) {
+                if(textArea.getId().equals(set.getKey().getId())) {
+                    textArea.setText(set.getValue());
+                }
+            }
+        }
     }
-
 }

@@ -17,6 +17,7 @@ public class Document {
     private Date editDate;
     private Date creationDate;
     private HashMap selectedCheckBox;
+    private HashMap textAreas;
 
     public Document(type type) {
         this.type = type;
@@ -24,10 +25,13 @@ public class Document {
         setCreationDate();
     }
     public Document(type type, HashMap selectedCheckBox) {
-        this.type = type;
+        this(type);
         this.selectedCheckBox = selectedCheckBox;
-        setEditDate();
-        setCreationDate();
+    }
+    public Document(type type, HashMap selectedCheckBoxes, HashMap textAreas) {
+        this(type);
+        this.selectedCheckBox = selectedCheckBoxes;
+        this.textAreas = textAreas;
     }
 
     private void setCreationDate() {
@@ -63,6 +67,9 @@ public class Document {
     }
     public HashMap getSelectedCheckbox() {
         return this.selectedCheckBox;
+    }
+    public HashMap getTextAreas(){
+        return this.textAreas;
     }
 
     public void setResidentName(String residentName) {

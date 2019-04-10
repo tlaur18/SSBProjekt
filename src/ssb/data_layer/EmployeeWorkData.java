@@ -1,14 +1,16 @@
 package ssb.data_layer;
 
-import java.io.BufferedWriter;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.util.Pair;
 
 public class EmployeeWorkData {
@@ -32,19 +34,27 @@ public class EmployeeWorkData {
 
         final HashMap<String, List<String>> residentData = new HashMap<>();
 
-        try (Scanner scanner = new Scanner(RESIDENTS_DATA_FILE).useDelimiter(",|\n")) {
-            while (scanner.hasNext()) {
-                String residentID = scanner.next();
-                String residentFirstname = scanner.next();
-                String residentLastName = scanner.next();
-                String residentPhoneNr = scanner.next();
-                String residentCPR = scanner.next();
-                String associatedEmloyee = scanner.next();
+        try (BufferedReader scanner = new BufferedReader(new FileReader(RESIDENTS_DATA_FILE))) {
+            String residentDataString = scanner.readLine();
+            while (residentDataString != null) {
+                String[] residentDataValues = residentDataString.split(",");
+                for (String string : residentDataValues) {
+                    System.out.println(string);
+                }
+                String residentID = residentDataValues[0];
+                String residentFirstname = residentDataValues[1];
+                String residentLastName = residentDataValues[2];
+                String residentPhoneNr = residentDataValues[3];
+                String residentCPR = residentDataValues[4];
+                String associatedEmloyee = residentDataValues[5];
                 List<String> residentInfo = new ArrayList<>(Arrays.asList(residentFirstname, residentLastName, residentPhoneNr, residentCPR, associatedEmloyee));
                 residentData.put(residentID, residentInfo);
+                residentDataString = scanner.readLine();
             }
         } catch (FileNotFoundException ex) {
             System.out.println("The file you want to open doesn't exist");
+        } catch (IOException ex) {
+            Logger.getLogger(EmployeeWorkData.class.getName()).log(Level.SEVERE, null, ex);
         }
         return residentData;
     }
@@ -71,16 +81,21 @@ public class EmployeeWorkData {
 
         final List<Pair<String, List<String>>> documentData = new ArrayList<>();
 
-        try (Scanner scanner = new Scanner(DOCUMENTS_DATA_FILE).useDelimiter(",|\n")) {
-            while (scanner.hasNext()) {
-                String documentType = scanner.next();
-                String documentCreationDate = scanner.next();
-                String documentEditDate = scanner.next();
-                String associatedResident = scanner.next();
+        try (BufferedReader scanner = new BufferedReader(new FileReader(DOCUMENTS_DATA_FILE))) {
+            String documentDataString = scanner.readLine();
+            while (documentDataString != null) {
+                String[] documentValues = documentDataString.split(",");
+                String documentType = documentValues[0];
+                String documentCreationDate = documentValues[1];
+                String documentEditDate = documentValues[2];
+                String associatedResident = documentValues[3];
                 documentData.add(new Pair(associatedResident, new ArrayList<>(Arrays.asList(documentType, documentCreationDate, documentEditDate))));
+                documentDataString = scanner.readLine();
             }
         } catch (FileNotFoundException ex) {
             System.out.println("The file you want to open doesn't exist");
+        } catch (IOException ex) {
+            Logger.getLogger(EmployeeWorkData.class.getName()).log(Level.SEVERE, null, ex);
         }
         return documentData;
     }

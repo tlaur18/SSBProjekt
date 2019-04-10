@@ -15,12 +15,12 @@ public abstract class Person {
         this.cprNr = cprNr;
         this.ID = generateID();
     }
-    
+
     /*
     ID: First four letters of the Person's name + birthdate (without the year)
-    */
+     */
     private String generateID() {
-        return (firstName + lastName).substring(0, 4) + cprNr.substring(0, 4);
+        return firstName.substring(0, 3) + lastName.substring(0, 3) + cprNr.substring(0, 4);
     }
 
     public String getFirstName() {
@@ -42,4 +42,10 @@ public abstract class Person {
     public String getID() {
         return ID;
     }
+
+    @Override
+    public String toString() {
+        return "Person{" + "firstName=" + firstName + ", lastName=" + lastName + ", phoneNr=" + phoneNr + ", cprNr=" + cprNr + ", ID=" + ID + '}';
+    }
+
 }

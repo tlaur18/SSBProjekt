@@ -20,6 +20,12 @@ public class Document {
         setEditDate();
         setCreationDate();
     }
+    
+    public Document(type documentType, Date creationDate, Date editDate) {
+        this.type = documentType;
+        this.creationDate = creationDate;
+        this.editDate = editDate;
+    }
 
     private void setCreationDate() {
         this.creationDate = new Date(new Random().nextInt(100000000) + 1000000);
@@ -49,21 +55,25 @@ public class Document {
         return creationDate;
     }
 
-    public String getResidentName() {
-        return residentName;
+    void setResidentName(String firstName) {
+        residentName = firstName;
     }
 
-    public void setResidentName(String residentName) {
-        this.residentName = residentName;
+    public String getResidentName() {
+        if (residentName != null) {
+            return residentName;
+        } else {
+            return "No associated resident";
+        }
     }
 
     @Override
     public String toString() {
         return "documentName=" + documentName
-            + "\nassociatedResident=" + residentName
-            + "\ntype=" + type
-            + "\neditDate=" + editDate
-            + "\ncreationDate=" + creationDate;
+                + "\nassociatedResident=" + residentName
+                + "\ntype=" + type
+                + "\neditDate=" + editDate
+                + "\ncreationDate=" + creationDate;
     }
 
 }

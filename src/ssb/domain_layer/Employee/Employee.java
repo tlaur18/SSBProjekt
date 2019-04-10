@@ -105,5 +105,5 @@ public abstract class Employee extends Person {
             allDocumentsForAllResidents.addAll(resident.getDocuments());
         }
         return allDocumentsForAllResidents;
-    }
+    }    
 }

@@ -1,0 +1,7 @@
+﻿nickru0412,nicolai,kruuse,60487580,041299-7890,socialrådgiver
+micped1302,michael,pedersen,60825359,130298-7891,sagsbehandler
+morjen1506,morten,jensen,22300758,150694-7892,socialrådgiver
+tholau1609,thomas,laursen,30953669,160999-7893,socialrådgiver
+olivan0211,oliver,van komen,93930585,021197-7894,socialrådgiver
+lonbor1234,lone,borgersen,12345678,123456-7895,socialpædagog 
+jepsch1234,jeppe,schmidt,12345678,123456-7896,vikar

@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ssb.presentation_layer.controllers.FXMLDocumentController">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ssb.presentation_layer.controllers.FXMLDocumentController">
     <stylesheets>
         <URL value="@../../ressources/main.css" />
     </stylesheets>
@@ -29,7 +29,7 @@
                         <Insets />
                     </VBox.margin>
                 </Button>
-                <Button maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="96.0" styleClass="menuButtons" text="Handleplan" VBox.vgrow="ALWAYS">
+                <Button maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" mnemonicParsing="false" onAction="#HandleplanOnAction" prefHeight="30.0" prefWidth="96.0" styleClass="menuButtons" text="Handleplan" VBox.vgrow="ALWAYS">
                     <VBox.margin>
                         <Insets top="8.0" />
                     </VBox.margin>

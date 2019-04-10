@@ -13,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -27,7 +28,6 @@ import javafx.stage.Stage;
 import ssb.domain_layer.Document;
 import ssb.domain_layer.Employee.Employee;
 import ssb.domain_layer.InformationBridge;
-import ssb.domain_layer.Resident;
 
 /**
  *
@@ -120,6 +120,22 @@ public class FXMLDocumentController implements Initializable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+    
+    @FXML
+    public void logOutHandler(MouseEvent event) {
+        InformationBridge.getINSTANCE().resetSystem();
+        try {
+            URL url = new File("src/ssb/presentation_layer/fxml_documents/login_layout.fxml").toURL();
+            FXMLLoader loader = new FXMLLoader(url);
+            Parent root = (Parent) loader.load();
+            Stage loginStage = new Stage();
+            loginStage.setScene(new Scene(root));
+            ((Stage) homeBtn.getScene().getWindow()).close(); //close login stage
+            loginStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

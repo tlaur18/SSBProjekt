@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:controller="ssb.presentation_layer.controllers.FXMLDocumentController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ssb.presentation_layer.controllers.FXMLDocumentController">
     <stylesheets>
         <URL value="@../../ressources/css_files/main.css" />
     </stylesheets>
@@ -95,6 +95,17 @@
                         <Insets bottom="4.0" right="96.0" top="4.0" />
                     </HBox.margin>
                 </TextField>
+            <ImageView fitHeight="24.0" fitWidth="24.0" onMouseClicked="#logOutHandler" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../ressources/images/running.png" />
+               </image>
+               <HBox.margin>
+                  <Insets right="12.0" top="4.0" />
+               </HBox.margin>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
             </children>
         </HBox>
     </top>

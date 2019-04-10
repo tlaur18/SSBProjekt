@@ -6,7 +6,7 @@ import ssb.domain_layer.Employee.Employee;
 
 public class InformationBridge {
 
-    private static final InformationBridge INSTANCE = new InformationBridge();
+    private static InformationBridge INSTANCE = new InformationBridge();
     private final HashMap<String, Integer> integerInformation;
     private final HashMap<String, Double> doubleInformation;
     private final HashMap<String, String> stringInformation;
@@ -72,6 +72,10 @@ public class InformationBridge {
 
     public static InformationBridge getINSTANCE() {
         return INSTANCE;
+    }
+    
+    public void resetSystem() {
+        INSTANCE = new InformationBridge();
     }
 
 }

@@ -14,6 +14,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import ssb.domain_layer.Document;
+import ssb.presentation_layer.fxml_documents.InformationBridge;
 
 public class HandleplanController implements Initializable {
 
@@ -46,43 +47,52 @@ public class HandleplanController implements Initializable {
     @FXML
     private CheckBox repraesentationCheck3;
 
-    private HashMap<CheckBox, Boolean> selectedBoxes;
-    private HashMap<TextField, String> textInput;
+    private HashMap<CheckBox, Boolean> checkBoxes;
+    private HashMap<TextField, String> textFields;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        selectedBoxes = new HashMap();
-        textInput = new HashMap();
+        checkBoxes = new HashMap();
+        textFields = new HashMap();
         loadTextFields();
         loadCheckBoxes();
+
+        if (InformationBridge.getINSTANCE().getChosenDocument() != null) {
+            System.out.println("Loading Documents");
+            loadDocumentContent(InformationBridge.getINSTANCE().getChosenDocument());
+        }
     }
 
     private void loadCheckBoxes() {
-        selectedBoxes.put(vaergemaalCheck1, Boolean.FALSE);
-        selectedBoxes.put(vaergemaalCheck2, Boolean.FALSE);
-        selectedBoxes.put(vaergemaalCheck3, Boolean.FALSE);
-        selectedBoxes.put(vaergemaalCheck4, Boolean.FALSE);
-        selectedBoxes.put(repraesentationCheck1, Boolean.FALSE);
-        selectedBoxes.put(repraesentationCheck2, Boolean.FALSE);
-        selectedBoxes.put(repraesentationCheck3, Boolean.FALSE);
+        checkBoxes.put(vaergemaalCheck1, Boolean.FALSE);
+        checkBoxes.put(vaergemaalCheck2, Boolean.FALSE);
+        checkBoxes.put(vaergemaalCheck3, Boolean.FALSE);
+        checkBoxes.put(vaergemaalCheck4, Boolean.FALSE);
+        checkBoxes.put(repraesentationCheck1, Boolean.FALSE);
+        checkBoxes.put(repraesentationCheck2, Boolean.FALSE);
+        checkBoxes.put(repraesentationCheck3, Boolean.FALSE);
     }
 
     private void loadTextFields() {
-        textInput.put(navnTxtF, null);
-        textInput.put(cprTxtF, null);
-        textInput.put(adresseTxtF, null);
-        textInput.put(paaroerendeTxtF, null);
-        textInput.put(mailTxtF, null);
-        textInput.put(telefonTxtF, null);
-        textInput.put(datoTxtF, null);
+        textFields.put(navnTxtF, null);
+        textFields.put(cprTxtF, null);
+        textFields.put(adresseTxtF, null);
+        textFields.put(paaroerendeTxtF, null);
+        textFields.put(mailTxtF, null);
+        textFields.put(telefonTxtF, null);
+        textFields.put(datoTxtF, null);
     }
-    
+
     @FXML
     private void saveBtnHandler(ActionEvent event) throws IOException {
+        saveInfo();
+
+        System.out.println(checkBoxes);
+
         Document doc = new Document(Document.type.HANDLEPLAN);
-        doc.setSelectedCheckboxes(selectedBoxes);
-        doc.setTextFieldInput(textInput);
-        
+        doc.setSelectedCheckboxes(checkBoxes);
+        doc.setTextFieldInput(textFields);
+
         URL url = new File("src/ssb/presentation_layer/fxml_documents/main_layout.fxml").toURL();
         FXMLLoader loader = new FXMLLoader(url);
         Parent root = (Parent) loader.load();
@@ -93,5 +103,36 @@ public class HandleplanController implements Initializable {
     @FXML
     private void cancelBtnHandler(ActionEvent event) {
         ((Stage) navnTxtF.getScene().getWindow()).close();
+    }
+
+    private void saveInfo() {
+        for (CheckBox checkBox : checkBoxes.keySet()) {
+            checkBoxes.put(checkBox, checkBox.isSelected());
+        }
+        
+        for (TextField textField : textFields.keySet()) {
+            textFields.put(textField, textField.getText());
+        }
+    }
+
+    public void loadDocumentContent(Document doc) {
+        HashMap<CheckBox, Boolean> checkBoxesFromDoc = doc.getSelectedCheckboxes();
+        HashMap<TextField, String> textFieldsFromDoc = doc.getTextFieldInput();
+
+        for (CheckBox checkBox : checkBoxes.keySet()) {
+            for (CheckBox checkBoxFromDoc : checkBoxesFromDoc.keySet()) {
+                if (checkBox.getId().equals(checkBoxFromDoc.getId())) {
+                    checkBox.setSelected(checkBoxesFromDoc.get(checkBoxFromDoc));
+                }
+            }
+        }
+
+        for (TextField textField : textFields.keySet()) {
+            for (TextField textFieldFromDoc : textFieldsFromDoc.keySet()) {
+                if (textField.getId().equals(textFieldFromDoc.getId())) {
+                    textField.setText(textFieldsFromDoc.get(textFieldFromDoc));
+                }
+            }
+        }
     }
 }

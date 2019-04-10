@@ -55,7 +55,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private TableView<Document> vumDocumentTableView;
 
-    private Test_viewController test_viewController;
+    private HandleplanController handleplanController;
     private final Employee employee = new Sagsbehandler("Michael", "tester", "telefon-nummer", "cpr nummer");
     private final Resident oliver = new Resident("Oliver", "van Komen", "05050505", "0202-432125");
     private final Resident thomas = new Resident("Thomas", "Steenfeldt", "782357823", "1245435-1234");
@@ -100,10 +100,10 @@ public class FXMLDocumentController implements Initializable {
         if (selectedDocument != null && event.getClickCount() == 2) {
             InformationBridge.getINSTANCE().setChosenDocument(selectedDocument);
 
-            URL url = new File("src/ssb/presentation_layer/fxml_documents/test_view.fxml").toURL();
+            URL url = new File("src/ssb/presentation_layer/fxml_documents/handleplan.fxml").toURL();
             FXMLLoader loader = new FXMLLoader(url);
             Parent root = (Parent) loader.load();
-            test_viewController = loader.getController();
+            handleplanController = loader.getController();
             Stage stage = new Stage();
             stage.setScene(new Scene(FXMLLoader.load(url)));
             stage.setTitle("Morten er awesome");

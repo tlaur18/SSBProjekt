@@ -139,7 +139,7 @@ public class Test_viewController implements Initializable {
     }
 
     public void loadDocumentContent(Document doc) {
-        selectedBoxes = doc.getSelectedCheckbox();
+        selectedBoxes = doc.getSelectedCheckboxes();
 
         for (CheckBox checkBoxList : checkbox) {
             for (Map.Entry<CheckBox, Boolean> set : selectedBoxes.entrySet()) {

@@ -181,8 +181,9 @@ public class SagsåbningController implements Initializable {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
     }
-        public void loadDocumentContent(Document doc) {
-        selectedBoxesHashMap = doc.getSelectedCheckbox();
+        
+    public void loadDocumentContent(Document doc) {
+        selectedBoxesHashMap = doc.getSelectedCheckboxes();
         textAreaInfoHashMap = doc.getTextAreas();
 
         for (CheckBox checkBoxList : checkboxesArrayList) {

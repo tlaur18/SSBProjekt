@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 public class Document {
@@ -19,6 +20,7 @@ public class Document {
     private Date creationDate;
     private HashMap<CheckBox, Boolean> selectedCheckBoxes;
     private HashMap<TextField, String> textFieldInput;
+    private HashMap<TextArea, String> textAreas;
 
     public Document(type type) {
         this.type = type;
@@ -32,7 +34,7 @@ public class Document {
     }
     public Document(type type, HashMap selectedCheckBoxes, HashMap textAreas) {
         this(type);
-        this.selectedCheckBox = selectedCheckBoxes;
+        this.selectedCheckBoxes = selectedCheckBoxes;
         this.textAreas = textAreas;
     }
 

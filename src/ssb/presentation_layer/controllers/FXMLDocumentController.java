@@ -112,20 +112,28 @@ public class FXMLDocumentController implements Initializable {
             case FAGLIGVURDERING:
                 break;
             case HANDLEPLAN:
+                URL urlHandleplan = new File("src/ssb/presentation_layer/fxml_documents/Handleplan.fxml").toURL();
+            FXMLLoader loaderHandleplan = new FXMLLoader(urlHandleplan);
+            Parent rootHandleplan = (Parent) loaderHandleplan.load();
+            handleplanController = loaderHandleplan.getController();
+            Stage stageHandleplan = new Stage();
+            stageHandleplan.setScene(new Scene(FXMLLoader.load(urlHandleplan)));
+            stageHandleplan.setTitle("Morten er awesome");
+            stageHandleplan.show();
                 break;
             case INDSTILLING:
                 break;
             case OPFØLGNING:
                 break;
             case SAGSÅBNING:
-           URL url = new File("src/ssb/presentation_layer/fxml_documents/sagsåbning.fxml").toURL();
-            FXMLLoader loader = new FXMLLoader(url);
-            Parent root = (Parent) loader.load();
-            sagsåbningController = loader.getController();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(FXMLLoader.load(url)));
-            stage.setTitle("Morten er awesome");
-            stage.show();
+           URL urlSagsaabning = new File("src/ssb/presentation_layer/fxml_documents/sagsåbning.fxml").toURL();
+            FXMLLoader loaderSagsaabning = new FXMLLoader(urlSagsaabning);
+            Parent rootSagsaabning = (Parent) loaderSagsaabning.load();
+            sagsåbningController = loaderSagsaabning.getController();
+            Stage stageSagsaabning = new Stage();
+            stageSagsaabning.setScene(new Scene(FXMLLoader.load(urlSagsaabning)));
+            stageSagsaabning.setTitle("Morten er awesome");
+            stageSagsaabning.show();
                 break;
             case STATUSNOTAT:
                 break;
@@ -140,7 +148,7 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    private void createVUMOnAction(ActionEvent event) {
+    private void createVUMOnAction(ActionEvent event) throws MalformedURLException {
         List<Resident> choices = new ArrayList<>();
         if (InformationBridge.getINSTANCE().getLoggedInEmployee().canCreateNewProcessDoc()) {
             choices.add(oliver);
@@ -162,7 +170,7 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
-    private void selectVUMDialog(Resident resident) {
+    private void selectVUMDialog(Resident resident) throws MalformedURLException {
         List<String> choices = new ArrayList<>();
         if (InformationBridge.getINSTANCE().getLoggedInEmployee().canCreateNewProcessDoc()) {
             choices.add(Document.type.SAGSÅBNING.toString());
@@ -186,15 +194,44 @@ public class FXMLDocumentController implements Initializable {
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()) {
             System.out.println("Your choice: " + result.get());
-            try {
-                Stage stage = new Stage();
-                URL url = new File("src/ssb/presentation_layer/fxml_documents/Handleplan.fxml").toURL();
-                stage.setScene(new Scene(FXMLLoader.load(url)));
-                stage.setTitle("Morten er awesome");
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+         switch (result.get()) {
+             case "SAGSÅBNING":
+                  try{
+                     Stage handleplanStage = new Stage();
+                     URL handleplanUrl = new File("src/ssb/presentation_layer/fxml_documents/sagsåbning.fxml").toURL();
+                     handleplanStage.setScene(new Scene(FXMLLoader.load(handleplanUrl)));
+                     handleplanStage.setTitle("Dette er en ny stage");
+                     handleplanStage.show();
+                 }catch(IOException e){
+                     e.printStackTrace();
+                 }
+                 break;
+             case "AFGØRELSE":
+                 break;
+             case "BESTILLING":
+                 break;
+             case "HANDLEPLAN":
+                 try{
+                     Stage handleplanStage = new Stage();
+                     URL handleplanUrl = new File("src/ssb/presentation_layer/fxml_documents/Handleplan.fxml").toURL();
+                     handleplanStage.setScene(new Scene(FXMLLoader.load(handleplanUrl)));
+                     handleplanStage.setTitle("Dette er en ny stage");
+                     handleplanStage.show();
+                 }catch(IOException e){
+                     e.printStackTrace();
+                 }
+                 break;
+             case "INDSTILLING":
+                 break;
+             case "FAGLIGVURDERING":
+                 break;
+             case "OPFØLGNING":
+                 break;
+             case "STATUSNOTAT":
+                 break;
+             case "UDREDNING":
+                 break;
+         }
         }
     }
 

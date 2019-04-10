@@ -71,7 +71,7 @@ public class Test_viewController implements Initializable {
     @FXML
     private Button cancelBttn;
 
-    private HashMap<CheckBox, Boolean> selectedBox = new HashMap<CheckBox, Boolean>();
+    private HashMap<CheckBox, Boolean> selectedBoxes = new HashMap<CheckBox, Boolean>();
     private FXMLDocumentController fxmlDocumentController;
     private ArrayList<CheckBox> checkbox = new ArrayList<CheckBox>();
     private List<CheckBox> selectedCheckbox = new ArrayList<CheckBox>();
@@ -113,8 +113,8 @@ public class Test_viewController implements Initializable {
     private void sortCheckBox() {
         for (CheckBox checkbox : checkbox) {
             if (checkbox.isSelected()) {
-                selectedBox.put(checkbox, true);
-                System.out.println(selectedBox.keySet());
+                selectedBoxes.put(checkbox, true);
+                System.out.println(selectedBoxes.keySet());
                 System.out.println("I have added this item to the selected list" + checkbox);
             } else {
                 System.out.println("this item is not added: " + checkbox);
@@ -125,7 +125,7 @@ public class Test_viewController implements Initializable {
     @FXML
     private void saveBttn(ActionEvent event) throws IOException {
         sortCheckBox();
-        Document doc = new Document(Document.type.SAGSÅBNING, selectedBox);
+        Document doc = new Document(Document.type.SAGSÅBNING, selectedBoxes);
         URL url = new File("src/ssb/presentation_layer/fxml_documents/main_layout.fxml").toURL();
         FXMLLoader loader = new FXMLLoader(url);
         Parent root = (Parent) loader.load();
@@ -140,14 +140,11 @@ public class Test_viewController implements Initializable {
     }
 
     public void loadDocumentContent(Document doc) {
-        selectedBox = doc.getSelectedCheckbox();
+        selectedBoxes = doc.getSelectedCheckbox();
 
         for (CheckBox checkBoxList : checkbox) {
-            System.out.println(checkBoxList.getId());
-            for (Map.Entry<CheckBox, Boolean> set : selectedBox.entrySet()) {
+            for (Map.Entry<CheckBox, Boolean> set : selectedBoxes.entrySet()) {
                 if (set.getValue() == true) {
-//                    System.out.println(set.getKey().getId());
-//                    System.out.println(set.getKey().equals(checkBoxList));
                     if (checkBoxList.getId().equals(set.getKey().getId())) {
                     checkBoxList.setSelected(true);
                     }

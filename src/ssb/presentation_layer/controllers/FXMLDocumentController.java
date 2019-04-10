@@ -172,7 +172,7 @@ public class FXMLDocumentController implements Initializable {
             System.out.println("Your choice: " + result.get());
             try {
                 Stage stage = new Stage();
-                URL url = new File("src/ssb/presentation_layer/fxml_documents/test_view.fxml").toURL();
+                URL url = new File("src/ssb/presentation_layer/fxml_documents/sagsåbning.fxml").toURL();
                 stage.setScene(new Scene(FXMLLoader.load(url)));
                 stage.setTitle("Morten er awesome");
                 stage.show();

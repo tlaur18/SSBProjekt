@@ -3,6 +3,9 @@ package ssb.presentation_layer.controllers;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -58,7 +61,6 @@ public class LoginLayoutController implements Initializable {
             } catch (ParseException ex) {
                 System.out.println("Date format invalid.");
             }
-            changeStage();
         } else {
             ugyldigtLoginLabel.setVisible(true);
         }

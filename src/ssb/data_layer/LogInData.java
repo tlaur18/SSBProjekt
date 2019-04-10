@@ -2,6 +2,7 @@ package ssb.data_layer;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -14,7 +15,10 @@ public class LogInData {
     private final File LOGIN_DATA_FILE = new File("userdata/logins.txt");
     private final File EMPLOYEE_DATA_FILE = new File("userdata/employeedata.txt");
 
-    public HashMap<String, Pair<String, String>> loadUserLogIns() {
+    public HashMap<String, Pair<String, String>> loadUserLogIns(Connection connection) {
+        
+        
+        
         final HashMap<String, Pair<String, String>> userLogins = new HashMap<>();
         try (Scanner scanner = new Scanner(LOGIN_DATA_FILE).useDelimiter(",|\n")) {
             while (scanner.hasNext()) {

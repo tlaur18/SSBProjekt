@@ -23,6 +23,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import ssb.domain_layer.Process;
 import ssb.domain_layer.Document;
@@ -67,6 +68,10 @@ public class FXMLDocumentController implements Initializable {
     private boolean updateList = true;
     private final DocumentManager docuManager = new DocumentManager();
     private final String NEW_BEBOER_CHOICE = "Ny beboer";
+    @FXML
+    private BorderPane borderPane;
+    @FXML
+    private TableColumn<?, ?> beboerColumn;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -134,10 +139,6 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
-    @FXML
-    private void sagerOnAction(ActionEvent event) {
-        System.out.println("Sager pressed");
-    }
 
     @FXML
     private void createVUMOnAction(ActionEvent event) {
@@ -210,4 +211,19 @@ public class FXMLDocumentController implements Initializable {
         }
         System.out.println("this is 3rd base, you will never get here");
     }
+    
+    private void loadFXML(String documentName) throws MalformedURLException{
+    }
+        if(borderPane.getCenter() == null){
+            Parent root = null;
+            URL url = new File("src/ssb/presentation_layer/fxml_documents/"+documentName+".fxml").toURL();
+            FXMLLoader loader = new FXMLLoader(url);
+            try {
+                root = (Parent) loader.load();
+                borderPane.setCenter(root);
+            } catch (IOException e) {
+            }
+        }else{
+            borderPane.setCenter(null);
+        }
 }

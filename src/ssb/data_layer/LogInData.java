@@ -1,19 +1,12 @@
 package ssb.data_layer;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.util.Pair;
 
 public class LogInData {
@@ -23,21 +16,16 @@ public class LogInData {
 
     public HashMap<String, Pair<String, String>> loadUserLogIns() {
         final HashMap<String, Pair<String, String>> userLogins = new HashMap<>();
-        try (BufferedReader scanner = new BufferedReader(new FileReader(LOGIN_DATA_FILE))) {
-            String logInString = scanner.readLine();
-            while (logInString != null) {
-                String[] logInStringValue = logInString.split(",");
-                String employeeID = logInStringValue[0];
-                String userName = logInStringValue[1];
-                String password = logInStringValue[2];
+        try (Scanner scanner = new Scanner(LOGIN_DATA_FILE).useDelimiter(",|\n")) {
+            while (scanner.hasNext()) {
+                String employeeID = scanner.next();
+                String userName = scanner.next();
+                String password = scanner.next();
                 Pair<String, String> userNameAndPassword = new Pair<>(userName, password);
                 userLogins.put(employeeID, userNameAndPassword);
-                logInString = scanner.readLine();
             }
         } catch (FileNotFoundException ex) {
             System.out.println("The file you want to open doesn't exist");
-        } catch (IOException ex) {
-            Logger.getLogger(LogInData.class.getName()).log(Level.SEVERE, null, ex);
         }
         return userLogins;
     }
@@ -63,24 +51,19 @@ public class LogInData {
 //        }
 
         final HashMap<String, List<String>> employeeData = new HashMap<>();
-        try (BufferedReader scanner = new BufferedReader(new FileReader(EMPLOYEE_DATA_FILE))) {
-            String employeeDataString = scanner.readLine();
-            while (employeeDataString != null) {
-                String[] employeeDataValues = employeeDataString.split(",");
-                String employeeID = employeeDataValues[0];
-                String employeeFirstname = employeeDataValues[1];
-                String employeeLastName = employeeDataValues[2];
-                String employeePhoneNr = employeeDataValues[3];
-                String employeeCPR = employeeDataValues[4];
-                String employeeRole = employeeDataValues[5];
+        try (Scanner scanner = new Scanner(EMPLOYEE_DATA_FILE).useDelimiter(",|\n")) {
+            while (scanner.hasNext()) {
+                String employeeID = scanner.next();
+                String employeeFirstname = scanner.next();
+                String employeeLastName = scanner.next();
+                String employeePhoneNr = scanner.next();
+                String employeeCPR = scanner.next();
+                String employeeRole = scanner.next();
                 employeeData.put(employeeID, new ArrayList<>(Arrays.asList(employeeFirstname,
                         employeeLastName, employeePhoneNr, employeeCPR, employeeRole)));
-                employeeDataString = scanner.readLine();
             }
         } catch (FileNotFoundException ex) {
             System.out.println("The file you want to open doesn't exist");
-        } catch (IOException ex) {
-            Logger.getLogger(LogInData.class.getName()).log(Level.SEVERE, null, ex);
         }
         return employeeData;
     }

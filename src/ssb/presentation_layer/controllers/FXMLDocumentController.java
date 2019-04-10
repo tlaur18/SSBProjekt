@@ -56,8 +56,6 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private TableView<Document> vumDocumentTableView;
 
-    private HandleplanController handleplanController;
-    private SagsåbningController sagsåbningController;
     private final Employee employee = new Sagsbehandler("Michael", "tester", "telefon-nummer", "cpr nummer");
     private final Resident oliver = new Resident("Oliver", "van Komen", "05050505", "0202-432125");
     private final Resident thomas = new Resident("Thomas", "Steenfeldt", "782357823", "1245435-1234");
@@ -108,8 +106,9 @@ public class FXMLDocumentController implements Initializable {
             loadDocumentController(selectedDocument);
         }
     }
-        private void loadDocumentController(Document document) throws MalformedURLException, IOException {
-        switch(document.getType()) {
+
+    private void loadDocumentController(Document document) throws MalformedURLException, IOException {
+        switch (document.getType()) {
             case AFGØRELSE:
                 break;
             case BESTILLING:
@@ -118,27 +117,25 @@ public class FXMLDocumentController implements Initializable {
                 break;
             case HANDLEPLAN:
                 URL urlHandleplan = new File("src/ssb/presentation_layer/fxml_documents/Handleplan.fxml").toURL();
-            FXMLLoader loaderHandleplan = new FXMLLoader(urlHandleplan);
-            Parent rootHandleplan = (Parent) loaderHandleplan.load();
-            handleplanController = loaderHandleplan.getController();
-            Stage stageHandleplan = new Stage();
-            stageHandleplan.setScene(new Scene(FXMLLoader.load(urlHandleplan)));
-            stageHandleplan.setTitle("Morten er awesome");
-            stageHandleplan.show();
+                FXMLLoader loaderHandleplan = new FXMLLoader(urlHandleplan);
+                Parent rootHandleplan = (Parent) loaderHandleplan.load();
+                Stage stageHandleplan = new Stage();
+                stageHandleplan.setScene(new Scene(FXMLLoader.load(urlHandleplan)));
+                stageHandleplan.setTitle("Morten er awesome");
+                stageHandleplan.show();
                 break;
             case INDSTILLING:
                 break;
             case OPFØLGNING:
                 break;
             case SAGSÅBNING:
-           URL urlSagsaabning = new File("src/ssb/presentation_layer/fxml_documents/sagsåbning.fxml").toURL();
-            FXMLLoader loaderSagsaabning = new FXMLLoader(urlSagsaabning);
-            Parent rootSagsaabning = (Parent) loaderSagsaabning.load();
-            sagsåbningController = loaderSagsaabning.getController();
-            Stage stageSagsaabning = new Stage();
-            stageSagsaabning.setScene(new Scene(FXMLLoader.load(urlSagsaabning)));
-            stageSagsaabning.setTitle("Morten er awesome");
-            stageSagsaabning.show();
+                URL urlSagsaabning = new File("src/ssb/presentation_layer/fxml_documents/sagsåbning.fxml").toURL();
+                FXMLLoader loaderSagsaabning = new FXMLLoader(urlSagsaabning);
+                Parent rootSagsaabning = (Parent) loaderSagsaabning.load();
+                Stage stageSagsaabning = new Stage();
+                stageSagsaabning.setScene(new Scene(FXMLLoader.load(urlSagsaabning)));
+                stageSagsaabning.setTitle("Morten er awesome");
+                stageSagsaabning.show();
                 break;
             case STATUSNOTAT:
                 break;
@@ -146,7 +143,6 @@ public class FXMLDocumentController implements Initializable {
                 break;
         }
     }
-
 
     @FXML
     private void createVUMOnAction(ActionEvent event) throws MalformedURLException {
@@ -195,44 +191,44 @@ public class FXMLDocumentController implements Initializable {
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()) {
             System.out.println("Your choice: " + result.get());
-         switch (result.get()) {
-             case "SAGSÅBNING":
-                  try{
-                     Stage handleplanStage = new Stage();
-                     URL handleplanUrl = new File("src/ssb/presentation_layer/fxml_documents/sagsåbning.fxml").toURL();
-                     handleplanStage.setScene(new Scene(FXMLLoader.load(handleplanUrl)));
-                     handleplanStage.setTitle("Dette er en ny stage");
-                     handleplanStage.show();
-                 }catch(IOException e){
-                     e.printStackTrace();
-                 }
-                 break;
-             case "AFGØRELSE":
-                 break;
-             case "BESTILLING":
-                 break;
-             case "HANDLEPLAN":
-                 try{
-                     Stage handleplanStage = new Stage();
-                     URL handleplanUrl = new File("src/ssb/presentation_layer/fxml_documents/Handleplan.fxml").toURL();
-                     handleplanStage.setScene(new Scene(FXMLLoader.load(handleplanUrl)));
-                     handleplanStage.setTitle("Dette er en ny stage");
-                     handleplanStage.show();
-                 }catch(IOException e){
-                     e.printStackTrace();
-                 }
-                 break;
-             case "INDSTILLING":
-                 break;
-             case "FAGLIGVURDERING":
-                 break;
-             case "OPFØLGNING":
-                 break;
-             case "STATUSNOTAT":
-                 break;
-             case "UDREDNING":
-                 break;
-         }
+            switch (result.get()) {
+                case "SAGSÅBNING":
+                    try {
+                        Stage handleplanStage = new Stage();
+                        URL handleplanUrl = new File("src/ssb/presentation_layer/fxml_documents/sagsåbning.fxml").toURL();
+                        handleplanStage.setScene(new Scene(FXMLLoader.load(handleplanUrl)));
+                        handleplanStage.setTitle("Dette er en ny stage");
+                        handleplanStage.show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case "AFGØRELSE":
+                    break;
+                case "BESTILLING":
+                    break;
+                case "HANDLEPLAN":
+                    try {
+                        Stage handleplanStage = new Stage();
+                        URL handleplanUrl = new File("src/ssb/presentation_layer/fxml_documents/Handleplan.fxml").toURL();
+                        handleplanStage.setScene(new Scene(FXMLLoader.load(handleplanUrl)));
+                        handleplanStage.setTitle("Dette er en ny stage");
+                        handleplanStage.show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case "INDSTILLING":
+                    break;
+                case "FAGLIGVURDERING":
+                    break;
+                case "OPFØLGNING":
+                    break;
+                case "STATUSNOTAT":
+                    break;
+                case "UDREDNING":
+                    break;
+            }
         }
     }
 
@@ -248,19 +244,27 @@ public class FXMLDocumentController implements Initializable {
         }
         System.out.println("this is 3rd base, you will never get here");
     }
-    
-    private void loadFXML(String documentName) throws MalformedURLException{
-    }
-        if(borderPane.getCenter() == null){
+
+    private void loadFXML(String documentName) throws MalformedURLException {
+        if (borderPane.getCenter() == null) {
             Parent root = null;
-            URL url = new File("src/ssb/presentation_layer/fxml_documents/"+documentName+".fxml").toURL();
+            URL url = new File("src/ssb/presentation_layer/fxml_documents/" + documentName + ".fxml").toURL();
             FXMLLoader loader = new FXMLLoader(url);
             try {
                 root = (Parent) loader.load();
                 borderPane.setCenter(root);
             } catch (IOException e) {
             }
-        }else{
+        } else {
             borderPane.setCenter(null);
         }
+    }
+
+    @FXML
+    private void sagerOnAction(ActionEvent event) {
+    }
+
+    @FXML
+    private void HandleplanOnAction(ActionEvent event) {
+    }
 }

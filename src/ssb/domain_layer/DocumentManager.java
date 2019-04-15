@@ -27,7 +27,10 @@ public class DocumentManager {
         resident.addDocument(document);
         allDocuments.add(document);
     }
-
+    
+    /*
+    * Kode stjålet direkte fra: https://stackoverflow.com/questions/134492/how-to-serialize-an-object-into-a-string
+    */
     public String encodeDocument(Serializable object) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ObjectOutputStream oos = new ObjectOutputStream(baos);
@@ -36,6 +39,9 @@ public class DocumentManager {
         return Base64.getEncoder().encodeToString(baos.toByteArray());
     }
 
+    /*
+    * Kode stjålet direkte fra: https://stackoverflow.com/questions/134492/how-to-serialize-an-object-into-a-string
+    */
     public Document decodeDocument(String encodedString) throws IOException{
         try {
             byte[] data = Base64.getDecoder().decode(encodedString);

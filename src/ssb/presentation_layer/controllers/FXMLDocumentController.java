@@ -141,7 +141,7 @@ public class FXMLDocumentController implements Initializable {
 
         //Adds a "Ny Beboer" choice if the employee has authority to create a new Resident.
         if (employee.canCreateNewProcessDoc()) {
-            Resident newRes = new Resident("Ny", "Beboer", "123567890", "1234567890");
+            Resident newRes = new Resident("Opret Ny", "Beboer", "123567890", "1234567890");
             choices.add(newRes);
             defaultChoice = newRes;
         }

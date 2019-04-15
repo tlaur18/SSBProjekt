@@ -100,10 +100,11 @@ public class Document implements Serializable {
 
     @Override
     public String toString() {
-        return "documentName=" + documentName
-                + "\nassociatedResident=" + residentName
-                + "\ntype=" + type
-                + "\neditDate=" + editDate
-                + "\ncreationDate=" + creationDate;
+        return "DocumentName: " + documentName
+                + "\n - AssociatedResident: " + residentName
+                + "\n - Type: " + type
+                + "\n - EditDate: " + editDate
+                + "\n - CreationDate: " + creationDate
+                + "\n";
     }
 }

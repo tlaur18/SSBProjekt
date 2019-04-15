@@ -94,7 +94,11 @@ public class FXMLDocumentController implements Initializable {
         if (selectedDocument != null && event.getClickCount() == 2) {
             InformationBridge.getINSTANCE().setChosenDocument(selectedDocument);
             loadDocumentController(selectedDocument);
-            System.out.println(documentManager.encodeDocument(selectedDocument));
+
+            //Her er lidt tests på det der serializable-noget:
+            String encodedString = documentManager.encodeDocument(selectedDocument);
+            System.out.println(encodedString);
+            System.out.println(documentManager.decodeDocument(encodedString).toString());
         }
     }
 

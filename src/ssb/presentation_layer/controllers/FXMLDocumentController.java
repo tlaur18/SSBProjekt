@@ -53,8 +53,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private TableColumn<?, ?> beboerColumn;
 
-    private final DocumentManager documentManager = new DocumentManager();
-    
+    private DocumentManager documentManager;
+
     //Test-personer
     private Employee employee;
     private Resident oliver;
@@ -62,15 +62,17 @@ public class FXMLDocumentController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        documentManager = InformationBridge.getINSTANCE().getDocumentManager();
+
         //Initialiserer en test-Employee
         employee = new Sagsbehandler("Michael", "tester", "telefon-nummer", "cpr nummer");
-        
+
         //Initialiserer test-Residents og tildeler dem til vores Employee:
         thomas = new Resident("Thomas", "Steenfeldt", "782357823", "1245435-1234");
         oliver = new Resident("Oliver", "van Komen", "05050505", "0202-432125");
         employee.addResident(oliver);
         employee.addResident(thomas);
-        
+
         //Tilføjer nye dokumenter til disse Residents igennem DocumentManager:
         documentManager.addDocument(new Document(Document.type.SAGSÅBNING), oliver);
         documentManager.addDocument(new Document(Document.type.UDREDNING), oliver);
@@ -133,34 +135,42 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    private void createVUMOnAction(ActionEvent event) throws MalformedURLException {
+    private void createVUMOnAction(ActionEvent event) {
         List<Resident> choices = new ArrayList<>();
+        Resident defaultChoice = employee.getResidents().get(0);
+
+        //Adds a "Ny Beboer" choice if the employee has authority to create a new Resident.
         if (employee.canCreateNewProcessDoc()) {
-            choices.add(oliver);
+            Resident newRes = new Resident("Ny", "Beboer", "123567890", "1234567890");
+            choices.add(newRes);
+            defaultChoice = newRes;
         }
 
-        employee.getResidents().forEach((resident) -> {
-            choices.add(resident);
-        });
+        //Loads the Employee's Residents
+        for (Resident res : employee.getResidents()) {
+            choices.add(res);
+        }
 
-        ChoiceDialog<Resident> dialog = new ChoiceDialog<>(oliver, choices);
+        ChoiceDialog<Resident> dialog = new ChoiceDialog(defaultChoice, choices);
         dialog.setTitle("Opret VUM-Dokument");
         dialog.setHeaderText("Vælg beboer");
         dialog.setContentText("Vælg den beboer VUM-dokumentet skal tilknyttes til: ");
 
         Optional<Resident> result = dialog.showAndWait();
         if (result.isPresent()) {
-            System.out.println("Your choice: " + result.get().toString());
             selectVUMDialog(result.get());
         }
     }
 
-    private void selectVUMDialog(Resident resident) throws MalformedURLException {
+    private void selectVUMDialog(Resident resident) {
         List<String> choices = new ArrayList<>();
-        if (InformationBridge.getINSTANCE().getLoggedInEmployee().canCreateNewProcessDoc()) {
-            choices.add(Document.type.SAGSÅBNING.toString());
-        }
+        String defaultChoice = Document.type.AFGØRELSE.toString();
 
+        //Initializes the drop down menu.
+        if (employee.canCreateNewProcessDoc()) {
+            choices.add(Document.type.SAGSÅBNING.toString());
+            defaultChoice = Document.type.SAGSÅBNING.toString();
+        }
         choices.add(Document.type.AFGØRELSE.toString());
         choices.add(Document.type.BESTILLING.toString());
         choices.add(Document.type.FAGLIGVURDERING.toString());
@@ -171,14 +181,13 @@ public class FXMLDocumentController implements Initializable {
         choices.add(Document.type.UDREDNING.toString());
 
         InformationBridge.getINSTANCE().putChosenResident(resident);
-        ChoiceDialog<String> dialog = new ChoiceDialog<>("", choices);
+        ChoiceDialog<String> dialog = new ChoiceDialog<>(defaultChoice, choices);
         dialog.setTitle("Opret VUM-Dokument");
         dialog.setHeaderText("Vælg dokument type til: " + resident.toString());
         dialog.setContentText("Vælg en dokument type fra listen: ");
 
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()) {
-            System.out.println("Your choice: " + result.get());
             switch (result.get()) {
                 case "SAGSÅBNING":
                     try {
@@ -218,11 +227,6 @@ public class FXMLDocumentController implements Initializable {
                     break;
             }
         }
-    }
-
-    public void saveDocument(Document doc) {
-        Resident res = InformationBridge.getINSTANCE().getChosenResident();
-        res.addDocument(doc);
     }
 
     private void loadFXML(String documentName) throws MalformedURLException {

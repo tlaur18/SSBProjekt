@@ -3,6 +3,7 @@ package ssb.presentation_layer.fxml_documents;
 import java.util.ArrayList;
 import java.util.HashMap;
 import ssb.domain_layer.Document;
+import ssb.domain_layer.DocumentManager;
 import ssb.domain_layer.Employee.Employee;
 import ssb.domain_layer.Resident;
 
@@ -17,6 +18,8 @@ public class InformationBridge {
     private Resident chosenResident;
     private Document chosenDocument;
     private Employee loggedInEmployee = null;
+    
+    private DocumentManager documentManager;
 
     private InformationBridge() {
         this.integerInformation = new HashMap<>();
@@ -24,6 +27,8 @@ public class InformationBridge {
         this.stringInformation = new HashMap<>();
         this.booleanInformation = new HashMap<>();
         this.arrayListInformation = new HashMap<>();
+        
+        documentManager = new DocumentManager();
     }
 
     public void putInteger(String key, Integer value) {
@@ -88,6 +93,14 @@ public class InformationBridge {
 
     public void setChosenDocument(Document document) {
         this.chosenDocument = document;
+    }
+
+    public DocumentManager getDocumentManager() {
+        return documentManager;
+    }
+
+    public void setDocumentManager(DocumentManager documentManager) {
+        this.documentManager = documentManager;
     }
 
     public static InformationBridge getINSTANCE() {

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ssb.presentation_layer.controllers;
 
 import java.io.File;
@@ -17,24 +12,18 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TreeItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import ssb.domain_layer.Document;
+import ssb.domain_layer.DocumentManager;
+import ssb.domain_layer.Resident;
 import ssb.presentation_layer.fxml_documents.InformationBridge;
 
-/**
- * FXML Controller class
- *
- * @author morte
- */
 public class SagsåbningController implements Initializable {
 
     @FXML
@@ -94,29 +83,30 @@ public class SagsåbningController implements Initializable {
     @FXML
     private Button cancelButton;
 
-    private HashMap<CheckBox, Boolean> selectedBoxesHashMap = new HashMap<CheckBox, Boolean>();
-    private HashMap<TextArea, String> textAreaInfoHashMap = new HashMap<TextArea, String>();
-    private ArrayList<CheckBox> checkboxesArrayList = new ArrayList<CheckBox>();
-    private ArrayList<TextArea> textAreas = new ArrayList<TextArea>();
-    private FXMLDocumentController fxmlDocumentController;
+    private DocumentManager documentManager;
+    private Resident chosenResident;
+    private HashMap<CheckBox, Boolean> selectedBoxesHashMap;
+    private HashMap<TextArea, String> textAreaInfoHashMap;
+    private ArrayList<CheckBox> checkboxesArrayList;
+    private ArrayList<TextArea> textAreas;
 
-
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        documentManager = InformationBridge.getINSTANCE().getDocumentManager();
+        chosenResident = InformationBridge.getINSTANCE().getChosenResident();
+        selectedBoxesHashMap = new HashMap<>();
+        textAreaInfoHashMap = new HashMap<>();
+        checkboxesArrayList = new ArrayList<>();
+        textAreas = new ArrayList<>();
         loadCheckbox(parentBorderPane);
-         if (InformationBridge.getINSTANCE().getChosenDocument() != null) {
-            System.out.println("Loading Documents");
-            loadDocumentContent(InformationBridge.getINSTANCE().getChosenDocument());
 
+        if (InformationBridge.getINSTANCE().getChosenDocument() != null) {
+            loadDocumentContent(InformationBridge.getINSTANCE().getChosenDocument());
         }
     }
 
     private void loadCheckbox(Pane pane) {
-      
-        // adding all checkboxes to the checkboxArray, to be used in later iteration.
+        //Adding all checkboxes to the checkboxArray, to be used in later iteration.
         checkboxesArrayList.add(henvendelseCheckNej1);
         checkboxesArrayList.add(henvendelseJaCheck1);
         checkboxesArrayList.add(dropdownborgerCheck);
@@ -139,25 +129,22 @@ public class SagsåbningController implements Initializable {
         checkboxesArrayList.add(rettighederCheck);
         checkboxesArrayList.add(forlobJaCheck);
         checkboxesArrayList.add(forlobNejCheck);
-        
+
         //Adding all TextAreas to Array, to be used in later iteration.
         textAreas.add(henvendelseTXTa1);
         textAreas.add(representationTxtA);
         textAreas.add(forlobAftalerTxtA);
     }
+
     private void sortCheckBox() {
         for (CheckBox checkbox : checkboxesArrayList) {
-            if (checkbox.isSelected()) {
-                selectedBoxesHashMap.put(checkbox, true);
-            } else {
-                System.out.println("this item is not added: " + checkbox);
-            }
+            selectedBoxesHashMap.put(checkbox, checkbox.isSelected());
         }
     }
+
     private void sortTeaxArea() {
         for (TextArea textArea : textAreas) {
-                textAreaInfoHashMap.put(textArea, textArea.getText());
-                System.out.println(textAreaInfoHashMap.keySet());
+            textAreaInfoHashMap.put(textArea, textArea.getText());
         }
     }
 
@@ -165,23 +152,20 @@ public class SagsåbningController implements Initializable {
     private void saveButtonOnAction(ActionEvent event) throws MalformedURLException, IOException {
         sortCheckBox();
         sortTeaxArea();
+
         Document doc = new Document(Document.type.SAGSÅBNING, selectedBoxesHashMap, textAreaInfoHashMap);
-        URL url = new File("src/ssb/presentation_layer/fxml_documents/main_layout.fxml").toURL();
-        FXMLLoader loader = new FXMLLoader(url);
-        Parent root = (Parent) loader.load();
-        fxmlDocumentController = loader.getController();
-        fxmlDocumentController.saveDocument(doc);
+        documentManager.addDocument(doc, chosenResident);
+
         Stage stage = (Stage) saveButton.getScene().getWindow();
         stage.close();
     }
 
-    
     @FXML
     private void cancelButtonOnAction(ActionEvent event) {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
     }
-        
+
     public void loadDocumentContent(Document doc) {
         selectedBoxesHashMap = doc.getSelectedCheckboxes();
         textAreaInfoHashMap = doc.getTextAreas();
@@ -190,14 +174,14 @@ public class SagsåbningController implements Initializable {
             for (Map.Entry<CheckBox, Boolean> set : selectedBoxesHashMap.entrySet()) {
                 if (set.getValue() == true) {
                     if (checkBoxList.getId().equals(set.getKey().getId())) {
-                    checkBoxList.setSelected(true);
+                        checkBoxList.setSelected(true);
                     }
                 }
             }
         }
         for (TextArea textArea : textAreas) {
-            for (Map.Entry<TextArea, String> set: textAreaInfoHashMap.entrySet()) {
-                if(textArea.getId().equals(set.getKey().getId())) {
+            for (Map.Entry<TextArea, String> set : textAreaInfoHashMap.entrySet()) {
+                if (textArea.getId().equals(set.getKey().getId())) {
                     textArea.setText(set.getValue());
                 }
             }

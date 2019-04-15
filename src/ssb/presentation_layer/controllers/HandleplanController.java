@@ -1,19 +1,18 @@
 package ssb.presentation_layer.controllers;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import ssb.domain_layer.Document;
+import ssb.domain_layer.DocumentManager;
+import ssb.domain_layer.Resident;
 import ssb.presentation_layer.fxml_documents.InformationBridge;
 
 public class HandleplanController implements Initializable {
@@ -47,11 +46,15 @@ public class HandleplanController implements Initializable {
     @FXML
     private CheckBox repraesentationCheck3;
 
+    private DocumentManager documentManager;
+    private Resident chosenResident;
     private HashMap<CheckBox, Boolean> checkBoxes;
     private HashMap<TextField, String> textFields;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        documentManager = InformationBridge.getINSTANCE().getDocumentManager();
+        chosenResident = InformationBridge.getINSTANCE().getChosenResident();
         checkBoxes = new HashMap();
         textFields = new HashMap();
         loadTextFields();
@@ -87,17 +90,13 @@ public class HandleplanController implements Initializable {
     private void saveBtnHandler(ActionEvent event) throws IOException {
         saveInfo();
 
-        System.out.println(checkBoxes);
-
         Document doc = new Document(Document.type.HANDLEPLAN);
         doc.setSelectedCheckboxes(checkBoxes);
         doc.setTextFieldInput(textFields);
+        documentManager.addDocument(doc, chosenResident);
 
-        URL url = new File("src/ssb/presentation_layer/fxml_documents/main_layout.fxml").toURL();
-        FXMLLoader loader = new FXMLLoader(url);
-        Parent root = (Parent) loader.load();
-        FXMLDocumentController fxmlDocumentController = loader.getController();
-        fxmlDocumentController.saveDocument(doc);
+        Stage stage = (Stage) navnTxtF.getScene().getWindow();
+        stage.close();
     }
 
     @FXML
@@ -109,7 +108,7 @@ public class HandleplanController implements Initializable {
         for (CheckBox checkBox : checkBoxes.keySet()) {
             checkBoxes.put(checkBox, checkBox.isSelected());
         }
-        
+
         for (TextField textField : textFields.keySet()) {
             textFields.put(textField, textField.getText());
         }

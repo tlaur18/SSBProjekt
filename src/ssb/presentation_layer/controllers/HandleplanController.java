@@ -61,7 +61,6 @@ public class HandleplanController implements Initializable {
         loadCheckBoxes();
 
         if (InformationBridge.getINSTANCE().getChosenDocument() != null) {
-            System.out.println("Loading Documents");
             loadDocumentContent(InformationBridge.getINSTANCE().getChosenDocument());
         }
     }
@@ -99,11 +98,6 @@ public class HandleplanController implements Initializable {
         stage.close();
     }
 
-    @FXML
-    private void cancelBtnHandler(ActionEvent event) {
-        ((Stage) navnTxtF.getScene().getWindow()).close();
-    }
-
     private void saveInfo() {
         for (CheckBox checkBox : checkBoxes.keySet()) {
             checkBoxes.put(checkBox, checkBox.isSelected());
@@ -114,22 +108,27 @@ public class HandleplanController implements Initializable {
         }
     }
 
+    @FXML
+    private void cancelBtnHandler(ActionEvent event) {
+        ((Stage) navnTxtF.getScene().getWindow()).close();
+    }
+
     public void loadDocumentContent(Document doc) {
-        HashMap<CheckBox, Boolean> checkBoxesFromDoc = doc.getSelectedCheckboxes();
-        HashMap<TextField, String> textFieldsFromDoc = doc.getTextFieldInput();
+        HashMap<String, Boolean> checkBoxesFromDoc = doc.getSelectedCheckboxes();
+        HashMap<String, String> textFieldsFromDoc = doc.getTextFieldInput();
 
         for (CheckBox checkBox : checkBoxes.keySet()) {
-            for (CheckBox checkBoxFromDoc : checkBoxesFromDoc.keySet()) {
-                if (checkBox.getId().equals(checkBoxFromDoc.getId())) {
-                    checkBox.setSelected(checkBoxesFromDoc.get(checkBoxFromDoc));
+            for (String IDFromDoc : checkBoxesFromDoc.keySet()) {
+                if (checkBox.getId().equals(IDFromDoc)) {
+                    checkBox.setSelected(checkBoxesFromDoc.get(IDFromDoc));
                 }
             }
         }
 
         for (TextField textField : textFields.keySet()) {
-            for (TextField textFieldFromDoc : textFieldsFromDoc.keySet()) {
-                if (textField.getId().equals(textFieldFromDoc.getId())) {
-                    textField.setText(textFieldsFromDoc.get(textFieldFromDoc));
+            for (String IDFromDoc : textFieldsFromDoc.keySet()) {
+                if (textField.getId().equals(IDFromDoc)) {
+                    textField.setText(textFieldsFromDoc.get(IDFromDoc));
                 }
             }
         }

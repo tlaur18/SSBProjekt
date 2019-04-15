@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,7 +23,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import ssb.domain_layer.Process;
 import ssb.domain_layer.Document;
 import ssb.domain_layer.DocumentManager;
 import ssb.domain_layer.Employee.Employee;
@@ -33,10 +30,6 @@ import ssb.domain_layer.Employee.Sagsbehandler;
 import ssb.domain_layer.Resident;
 import ssb.presentation_layer.fxml_documents.InformationBridge;
 
-/**
- *
- * @author oliver
- */
 public class FXMLDocumentController implements Initializable {
 
     @FXML
@@ -55,43 +48,38 @@ public class FXMLDocumentController implements Initializable {
     private Button createVUMDocBtn;
     @FXML
     private TableView<Document> vumDocumentTableView;
-
-    private final Employee employee = new Sagsbehandler("Michael", "tester", "telefon-nummer", "cpr nummer");
-    private final Resident oliver = new Resident("Oliver", "van Komen", "05050505", "0202-432125");
-    private final Resident thomas = new Resident("Thomas", "Steenfeldt", "782357823", "1245435-1234");
-    private ObservableList<Document> allDocuments = FXCollections.observableArrayList();
-    private final Process mentaltHandicap = new Process(oliver);
-    private final Process retarderet = new Process(thomas);
-    private ObservableList<Document> observableDocuments;
-    private boolean updateList = true;
-    private final DocumentManager docuManager = new DocumentManager();
-    private final String NEW_BEBOER_CHOICE = "Ny beboer";
     @FXML
     private BorderPane borderPane;
     @FXML
     private TableColumn<?, ?> beboerColumn;
 
+    private final DocumentManager documentManager = new DocumentManager();
+    
+    //Test-personer
+    private Employee employee;
+    private Resident oliver;
+    private Resident thomas;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
-        InformationBridge.getINSTANCE().setLoggedInEmployee(employee);
-        retarderet.addDocument(new Document(Document.type.FAGLIGVURDERING));
-        retarderet.addDocument(new Document(Document.type.FAGLIGVURDERING));
-        retarderet.addDocument(new Document(Document.type.FAGLIGVURDERING));
-        retarderet.addDocument(new Document(Document.type.SAGSÅBNING));
-        thomas.addProcess(retarderet);
+        //Initialiserer en test-Employee
+        employee = new Sagsbehandler("Michael", "tester", "telefon-nummer", "cpr nummer");
+        
+        //Initialiserer test-Residents og tildeler dem til vores Employee:
+        thomas = new Resident("Thomas", "Steenfeldt", "782357823", "1245435-1234");
+        oliver = new Resident("Oliver", "van Komen", "05050505", "0202-432125");
         employee.addResident(oliver);
         employee.addResident(thomas);
-        oliver.addProcess(mentaltHandicap);
-        mentaltHandicap.addDocument(new Document(Document.type.UDREDNING));
-        mentaltHandicap.addDocument(new Document(Document.type.AFGØRELSE));
-        mentaltHandicap.addDocument(new Document(Document.type.BESTILLING));
-//        docuManager.loadAllDocuments(InformationBridge.getINSTANCE().getLoggedInEmployee());
-        // ObservableList som opdateres hvis "documents" Arraylisten opdateres
+        
+        //Tilføjer nye dokumenter til disse Residents igennem DocumentManager:
+        documentManager.addDocument(new Document(Document.type.SAGSÅBNING), oliver);
+        documentManager.addDocument(new Document(Document.type.UDREDNING), oliver);
+        documentManager.addDocument(new Document(Document.type.SAGSÅBNING), thomas);
+        documentManager.addDocument(new Document(Document.type.HANDLEPLAN), thomas);
 
-        // Forbinder tableView med observable list med dokumenterne
-        observableDocuments = mentaltHandicap.getDocuments();
-        vumDocumentTableView.setItems(observableDocuments);
+        //Forbinder TableView med ObservableList der indeholder dokumenterne fra DocumentManager:
+        vumDocumentTableView.setItems(documentManager.getAllDocuments());
+        //Gør så hver kolonne i TebleView fylder 20% af bredden.
         for (Object column : vumDocumentTableView.getColumns().toArray()) {
             TableColumn<Document, ?> column1 = (TableColumn<Document, ?>) column;
             column1.prefWidthProperty().bind(vumDocumentTableView.widthProperty().divide(5));
@@ -147,11 +135,11 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void createVUMOnAction(ActionEvent event) throws MalformedURLException {
         List<Resident> choices = new ArrayList<>();
-        if (InformationBridge.getINSTANCE().getLoggedInEmployee().canCreateNewProcessDoc()) {
+        if (employee.canCreateNewProcessDoc()) {
             choices.add(oliver);
         }
 
-        InformationBridge.getINSTANCE().getLoggedInEmployee().getResidents().forEach((resident) -> {
+        employee.getResidents().forEach((resident) -> {
             choices.add(resident);
         });
 
@@ -233,16 +221,8 @@ public class FXMLDocumentController implements Initializable {
     }
 
     public void saveDocument(Document doc) {
-        System.out.println("this is second base!");
         Resident res = InformationBridge.getINSTANCE().getChosenResident();
-        System.out.println(res.toString());
-
-        for (Process pros : res.getProcess()) {
-            pros.addDocument(doc);
-//            docuManager.addDocument(doc);
-            System.out.println(pros.getDocuments());
-        }
-        System.out.println("this is 3rd base, you will never get here");
+        res.addDocument(doc);
     }
 
     private void loadFXML(String documentName) throws MalformedURLException {

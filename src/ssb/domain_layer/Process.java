@@ -1,10 +1,7 @@
 package ssb.domain_layer;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 public class Process {

@@ -27,11 +27,12 @@ public class Document {
         setEditDate();
         setCreationDate();
     }
-    
+
     public Document(type type, HashMap selectedCheckBox) {
         this(type);
         this.selectedCheckBoxes = selectedCheckBox;
     }
+
     public Document(type type, HashMap selectedCheckBoxes, HashMap textAreas) {
         this(type);
         this.selectedCheckBoxes = selectedCheckBoxes;
@@ -69,23 +70,24 @@ public class Document {
     public String getResidentName() {
         return residentName;
     }
-    
+
     public HashMap<CheckBox, Boolean> getSelectedCheckboxes() {
         return this.selectedCheckBoxes;
     }
-    
+
     public void setSelectedCheckboxes(HashMap<CheckBox, Boolean> selectedCheckBoxes) {
         this.selectedCheckBoxes = selectedCheckBoxes;
     }
-    
+
     public HashMap<TextField, String> getTextFieldInput() {
         return textFieldInput;
     }
-    
+
     public void setTextFieldInput(HashMap<TextField, String> textFieldInput) {
         this.textFieldInput = textFieldInput;
     }
-    public HashMap getTextAreas(){
+
+    public HashMap getTextAreas() {
         return this.textAreas;
     }
 
@@ -96,10 +98,10 @@ public class Document {
     @Override
     public String toString() {
         return "documentName=" + documentName
-            + "\nassociatedResident=" + residentName
-            + "\ntype=" + type
-            + "\neditDate=" + editDate
-            + "\ncreationDate=" + creationDate;
+                + "\nassociatedResident=" + residentName
+                + "\ntype=" + type
+                + "\neditDate=" + editDate
+                + "\ncreationDate=" + creationDate;
     }
 
 }

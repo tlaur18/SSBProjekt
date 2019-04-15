@@ -1,5 +1,6 @@
 package ssb.domain_layer;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
@@ -7,7 +8,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
-public class Document {
+public class Document implements Serializable {
 
     public enum type {
         SAGSÅBNING, UDREDNING, FAGLIGVURDERING, INDSTILLING, HANDLEPLAN, AFGØRELSE, BESTILLING, STATUSNOTAT, OPFØLGNING
@@ -18,25 +19,14 @@ public class Document {
     private final type type;
     private Date editDate;
     private Date creationDate;
-    private HashMap<CheckBox, Boolean> selectedCheckBoxes;
-    private HashMap<TextField, String> textFieldInput;
-    private HashMap<TextArea, String> textAreas;
+    private HashMap<String, Boolean> selectedCheckBoxes;
+    private HashMap<String, String> textFieldInput;
+    private HashMap<String, String> textAreas;
 
     public Document(type type) {
         this.type = type;
         setEditDate();
         setCreationDate();
-    }
-
-    public Document(type type, HashMap selectedCheckBox) {
-        this(type);
-        this.selectedCheckBoxes = selectedCheckBox;
-    }
-
-    public Document(type type, HashMap selectedCheckBoxes, HashMap textAreas) {
-        this(type);
-        this.selectedCheckBoxes = selectedCheckBoxes;
-        this.textAreas = textAreas;
     }
 
     private void setCreationDate() {
@@ -71,24 +61,37 @@ public class Document {
         return residentName;
     }
 
-    public HashMap<CheckBox, Boolean> getSelectedCheckboxes() {
+    public HashMap<String, Boolean> getSelectedCheckboxes() {
         return this.selectedCheckBoxes;
     }
 
     public void setSelectedCheckboxes(HashMap<CheckBox, Boolean> selectedCheckBoxes) {
-        this.selectedCheckBoxes = selectedCheckBoxes;
+        this.selectedCheckBoxes = new HashMap<>();
+        for (CheckBox cb : selectedCheckBoxes.keySet()) {
+            this.selectedCheckBoxes.put(cb.getId(), cb.isSelected());
+        }
     }
 
-    public HashMap<TextField, String> getTextFieldInput() {
+    public HashMap<String, String> getTextFieldInput() {
         return textFieldInput;
     }
 
     public void setTextFieldInput(HashMap<TextField, String> textFieldInput) {
-        this.textFieldInput = textFieldInput;
+        this.textFieldInput = new HashMap<>();
+        for (TextField tf : textFieldInput.keySet()) {
+            this.textFieldInput.put(tf.getId(), tf.getText());
+        }
     }
 
-    public HashMap getTextAreas() {
+    public HashMap<String, String> getTextAreas() {
         return this.textAreas;
+    }
+
+    public void setTextAreas(HashMap<TextArea, String> textAreaInput) {
+        this.textAreas = new HashMap<>();
+        for (TextArea ta : textAreaInput.keySet()) {
+            this.textAreas.put(ta.getId(), ta.getText());
+        }
     }
 
     public void setResidentName(String residentName) {
@@ -103,5 +106,4 @@ public class Document {
                 + "\neditDate=" + editDate
                 + "\ncreationDate=" + creationDate;
     }
-
 }

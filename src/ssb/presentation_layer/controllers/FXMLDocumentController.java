@@ -94,6 +94,7 @@ public class FXMLDocumentController implements Initializable {
         if (selectedDocument != null && event.getClickCount() == 2) {
             InformationBridge.getINSTANCE().setChosenDocument(selectedDocument);
             loadDocumentController(selectedDocument);
+            System.out.println(documentManager.encodeDocument(selectedDocument));
         }
     }
 
@@ -138,6 +139,7 @@ public class FXMLDocumentController implements Initializable {
     private void createVUMOnAction(ActionEvent event) {
         List<Resident> choices = new ArrayList<>();
         Resident defaultChoice = employee.getResidents().get(0);
+        InformationBridge.getINSTANCE().setChosenDocument(null);        //Sikrer at dokumentcontrollerne ikke begynder at loade dokumenter.
 
         //Adds a "Ny Beboer" choice if the employee has authority to create a new Resident.
         if (employee.canCreateNewProcessDoc()) {

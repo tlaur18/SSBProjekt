@@ -1,23 +1,17 @@
 package ssb.presentation_layer.controllers;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import ssb.domain_layer.Document;
 import ssb.domain_layer.DocumentManager;
@@ -85,104 +79,99 @@ public class SagsåbningController implements Initializable {
 
     private DocumentManager documentManager;
     private Resident chosenResident;
-    private HashMap<CheckBox, Boolean> selectedBoxesHashMap;
-    private HashMap<TextArea, String> textAreaInfoHashMap;
-    private ArrayList<CheckBox> checkboxesArrayList;
-    private ArrayList<TextArea> textAreas;
+    private HashMap<CheckBox, Boolean> checkBoxes;
+    private HashMap<TextArea, String> textAreas;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         documentManager = InformationBridge.getINSTANCE().getDocumentManager();
         chosenResident = InformationBridge.getINSTANCE().getChosenResident();
-        selectedBoxesHashMap = new HashMap<>();
-        textAreaInfoHashMap = new HashMap<>();
-        checkboxesArrayList = new ArrayList<>();
-        textAreas = new ArrayList<>();
-        loadCheckbox(parentBorderPane);
+        checkBoxes = new HashMap<>();
+        textAreas = new HashMap<>();
+        loadCheckboxes();
+        loadTextAreas();
 
         if (InformationBridge.getINSTANCE().getChosenDocument() != null) {
             loadDocumentContent(InformationBridge.getINSTANCE().getChosenDocument());
         }
     }
 
-    private void loadCheckbox(Pane pane) {
-        //Adding all checkboxes to the checkboxArray, to be used in later iteration.
-        checkboxesArrayList.add(henvendelseCheckNej1);
-        checkboxesArrayList.add(henvendelseJaCheck1);
-        checkboxesArrayList.add(dropdownborgerCheck);
-        checkboxesArrayList.add(dropdownpaaRoerendeCheck);
-        checkboxesArrayList.add(dropdownLaegeCheck);
-        checkboxesArrayList.add(dropdownHospitalCheck);
-        checkboxesArrayList.add(dropdownAndenCheck);
-        checkboxesArrayList.add(dropdownIndsatsCheck);
-        checkboxesArrayList.add(dropdownAndenKommmuneCheck);
-        checkboxesArrayList.add(dropdownAndreCheck);
-        checkboxesArrayList.add(henvendelseCheckJa2);
-        checkboxesArrayList.add(henvendelseCheckNej2);
-        checkboxesArrayList.add(vaergemaalParag5Check);
-        checkboxesArrayList.add(vaergemaalParag6check);
-        checkboxesArrayList.add(vaergemaalParag7Check);
-        checkboxesArrayList.add(vaergemaalKontaktCheck);
-        checkboxesArrayList.add(representationBisidderCheck);
-        checkboxesArrayList.add(partsRepresentantCheck);
-        checkboxesArrayList.add(representationFuldmagtCheck);
-        checkboxesArrayList.add(rettighederCheck);
-        checkboxesArrayList.add(forlobJaCheck);
-        checkboxesArrayList.add(forlobNejCheck);
-
-        //Adding all TextAreas to Array, to be used in later iteration.
-        textAreas.add(henvendelseTXTa1);
-        textAreas.add(representationTxtA);
-        textAreas.add(forlobAftalerTxtA);
+    //Adding all checkboxes to the HashMap, to be used in later iteration.
+    private void loadCheckboxes() {
+        checkBoxes.put(henvendelseCheckNej1, Boolean.FALSE);
+        checkBoxes.put(henvendelseJaCheck1, Boolean.FALSE);
+        checkBoxes.put(dropdownborgerCheck, Boolean.FALSE);
+        checkBoxes.put(dropdownpaaRoerendeCheck, Boolean.FALSE);
+        checkBoxes.put(dropdownLaegeCheck, Boolean.FALSE);
+        checkBoxes.put(dropdownHospitalCheck, Boolean.FALSE);
+        checkBoxes.put(dropdownAndenCheck, Boolean.FALSE);
+        checkBoxes.put(dropdownIndsatsCheck, Boolean.FALSE);
+        checkBoxes.put(dropdownAndenKommmuneCheck, Boolean.FALSE);
+        checkBoxes.put(dropdownAndreCheck, Boolean.FALSE);
+        checkBoxes.put(henvendelseCheckJa2, Boolean.FALSE);
+        checkBoxes.put(henvendelseCheckNej2, Boolean.FALSE);
+        checkBoxes.put(vaergemaalParag5Check, Boolean.FALSE);
+        checkBoxes.put(vaergemaalParag6check, Boolean.FALSE);
+        checkBoxes.put(vaergemaalParag7Check, Boolean.FALSE);
+        checkBoxes.put(vaergemaalKontaktCheck, Boolean.FALSE);
+        checkBoxes.put(representationBisidderCheck, Boolean.FALSE);
+        checkBoxes.put(partsRepresentantCheck, Boolean.FALSE);
+        checkBoxes.put(representationFuldmagtCheck, Boolean.FALSE);
+        checkBoxes.put(rettighederCheck, Boolean.FALSE);
+        checkBoxes.put(forlobJaCheck, Boolean.FALSE);
+        checkBoxes.put(forlobNejCheck, Boolean.FALSE);
     }
 
-    private void sortCheckBox() {
-        for (CheckBox checkbox : checkboxesArrayList) {
-            selectedBoxesHashMap.put(checkbox, checkbox.isSelected());
-        }
-    }
-
-    private void sortTeaxArea() {
-        for (TextArea textArea : textAreas) {
-            textAreaInfoHashMap.put(textArea, textArea.getText());
-        }
+    //Adding all TextAreas to Array, to be used in later iteration.
+    private void loadTextAreas() {
+        textAreas.put(henvendelseTXTa1, null);
+        textAreas.put(representationTxtA, null);
+        textAreas.put(forlobAftalerTxtA, null);
     }
 
     @FXML
     private void saveButtonOnAction(ActionEvent event) throws MalformedURLException, IOException {
-        sortCheckBox();
-        sortTeaxArea();
+        saveInfo();
 
-        Document doc = new Document(Document.type.SAGSÅBNING, selectedBoxesHashMap, textAreaInfoHashMap);
+        Document doc = new Document(Document.type.SAGSÅBNING);
+        doc.setSelectedCheckboxes(checkBoxes);
+        doc.setTextAreas(textAreas);
         documentManager.addDocument(doc, chosenResident);
 
         Stage stage = (Stage) saveButton.getScene().getWindow();
         stage.close();
     }
 
+    private void saveInfo() {
+        for (CheckBox checkbox : checkBoxes.keySet()) {
+            checkBoxes.put(checkbox, checkbox.isSelected());
+        }
+
+        for (TextArea textArea : textAreas.keySet()) {
+            textAreas.put(textArea, textArea.getText());
+        }
+    }
+
     @FXML
     private void cancelButtonOnAction(ActionEvent event) {
-        Stage stage = (Stage) cancelButton.getScene().getWindow();
-        stage.close();
+        ((Stage) cancelButton.getScene().getWindow()).close();
     }
 
     public void loadDocumentContent(Document doc) {
-        selectedBoxesHashMap = doc.getSelectedCheckboxes();
-        textAreaInfoHashMap = doc.getTextAreas();
+        HashMap<String, Boolean> checkBoxesFromDoc = doc.getSelectedCheckboxes();
+        HashMap<String, String> textAreasFromDoc = doc.getTextAreas();
 
-        for (CheckBox checkBoxList : checkboxesArrayList) {
-            for (Map.Entry<CheckBox, Boolean> set : selectedBoxesHashMap.entrySet()) {
-                if (set.getValue() == true) {
-                    if (checkBoxList.getId().equals(set.getKey().getId())) {
-                        checkBoxList.setSelected(true);
-                    }
+        for (CheckBox checkBox : checkBoxes.keySet()) {
+            for (String IDFromDoc : checkBoxesFromDoc.keySet()) {
+                if (checkBox.getId().equals(IDFromDoc)) {
+                    checkBox.setSelected(checkBoxesFromDoc.get(IDFromDoc));
                 }
             }
         }
-        for (TextArea textArea : textAreas) {
-            for (Map.Entry<TextArea, String> set : textAreaInfoHashMap.entrySet()) {
-                if (textArea.getId().equals(set.getKey().getId())) {
-                    textArea.setText(set.getValue());
+        for (TextArea textArea : textAreas.keySet()) {
+            for (String IDFromDoc : textAreasFromDoc.keySet()) {
+                if (textArea.getId().equals(IDFromDoc)) {
+                    textArea.setText(textAreasFromDoc.get(IDFromDoc));
                 }
             }
         }

@@ -3,9 +3,6 @@ package ssb.presentation_layer.controllers;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -19,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import ssb.data_layer.DatabaseManager;
 import ssb.domain_layer.Employee.Employee;
 import ssb.domain_layer.InformationBridge;
 import ssb.domain_layer.LoginManager;
@@ -52,18 +50,19 @@ public class LoginLayoutController implements Initializable {
         enteredUsername = userNameTxtField.getText();
         enteredPassword = passwordTxtField.getText();
         LoginManager loginManager = new LoginManager();
-        String employeeID = loginManager.checkUserLogIn(enteredUsername, enteredPassword);
-        Employee employeeToBeLoggedIn = loginManager.setLoggedInUser(employeeID);
-        if (employeeToBeLoggedIn != null) {
-            InformationBridge.getINSTANCE().setLoggedInEmployee(employeeToBeLoggedIn);
-            try {
-                loginManager.setEmployeeWorkData(employeeToBeLoggedIn);
-            } catch (ParseException ex) {
-                System.out.println("Date format invalid.");
-            }
-        } else {
-            ugyldigtLoginLabel.setVisible(true);
-        }
+        loginManager.checkUserLogIn(enteredUsername, enteredPassword);
+//        String employeeID = loginManager.checkUserLogIn(enteredUsername, enteredPassword);
+//        Employee employeeToBeLoggedIn = loginManager.getEmployeeDetails(employeeID);
+//        if (employeeToBeLoggedIn != null) {
+//            InformationBridge.getINSTANCE().setLoggedInEmployee(employeeToBeLoggedIn);
+//            try {
+//                loginManager.setEmployeeWorkData(employeeToBeLoggedIn);
+//            } catch (ParseException ex) {
+//                System.out.println("Date format invalid.");
+//            }
+//        } else {
+//            ugyldigtLoginLabel.setVisible(true);
+//        }
     }
 
     private void changeStage() {

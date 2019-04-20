@@ -3,6 +3,7 @@ package ssb.data_layer;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DatabaseManager {
@@ -37,9 +38,19 @@ public class DatabaseManager {
         final LogInData logInData = new LogInData();
         return logInData.getUserLoginWith(username, password);
     }
-    
+
     public HashMap<String, String> getEmployeeDetails(String employeeCpr) {
         final EmployeeWorkData employeeWorkData = new EmployeeWorkData();
         return employeeWorkData.getEmployeeData(employeeCpr);
+    }
+
+    public ArrayList<HashMap<String, String>> getEmployeeAssoResidents(String employeeCpr) {
+        final ResidentData residentData = new ResidentData();
+        return residentData.getEmployeeResidents(employeeCpr);
+    }
+
+    public ArrayList<HashMap<String, String>> getResidentDocuments(String residentCpr) {
+        final ResidentData residentData = new ResidentData();
+        return residentData.getResidentDocuments(residentCpr);
     }
 }

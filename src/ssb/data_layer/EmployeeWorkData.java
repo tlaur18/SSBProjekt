@@ -31,37 +31,6 @@ class EmployeeWorkData {
         }
         return columnData;
     }
-
-//    public HashMap<String, List<String>> loadResidents() {
-//        try (Scanner scanner = new Scanner(RESIDENTS_DATA_FILE).useDelimiter(",|\n")) {
-//            while (scanner.hasNext()) {
-//                String residentID = scanner.next();
-//                String residentFirstname = scanner.next();
-//                String residentLastName = scanner.next();
-//                String residentPhoneNr = scanner.next();
-//                String residentCPR = scanner.next();
-//                String associatedEmloyee = scanner.next();
-//                List<String> residentInfo = new ArrayList<>(Arrays.asList(residentFirstname, residentLastName, residentPhoneNr, residentCPR, associatedEmloyee));
-//                residentData.put(residentID, residentInfo);
-//            }
-//        } catch (FileNotFoundException ex) {
-//            System.out.println("The file you want to open doesn't exist");
-//        }
-//        return residentData;
-//    }
-//    public List<Pair<String, List<String>>> loadDocuments() {
-    //
-//        try (Scanner scanner = new Scanner(DOCUMENTS_DATA_FILE).useDelimiter(",|\n")) {
-//            while (scanner.hasNext()) {
-//                String documentType = scanner.next();
-//                String documentCreationDate = scanner.next();
-//                String documentEditDate = scanner.next();
-//                String associatedResident = scanner.next();
-//                documentData.add(new Pair(associatedResident, new ArrayList<>(Arrays.asList(documentType, documentCreationDate, documentEditDate))));
-//            }
-//        } catch (FileNotFoundException ex) {
-//            System.out.println("The file you want to open doesn't exist");
-//        }
-//        return documentData;
-//    }
+    
+    
 }

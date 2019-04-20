@@ -3,7 +3,6 @@ package ssb.presentation_layer.controllers;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.text.ParseException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,9 +15,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import ssb.data_layer.DatabaseManager;
-import ssb.domain_layer.Employee.Employee;
-import ssb.domain_layer.InformationBridge;
 import ssb.domain_layer.LoginManager;
 
 /**
@@ -36,7 +32,6 @@ public class LoginLayoutController implements Initializable {
     private Button logInBtn;
     @FXML
     private Label ugyldigtLoginLabel;
-
     private String enteredUsername;
     private String enteredPassword;
 
@@ -50,19 +45,12 @@ public class LoginLayoutController implements Initializable {
         enteredUsername = userNameTxtField.getText();
         enteredPassword = passwordTxtField.getText();
         LoginManager loginManager = new LoginManager();
-        loginManager.checkUserLogIn(enteredUsername, enteredPassword);
-//        String employeeID = loginManager.checkUserLogIn(enteredUsername, enteredPassword);
-//        Employee employeeToBeLoggedIn = loginManager.getEmployeeDetails(employeeID);
-//        if (employeeToBeLoggedIn != null) {
-//            InformationBridge.getINSTANCE().setLoggedInEmployee(employeeToBeLoggedIn);
-//            try {
-//                loginManager.setEmployeeWorkData(employeeToBeLoggedIn);
-//            } catch (ParseException ex) {
-//                System.out.println("Date format invalid.");
-//            }
-//        } else {
-//            ugyldigtLoginLabel.setVisible(true);
-//        }
+        boolean correctCredentials = loginManager.checkUserLogIn(enteredUsername, enteredPassword);
+        if (correctCredentials) {
+            changeStage();
+        } else {
+            ugyldigtLoginLabel.setVisible(true);
+        }
     }
 
     private void changeStage() {

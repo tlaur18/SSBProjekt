@@ -93,11 +93,13 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
+    //Get the selected document from the tableview and opens it, if it´s clicked twice.
     @FXML
     public void openDocumentAction(MouseEvent event) throws IOException {
         Document selectedDocument = vumDocumentTableView.getSelectionModel().getSelectedItem();
         if (selectedDocument != null && event.getClickCount() == 2) {
             InformationBridge.getINSTANCE().setChosenDocument(selectedDocument);
+            
             loadDocumentController(selectedDocument);
 
             //Her er lidt tests på det der serializable-noget:
@@ -107,6 +109,7 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
+    // Selects the right FXML to load, based on the document type.
     private void loadDocumentController(Document document) throws MalformedURLException, IOException {
         switch (document.getType()) {
             case AFGØRELSE:
@@ -205,7 +208,7 @@ public class FXMLDocumentController implements Initializable {
                         Stage handleplanStage = new Stage();
                         URL handleplanUrl = new File("src/ssb/presentation_layer/fxml_documents/sagsåbning.fxml").toURL();
                         handleplanStage.setScene(new Scene(FXMLLoader.load(handleplanUrl)));
-                        handleplanStage.setTitle("Dette er en ny stage");
+                        handleplanStage.setTitle("Sagsåbning");
                         handleplanStage.show();
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -220,7 +223,7 @@ public class FXMLDocumentController implements Initializable {
                         Stage handleplanStage = new Stage();
                         URL handleplanUrl = new File("src/ssb/presentation_layer/fxml_documents/Handleplan.fxml").toURL();
                         handleplanStage.setScene(new Scene(FXMLLoader.load(handleplanUrl)));
-                        handleplanStage.setTitle("Dette er en ny stage");
+                        handleplanStage.setTitle("Handleplan");
                         handleplanStage.show();
                     } catch (IOException e) {
                         e.printStackTrace();

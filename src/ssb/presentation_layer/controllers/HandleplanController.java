@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -45,7 +46,9 @@ public class HandleplanController implements Initializable {
     private CheckBox repraesentationCheck2;
     @FXML
     private CheckBox repraesentationCheck3;
-
+    @FXML
+    private Button saveButton;
+    
     private DocumentManager documentManager;
     private Resident chosenResident;
     private HashMap<CheckBox, Boolean> checkBoxes;
@@ -88,16 +91,17 @@ public class HandleplanController implements Initializable {
     @FXML
     private void saveBtnHandler(ActionEvent event) throws IOException {
         saveInfo();
-
-        Document doc = new Document(Document.type.HANDLEPLAN);
-        doc.setSelectedCheckboxes(checkBoxes);
-        doc.setTextFieldInput(textFields);
-        documentManager.addDocument(doc, chosenResident);
-
-        Stage stage = (Stage) navnTxtF.getScene().getWindow();
+        if(InformationBridge.getINSTANCE().getChosenDocument() != null) {
+            saveExistingDocument();
+        }
+        else {
+            saveNewDocument();
+        }
+        Stage stage = (Stage) saveButton.getScene().getWindow();
         stage.close();
+        
     }
-
+    // Saves all the Checkboxes and textAreas to their hashmaps
     private void saveInfo() {
         for (CheckBox checkBox : checkBoxes.keySet()) {
             checkBoxes.put(checkBox, checkBox.isSelected());
@@ -107,12 +111,27 @@ public class HandleplanController implements Initializable {
             textFields.put(textField, textField.getText());
         }
     }
+    
+    // Creating a new Document object, saves the checkboxes and textareas to it, and adds it to the residents list of Documents
+        public void saveNewDocument() {
+        Document doc = new Document(Document.type.HANDLEPLAN);
+        doc.setSelectedCheckboxes(checkBoxes);
+        doc.setTextFieldInput(textFields);
+        documentManager.addDocument(doc, chosenResident);   
+    }
+        
+     // adds the checkboxes and textAreas to the existing document
+    public void saveExistingDocument() {
+        Document document = InformationBridge.getINSTANCE().getChosenDocument();
+        document.setSelectedCheckboxes(checkBoxes);
+        document.setTextFieldInput(textFields);
+    }
 
     @FXML
     private void cancelBtnHandler(ActionEvent event) {
         ((Stage) navnTxtF.getScene().getWindow()).close();
     }
-
+    // Gets the Hashmaps and set the values to the correct textAreas and checkboxes
     public void loadDocumentContent(Document doc) {
         HashMap<String, Boolean> checkBoxesFromDoc = doc.getSelectedCheckboxes();
         HashMap<String, String> textFieldsFromDoc = doc.getTextFieldInput();

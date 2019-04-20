@@ -83,7 +83,6 @@ public class LoginManager {
 
     private Document makeDocumentObject(HashMap<String, String> documentData) {
         String typeString = documentData.get(DocumentsContract.COLUMN_TYPE);
-//        System.out.println("type : "+ typeString);
         Document.type documentType = null;
         for (Document.type type : Document.type.values()) {
             if (type.toString().equalsIgnoreCase(typeString)) {
@@ -91,9 +90,7 @@ public class LoginManager {
             }
         }
         String createDateString = documentData.get(DocumentsContract.COLUMN_CREATE_DATE);
-//        System.out.println("create date: " + createDateString);
         String editDateString = documentData.get(DocumentsContract.COLUMN_EDIT_DATE);
-//        System.out.println("edit date: " + editDateString);
         Date createDate = null;
         Date editDate = null;
         try {

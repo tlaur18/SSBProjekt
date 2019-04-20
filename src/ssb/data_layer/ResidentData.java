@@ -57,13 +57,10 @@ public class ResidentData {
             HashMap<String, String> residentData = new HashMap<>();
             while (result.next()) {
                 String documentType = result.getString(DocumentsContract.COLUMN_TYPE);
-                System.out.println("type: " + documentType);
                 residentData.put(DocumentsContract.COLUMN_TYPE, documentType);
                 String documentCreationDate = result.getString(DocumentsContract.COLUMN_CREATE_DATE);
-                System.out.println("create date: " + documentCreationDate);
                 residentData.put(DocumentsContract.COLUMN_CREATE_DATE, documentCreationDate);
                 String documentEditDate = result.getString(DocumentsContract.COLUMN_EDIT_DATE);
-                System.out.println("edit date: " + documentEditDate);
                 residentData.put(DocumentsContract.COLUMN_EDIT_DATE, documentEditDate);
                 columnData.add(residentData);
             }

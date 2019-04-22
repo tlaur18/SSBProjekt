@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -25,6 +26,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import ssb.data_layer.DatabaseManager;
 import ssb.domain_layer.Document;
 import ssb.domain_layer.Employee.Employee;
 import ssb.domain_layer.InformationBridge;
@@ -95,6 +97,8 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void createVUMOnAction(ActionEvent event) {
+        Document document = new Document(Document.type.AFGØRELSE, new Date(), new Date());
+        DatabaseManager.getInstance().insertDocument(document, "123456-7897");
         List<String> choices = new ArrayList<>();
         if (employee.canCreateNewProcessDoc()) {
             choices.add("Ny beboer");

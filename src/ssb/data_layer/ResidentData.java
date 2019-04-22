@@ -4,12 +4,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import ssb.data_layer.contracts.DocumentsContract;
 import ssb.data_layer.contracts.EmployeeResidentLinkContract;
 import ssb.data_layer.contracts.PersonsContract;
 import ssb.data_layer.contracts.ResidentsContract;
+import ssb.domain_layer.Document;
 
 public class ResidentData {
 
@@ -45,25 +49,22 @@ public class ResidentData {
         return columnData;
     }
 
-    ArrayList<HashMap<String, String>> getResidentDocuments(String residentCpr) {
-        String sql = "SELECT * FROM " + DocumentsContract.TABLE_NAME
+    ArrayList<String> getResidentDocuments(String residentCpr) {
+
+        String sql = "SELECT " + DocumentsContract.COLUMN_SERIALIZABLE + " FROM " + DocumentsContract.TABLE_NAME
             + " WHERE " + DocumentsContract.COLUMN_RESIDENT_CPR + " = ?";
 
-        ArrayList<HashMap<String, String>> columnData = new ArrayList<>();
+        ArrayList<String> columnData = new ArrayList<>();
+
         try (Connection connection = db.connect();
             PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, residentCpr);
             ResultSet result = statement.executeQuery();
-            HashMap<String, String> residentData = new HashMap<>();
+
             while (result.next()) {
-                String documentType = result.getString(DocumentsContract.COLUMN_TYPE);
-                residentData.put(DocumentsContract.COLUMN_TYPE, documentType);
-                String documentCreationDate = result.getString(DocumentsContract.COLUMN_CREATE_DATE);
-                residentData.put(DocumentsContract.COLUMN_CREATE_DATE, documentCreationDate);
-                String documentEditDate = result.getString(DocumentsContract.COLUMN_EDIT_DATE);
-                residentData.put(DocumentsContract.COLUMN_EDIT_DATE, documentEditDate);
-                columnData.add(residentData);
+                columnData.add(result.getString(DocumentsContract.COLUMN_SERIALIZABLE));
             }
+
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
@@ -71,4 +72,32 @@ public class ResidentData {
         return columnData;
     }
 
+    long insertDocument(Document document, String residentCpr) {
+        
+        String sqlCountId = "SELECT MAX(" + DocumentsContract.COLUMN_ID + ") AS " + DocumentsContract.COLUMN_ID
+            + " FROM " + DocumentsContract.TABLE_NAME;
+
+        String sql = "INSERT INTO " + DocumentsContract.TABLE_NAME + "(" + DocumentsContract.COLUMN_RESIDENT_CPR
+            + ", " + DocumentsContract.COLUMN_SERIALIZABLE + ") VALUES (?, ?)";
+        long idOfNewDocument = -1;
+
+        try (Connection connection = db.connect();
+            Statement countStatement = connection.createStatement();
+            PreparedStatement insertStatement = connection.prepareStatement(sql)) {
+
+            ResultSet countResult = countStatement.executeQuery(sqlCountId);
+            if (countResult.isBeforeFirst()) {
+                idOfNewDocument = countResult.getLong(DocumentsContract.COLUMN_ID) + 1;
+                System.out.println(idOfNewDocument);
+                document.setId(idOfNewDocument);
+            }
+
+            insertStatement.setString(1, residentCpr);
+            insertStatement.setString(2, document.encodeDocument());
+            insertStatement.execute();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return idOfNewDocument;
+    }
 }

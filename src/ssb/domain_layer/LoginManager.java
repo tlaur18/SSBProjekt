@@ -1,14 +1,8 @@
 package ssb.domain_layer;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import ssb.data_layer.DatabaseManager;
-import ssb.data_layer.contracts.DocumentsContract;
 import ssb.data_layer.contracts.EmployeeContract;
 import ssb.data_layer.contracts.PersonsContract;
 import ssb.domain_layer.Employee.Employee;
@@ -18,7 +12,7 @@ import ssb.domain_layer.Employee.Socialrådgiver;
 import ssb.domain_layer.Employee.Vikar;
 
 public class LoginManager {
-    // Usikker på om det at lave objekterne oppe i domænet laget fremfor i data laget er korrekt. Det skal undersøges om det skal ned i data laget.
+
     private final DatabaseManager db = DatabaseManager.getInstance();
     private final InformationBridge informationBridge = InformationBridge.getINSTANCE();
 
@@ -74,33 +68,31 @@ public class LoginManager {
     }
 
     private void setResidentDocuments() {
-        informationBridge.getLoggedInEmployee().getResidents().forEach((resident) -> {
-            db.getResidentDocuments(resident.getCprNr()).forEach((documentData) -> {
-                resident.addDocument(makeDocumentObject(documentData));
-            });
-        });
-    }
-
-    private Document makeDocumentObject(HashMap<String, String> documentData) {
-        String typeString = documentData.get(DocumentsContract.COLUMN_TYPE);
-        Document.type documentType = null;
-        for (Document.type type : Document.type.values()) {
-            if (type.toString().equalsIgnoreCase(typeString)) {
-                documentType = type;
+        for (Resident resident : informationBridge.getLoggedInEmployee().getResidents()) {
+            for (String serializableString : db.getResidentDocuments(resident.getCprNr())) {
+                resident.addDocument(DocumentManager.getInstance().decodeDocument(serializableString));
             }
         }
-        String createDateString = documentData.get(DocumentsContract.COLUMN_CREATE_DATE);
-        String editDateString = documentData.get(DocumentsContract.COLUMN_EDIT_DATE);
-        Date createDate = null;
-        Date editDate = null;
-        try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            createDate = dateFormat.parse(createDateString);
-            editDate = dateFormat.parse(editDateString);
-        } catch (ParseException ex) {
-            Logger.getLogger(LoginManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return new Document(documentType, createDate, editDate);
     }
+
+//    private Document makeDocumentObject(HashMap<String, String> documentData) {
+//        for (Document.type type : Document.type.values()) {
+//            if (type.toString().equalsIgnoreCase(typeString)) {
+//                documentType = type;
+//            }
+//        }
+//        String createDateString = documentData.get(DocumentsContract.COLUMN_CREATE_DATE);
+//        String editDateString = documentData.get(DocumentsContract.COLUMN_EDIT_DATE);
+//        Date createDate = null;
+//        Date editDate = null;
+//        try {
+//            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+//            createDate = dateFormat.parse(createDateString);
+//            editDate = dateFormat.parse(editDateString);
+//        } catch (ParseException ex) {
+//            Logger.getLogger(LoginManager.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
+//        return new Document(documentType, createDate, editDate);
+//    }
 }

@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import ssb.domain_layer.Document;
 
 public class DatabaseManager {
 
@@ -49,8 +50,13 @@ public class DatabaseManager {
         return residentData.getEmployeeResidents(employeeCpr);
     }
 
-    public ArrayList<HashMap<String, String>> getResidentDocuments(String residentCpr) {
+    public ArrayList<String> getResidentDocuments(String residentCpr) {
         final ResidentData residentData = new ResidentData();
         return residentData.getResidentDocuments(residentCpr);
+    }
+    
+    public long insertDocument(Document document, String residentCpr) {
+        final ResidentData residentData = new ResidentData();
+        return residentData.insertDocument(document, residentCpr);
     }
 }

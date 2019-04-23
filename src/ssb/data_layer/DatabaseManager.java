@@ -36,27 +36,32 @@ public class DatabaseManager {
     }
 
     public String checkUserLogin(String username, String password) {
-        final LogInData logInData = new LogInData();
+        LogInData logInData = new LogInData();
         return logInData.getUserLoginWith(username, password);
     }
 
     public HashMap<String, String> getEmployeeDetails(String employeeCpr) {
-        final EmployeeWorkData employeeWorkData = new EmployeeWorkData();
+        EmployeeWorkData employeeWorkData = new EmployeeWorkData();
         return employeeWorkData.getEmployeeData(employeeCpr);
     }
 
     public ArrayList<HashMap<String, String>> getEmployeeAssoResidents(String employeeCpr) {
-        final ResidentData residentData = new ResidentData();
+        ResidentData residentData = new ResidentData();
         return residentData.getEmployeeResidents(employeeCpr);
     }
 
     public ArrayList<String> getResidentDocuments(String residentCpr) {
-        final ResidentData residentData = new ResidentData();
+        ResidentData residentData = new ResidentData();
         return residentData.getResidentDocuments(residentCpr);
     }
-    
+
     public long insertDocument(Document document, String residentCpr) {
-        final ResidentData residentData = new ResidentData();
+        ResidentData residentData = new ResidentData();
         return residentData.insertDocument(document, residentCpr);
+    }
+
+    public void updateDocument(Document document, String residentCpr) {
+        ResidentData residentData = new ResidentData();
+        residentData.updateDocument(document, residentCpr);
     }
 }

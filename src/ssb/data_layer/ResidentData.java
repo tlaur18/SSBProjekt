@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import ssb.data_layer.contracts.DocumentsContract;
 import ssb.data_layer.contracts.EmployeeResidentLinkContract;
 import ssb.data_layer.contracts.PersonsContract;
@@ -88,7 +86,6 @@ public class ResidentData {
             ResultSet countResult = countStatement.executeQuery(sqlCountId);
             if (countResult.isBeforeFirst()) {
                 idOfNewDocument = countResult.getLong(DocumentsContract.COLUMN_ID) + 1;
-                System.out.println(idOfNewDocument);
                 document.setId(idOfNewDocument);
             }
 
@@ -99,5 +96,19 @@ public class ResidentData {
             System.out.println(ex.getMessage());
         }
         return idOfNewDocument;
+    }
+    
+    void updateDocument(Document document, String residentCpr) {
+        String sqlUpdate = "UPDATE " + DocumentsContract.TABLE_NAME
+            + " SET " + DocumentsContract.COLUMN_SERIALIZABLE + " = ?"
+            + " WHERE " + DocumentsContract.COLUMN_RESIDENT_CPR + " = ?";
+        try (Connection connection = db.connect();
+            PreparedStatement updateStatement = connection.prepareStatement(sqlUpdate)) {
+            updateStatement.setString(1, document.encodeDocument());
+            updateStatement.setString(2, residentCpr);
+            updateStatement.execute();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 }

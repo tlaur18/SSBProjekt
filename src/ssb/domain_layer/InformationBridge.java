@@ -44,6 +44,7 @@ public class InformationBridge {
         chosenDocument = null;
         chosenResident = null;
         loggedInEmployee = null;
+        DocumentManager.getInstance().clearDocuments();
     }
 
 }

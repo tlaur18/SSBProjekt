@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import ssb.domain_layer.DocumentManager;
 import ssb.domain_layer.LoginManager;
 
 /**
@@ -44,6 +45,7 @@ public class LoginLayoutController implements Initializable {
         LoginManager loginManager = new LoginManager();
         boolean correctCredentials = loginManager.checkUserLogIn(enteredUsername, enteredPassword);
         if (correctCredentials) {
+            DocumentManager.getInstance().setDocumentsForEmployee();
             changeStage();
         } else {
             ugyldigtLoginLabel.setVisible(true);

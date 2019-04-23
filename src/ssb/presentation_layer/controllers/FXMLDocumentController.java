@@ -37,7 +37,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private BorderPane borderPane;
 
-    private final DocumentManager documentManager = DocumentManager.getInstance();
+    private DocumentManager documentManager;
     private InformationBridge informationBridge;
     private Employee loggedInEmployee;
 
@@ -68,7 +68,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void HandleplanOnAction(ActionEvent event) {
     }
-    
+
     @FXML
     public void logOutHandler(MouseEvent event) {
         InformationBridge.getInstance().resetSystem();

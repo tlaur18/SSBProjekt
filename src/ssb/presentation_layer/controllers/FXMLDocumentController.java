@@ -46,7 +46,7 @@ public class FXMLDocumentController implements Initializable {
     }
 
     private void loadFXML(String documentName) throws MalformedURLException {
-        if (borderPane.getCenter() == null) {
+
             Parent root = null;
             URL url = new File("src/ssb/presentation_layer/fxml_documents/" + documentName + ".fxml").toURL();
             FXMLLoader loader = new FXMLLoader(url);
@@ -55,9 +55,6 @@ public class FXMLDocumentController implements Initializable {
                 borderPane.setCenter(root);
             } catch (IOException e) {
             }
-        } else {
-            borderPane.setCenter(null);
-        }
     }
 
     @FXML

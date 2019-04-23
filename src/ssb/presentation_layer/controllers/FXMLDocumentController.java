@@ -66,7 +66,8 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    private void HandleplanOnAction(ActionEvent event) {
+    private void HandleplanOnAction(ActionEvent event) throws MalformedURLException {
+        loadFXML("handleplantest");
     }
 
     @FXML

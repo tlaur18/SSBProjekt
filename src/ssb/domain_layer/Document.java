@@ -70,10 +70,6 @@ public class Document implements Serializable {
         return creationDate;
     }
 
-    void setResidentName(String firstName) {
-        residentName = firstName;
-    }
-
     public String getResidentName() {
         if (residentName != null) {
             return residentName;

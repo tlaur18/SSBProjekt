@@ -74,25 +74,4 @@ public class LoginManager {
             }
         }
     }
-
-//    private Document makeDocumentObject(HashMap<String, String> documentData) {
-//        for (Document.type type : Document.type.values()) {
-//            if (type.toString().equalsIgnoreCase(typeString)) {
-//                documentType = type;
-//            }
-//        }
-//        String createDateString = documentData.get(DocumentsContract.COLUMN_CREATE_DATE);
-//        String editDateString = documentData.get(DocumentsContract.COLUMN_EDIT_DATE);
-//        Date createDate = null;
-//        Date editDate = null;
-//        try {
-//            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-//            createDate = dateFormat.parse(createDateString);
-//            editDate = dateFormat.parse(editDateString);
-//        } catch (ParseException ex) {
-//            Logger.getLogger(LoginManager.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//
-//        return new Document(documentType, createDate, editDate);
-//    }
 }

@@ -5,69 +5,46 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import ssb.data_layer.DatabaseManager;
 import ssb.domain_layer.Document;
 import ssb.domain_layer.DocumentManager;
 import ssb.domain_layer.Employee.Employee;
-import ssb.domain_layer.Employee.Sagsbehandler;
 import ssb.domain_layer.Resident;
 import ssb.presentation_layer.fxml_documents.InformationBridge;
-import ssb.domain_layer.InformationBridge;
 
 public class FXMLDocumentController implements Initializable {
 
     @FXML
     private ImageView homeBtn;
     @FXML
-    private ImageView backBtn;
-    @FXML
-    private TextField searchCommandTxtField;
-    @FXML
-    private Button sagerFaneBtn;
-    @FXML
-    private TextField searchResidentTxtField;
-    @FXML
-    private TextField searchDocNameTxtField;
-    @FXML
-    private Button createVUMDocBtn;
-    @FXML
     private TableView<Document> vumDocumentTableView;
     @FXML
     private BorderPane borderPane;
-    @FXML
-    private TableColumn<?, ?> beboerColumn;
 
-    private DocumentManager documentManager = DocumentManager.getInstance();
-    private final InformationBridge informationBridge = InformationBridge.getINSTANCE();
-
-    //Test-personer
+    private final DocumentManager documentManager = DocumentManager.getInstance();
+    private InformationBridge informationBridge;
     private Employee loggedInEmployee;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //Henter employee der lige er logget ind fra informationBridge
-        employee = informationBridge.getLoggedInEmployee();
+        informationBridge = InformationBridge.getInstance();
+        //Henter loggedInEmployee der lige er logget ind fra informationBridge
+        loggedInEmployee = informationBridge.getLoggedInEmployee();
         
         // Forbinder tableView med observable list med dokumenterne
         vumDocumentTableView.setItems(documentManager.getAllDocuments());
@@ -83,26 +60,15 @@ public class FXMLDocumentController implements Initializable {
     public void openDocumentAction(MouseEvent event) throws IOException {
         Document selectedDocument = vumDocumentTableView.getSelectionModel().getSelectedItem();
         if (selectedDocument != null && event.getClickCount() == 2) {
-            InformationBridge.getINSTANCE().setChosenDocument(selectedDocument);
+            InformationBridge.getInstance().setChosenDocument(selectedDocument);
             
             loadDocumentController(selectedDocument);
-
-            //Her er lidt tests på det der serializable-noget:
-            String encodedString = documentManager.encodeDocument(selectedDocument);
-            System.out.println(encodedString);
-            System.out.println(documentManager.decodeDocument(encodedString).toString());
         }
     }
 
     // Selects the right FXML to load, based on the document type.
     private void loadDocumentController(Document document) throws MalformedURLException, IOException {
         switch (document.getType()) {
-            case AFGØRELSE:
-                break;
-            case BESTILLING:
-                break;
-            case FAGLIGVURDERING:
-                break;
             case HANDLEPLAN:
                 URL urlHandleplan = new File("src/ssb/presentation_layer/fxml_documents/Handleplan.fxml").toURL();
                 FXMLLoader loaderHandleplan = new FXMLLoader(urlHandleplan);
@@ -111,10 +77,6 @@ public class FXMLDocumentController implements Initializable {
                 stageHandleplan.setScene(new Scene(FXMLLoader.load(urlHandleplan)));
                 stageHandleplan.setTitle("Morten er awesome");
                 stageHandleplan.show();
-                break;
-            case INDSTILLING:
-                break;
-            case OPFØLGNING:
                 break;
             case SAGSÅBNING:
                 URL urlSagsaabning = new File("src/ssb/presentation_layer/fxml_documents/sagsåbning.fxml").toURL();
@@ -125,28 +87,24 @@ public class FXMLDocumentController implements Initializable {
                 stageSagsaabning.setTitle("Morten er awesome");
                 stageSagsaabning.show();
                 break;
-            case STATUSNOTAT:
-                break;
-            case UDREDNING:
-                break;
         }
     }
 
     @FXML
     private void createVUMOnAction(ActionEvent event) {
         List<Resident> choices = new ArrayList<>();
-        Resident defaultChoice = employee.getResidents().get(0);
-        InformationBridge.getINSTANCE().setChosenDocument(null);        //Sikrer at dokumentcontrollerne ikke begynder at loade dokumenter.
+        Resident defaultChoice = loggedInEmployee.getResidents().get(0);
+        InformationBridge.getInstance().setChosenDocument(null);        //Sikrer at dokumentcontrollerne ikke begynder at loade dokumenter.
 
-        //Adds a "Ny Beboer" choice if the employee has authority to create a new Resident.
-        if (employee.canCreateNewProcessDoc()) {
+        //Adds a "Ny Beboer" choice if the loggedInEmployee has authority to create a new Resident.
+        if (loggedInEmployee.canCreateNewProcessDoc()) {
             Resident newRes = new Resident("Opret Ny", "Beboer", "123567890", "1234567890");
             choices.add(newRes);
             defaultChoice = newRes;
         }
 
         //Loads the Employee's Residents
-        for (Resident res : employee.getResidents()) {
+        for (Resident res : loggedInEmployee.getResidents()) {
             choices.add(res);
         }
 
@@ -166,7 +124,7 @@ public class FXMLDocumentController implements Initializable {
         String defaultChoice = Document.type.AFGØRELSE.toString();
 
         //Initializes the drop down menu.
-        if (employee.canCreateNewProcessDoc()) {
+        if (loggedInEmployee.canCreateNewProcessDoc()) {
             choices.add(Document.type.SAGSÅBNING.toString());
             defaultChoice = Document.type.SAGSÅBNING.toString();
         }
@@ -179,7 +137,7 @@ public class FXMLDocumentController implements Initializable {
         choices.add(Document.type.STATUSNOTAT.toString());
         choices.add(Document.type.UDREDNING.toString());
 
-        InformationBridge.getINSTANCE().putChosenResident(resident);
+        InformationBridge.getInstance().putChosenResident(resident);
         ChoiceDialog<String> dialog = new ChoiceDialog<>(defaultChoice, choices);
         dialog.setTitle("Opret VUM-Dokument");
         dialog.setHeaderText("Vælg dokument type til: " + resident.toString());
@@ -196,12 +154,8 @@ public class FXMLDocumentController implements Initializable {
                         handleplanStage.setTitle("Sagsåbning");
                         handleplanStage.show();
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        System.out.println("Sagsåbinigs stage change: " + e.getMessage());
                     }
-                    break;
-                case "AFGØRELSE":
-                    break;
-                case "BESTILLING":
                     break;
                 case "HANDLEPLAN":
                     try {
@@ -211,18 +165,8 @@ public class FXMLDocumentController implements Initializable {
                         handleplanStage.setTitle("Handleplan");
                         handleplanStage.show();
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        System.out.println("Handleplan stage change: " + e.getMessage());
                     }
-                    break;
-                case "INDSTILLING":
-                    break;
-                case "FAGLIGVURDERING":
-                    break;
-                case "OPFØLGNING":
-                    break;
-                case "STATUSNOTAT":
-                    break;
-                case "UDREDNING":
                     break;
             }
         }
@@ -253,7 +197,7 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     public void logOutHandler(MouseEvent event) {
-        InformationBridge.getINSTANCE().resetSystem();
+        InformationBridge.getInstance().resetSystem();
         try {
             URL url = new File("src/ssb/presentation_layer/fxml_documents/login_layout.fxml").toURL();
             FXMLLoader loader = new FXMLLoader(url);
@@ -263,7 +207,7 @@ public class FXMLDocumentController implements Initializable {
             ((Stage) homeBtn.getScene().getWindow()).close(); //close login stage
             loginStage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Log out handler: " + e.getMessage());
         }
     }
 }

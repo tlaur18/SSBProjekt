@@ -21,8 +21,6 @@ import ssb.presentation_layer.fxml_documents.InformationBridge;
 public class SagsåbningController implements Initializable {
 
     @FXML
-    private BorderPane parentBorderPane;
-    @FXML
     private TextArea henvendelseTXTa1;
     @FXML
     private CheckBox henvendelseCheckNej1;
@@ -84,15 +82,15 @@ public class SagsåbningController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        documentManager = InformationBridge.getINSTANCE().getDocumentManager();
-        chosenResident = InformationBridge.getINSTANCE().getChosenResident();
+        documentManager = DocumentManager.getInstance();
+        chosenResident = InformationBridge.getInstance().getChosenResident();
         checkBoxes = new HashMap<>();
         textAreas = new HashMap<>();
         loadCheckboxes();
         loadTextAreas();
 
-        if (InformationBridge.getINSTANCE().getChosenDocument() != null) {
-            loadDocumentContent(InformationBridge.getINSTANCE().getChosenDocument());
+        if (InformationBridge.getInstance().getChosenDocument() != null) {
+            loadDocumentContent(InformationBridge.getInstance().getChosenDocument());
         }
     }
 
@@ -138,7 +136,7 @@ public class SagsåbningController implements Initializable {
     @FXML
     private void saveButtonOnAction(ActionEvent event) throws MalformedURLException, IOException {
         saveInfo();
-        if(InformationBridge.getINSTANCE().getChosenDocument() != null) {
+        if(InformationBridge.getInstance().getChosenDocument() != null) {
             saveExistingDocument();
         }
         else {
@@ -159,7 +157,7 @@ public class SagsåbningController implements Initializable {
     
     // adds the checkboxes and textAreas to the existing document
         public void saveExistingDocument() {
-        Document document = InformationBridge.getINSTANCE().getChosenDocument();
+        Document document = InformationBridge.getInstance().getChosenDocument();
         document.setSelectedCheckboxes(checkBoxes);
         document.setTextAreas(textAreas);
     }

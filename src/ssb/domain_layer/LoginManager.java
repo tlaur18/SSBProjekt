@@ -14,7 +14,7 @@ import ssb.domain_layer.Employee.Vikar;
 public class LoginManager {
 
     private final DatabaseManager db = DatabaseManager.getInstance();
-    private final InformationBridge informationBridge = InformationBridge.getINSTANCE();
+    private final InformationBridge informationBridge = InformationBridge.getInstance();
 
     public boolean checkUserLogIn(String userNameInput, String passwordInput) {
         String employeeCPRString = db.checkUserLogin(userNameInput, passwordInput);

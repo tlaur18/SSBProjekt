@@ -8,16 +8,25 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import ssb.data_layer.DatabaseManager;
 
-public class DocumentManager {
+public final class DocumentManager {
 
     private ObservableList<Document> allDocuments = FXCollections.observableArrayList();
 
-    private static final DocumentManager INSTANCE = new DocumentManager();
+    private static DocumentManager INSTANCE = null;
 
     private DocumentManager() {
     }
 
+    public void setDocumentsForEmployee() {
+        for (Document doc : InformationBridge.getInstance().getLoggedInEmployee().getResidentDocuments()) {
+            allDocuments.add(doc);
+        }
+    }
+
     public static DocumentManager getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new DocumentManager();
+        }
         return INSTANCE;
     }
 
@@ -27,16 +36,21 @@ public class DocumentManager {
 
     /*
     When a new document is to be added to a resident this methods is to be called.
-    */
+     */
     public void addDocument(Document document, Resident resident) {
         resident.addDocument(document);
         allDocuments.add(document);
         DatabaseManager.getInstance().insertDocument(document, resident.getCprNr());
     }
 
-    /*
-    * Kode stjålet direkte fra: https://stackoverflow.com/questions/134492/how-to-serialize-an-object-into-a-string
-     */
+    public void updateDocument(Document document, Resident resident) {
+        DatabaseManager.getInstance().updateDocument(document, resident.getCprNr());
+    }
+
+    public void clearDocuments() {
+        allDocuments = FXCollections.observableArrayList();
+    }
+
     public Document decodeDocument(String encodedString) {
         try {
             byte[] data = Base64.getDecoder().decode(encodedString);

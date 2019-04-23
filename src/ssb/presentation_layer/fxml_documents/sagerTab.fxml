@@ -47,9 +47,6 @@
          <GridPane.margin>
             <Insets />
          </GridPane.margin>
-         <padding>
-            <Insets bottom="2.0" left="8.0" right="8.0" top="38.0" />
-         </padding>
       </VBox>
       <TableView id="tableView" fx:id="vumDocumentTableView" focusTraversable="false" onMouseClicked="#openDocumentAction" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
          <columns>

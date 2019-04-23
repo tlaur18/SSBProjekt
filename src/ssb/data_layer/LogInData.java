@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import ssb.data_layer.contracts.LoginsContract;
 
-class LogInData implements Runnable{
+class LogInData implements Runnable {
 
     private final DatabaseManager db = DatabaseManager.getInstance();
 

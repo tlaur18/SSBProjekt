@@ -19,14 +19,23 @@ public abstract class Employee extends Person {
     private boolean canCreateNotification;
     private boolean canSeeNotifications;
 
-    private final ObservableList<Resident> residents = FXCollections.observableArrayList();
+    private List<Resident> residents;
 
     public Employee(String firstName, String lastName, String phoneNr, String cprNr) {
         super(firstName, lastName, phoneNr, cprNr);
+        residents = new ArrayList<>();
     }
 
-    public ObservableList<Resident> getResidents() {
+    public List<Resident> getResidents() {
         return residents;
+    }
+
+    public List<Document> getResidentDocuments() {
+        List<Document> allDocumentsForAllResidents = new ArrayList<>();
+        for (Resident resident : residents) {
+            allDocumentsForAllResidents.addAll(resident.getDocuments());
+        }
+        return allDocumentsForAllResidents;
     }
 
     public void addResident(Resident resident) {
@@ -100,12 +109,4 @@ public abstract class Employee extends Person {
     protected final void setCanSeeNotifications(boolean canSeeNotifications) {
         this.canSeeNotifications = canSeeNotifications;
     }
-
-    public ObservableList<Document> getResidentDocuments() {
-        ObservableList<Document> allDocumentsForAllResidents = FXCollections.observableArrayList();
-        for (Resident resident : residents) {
-            allDocumentsForAllResidents.addAll(resident.getDocuments());
-        }
-        return allDocumentsForAllResidents;
-    }    
 }

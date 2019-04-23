@@ -142,6 +142,8 @@ public class FXMLDocumentController implements Initializable {
                         URL handleplanUrl = new File("src/ssb/presentation_layer/fxml_documents/sagsåbning.fxml").toURL();
                         handleplanStage.setScene(new Scene(FXMLLoader.load(handleplanUrl)));
                         handleplanStage.setTitle("Sagsåbning");
+                        handleplanStage.setMinHeight(425);
+                        handleplanStage.setMinWidth(650);
                         handleplanStage.show();
                     } catch (IOException e) {
                         System.out.println("Sagsåbinigs stage change: " + e.getMessage());
@@ -153,6 +155,8 @@ public class FXMLDocumentController implements Initializable {
                         URL handleplanUrl = new File("src/ssb/presentation_layer/fxml_documents/Handleplan.fxml").toURL();
                         handleplanStage.setScene(new Scene(FXMLLoader.load(handleplanUrl)));
                         handleplanStage.setTitle("Handleplan");
+                        handleplanStage.setMinHeight(425);
+                        handleplanStage.setMinWidth(650);
                         handleplanStage.show();
                     } catch (IOException e) {
                         System.out.println("Handleplan stage change: " + e.getMessage());

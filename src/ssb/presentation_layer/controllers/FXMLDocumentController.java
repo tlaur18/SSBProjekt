@@ -25,7 +25,7 @@ import ssb.domain_layer.Document;
 import ssb.domain_layer.DocumentManager;
 import ssb.domain_layer.Employee.Employee;
 import ssb.domain_layer.Resident;
-import ssb.presentation_layer.fxml_documents.InformationBridge;
+import ssb.domain_layer.InformationBridge;
 
 public class FXMLDocumentController implements Initializable {
 
@@ -44,8 +44,7 @@ public class FXMLDocumentController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         informationBridge = InformationBridge.getInstance();
         //Henter loggedInEmployee der lige er logget ind fra informationBridge
-        loggedInEmployee = informationBridge.getLoggedInEmployee();
-        
+        loggedInEmployee = informationBridge.getLoggedInEmployee();        
         // Forbinder tableView med observable list med dokumenterne
         vumDocumentTableView.setItems(documentManager.getAllDocuments());
         // Sætter kolonner til at fylde 20% af bredden
@@ -121,24 +120,15 @@ public class FXMLDocumentController implements Initializable {
 
     private void selectVUMDialog(Resident resident) {
         List<String> choices = new ArrayList<>();
-        String defaultChoice = Document.type.AFGØRELSE.toString();
 
         //Initializes the drop down menu.
         if (loggedInEmployee.canCreateNewProcessDoc()) {
             choices.add(Document.type.SAGSÅBNING.toString());
-            defaultChoice = Document.type.SAGSÅBNING.toString();
         }
-        choices.add(Document.type.AFGØRELSE.toString());
-        choices.add(Document.type.BESTILLING.toString());
-        choices.add(Document.type.FAGLIGVURDERING.toString());
         choices.add(Document.type.HANDLEPLAN.toString());
-        choices.add(Document.type.INDSTILLING.toString());
-        choices.add(Document.type.OPFØLGNING.toString());
-        choices.add(Document.type.STATUSNOTAT.toString());
-        choices.add(Document.type.UDREDNING.toString());
 
         InformationBridge.getInstance().putChosenResident(resident);
-        ChoiceDialog<String> dialog = new ChoiceDialog<>(defaultChoice, choices);
+        ChoiceDialog<String> dialog = new ChoiceDialog<>("", choices);
         dialog.setTitle("Opret VUM-Dokument");
         dialog.setHeaderText("Vælg dokument type til: " + resident.toString());
         dialog.setContentText("Vælg en dokument type fra listen: ");

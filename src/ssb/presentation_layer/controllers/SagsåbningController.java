@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 import ssb.domain_layer.Document;
 import ssb.domain_layer.DocumentManager;
 import ssb.domain_layer.Resident;
-import ssb.presentation_layer.fxml_documents.InformationBridge;
+import ssb.domain_layer.InformationBridge;
 
 public class SagsåbningController implements Initializable {
 

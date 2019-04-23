@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ssb.presentation_layer.controllers.HandleplanController">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="425.0" prefWidth="650.0" stylesheets="@../../ressources/css_files/main.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ssb.presentation_layer.controllers.HandleplanController">
    <center>
       <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
@@ -23,8 +23,8 @@
                <content>
                   <GridPane alignment="CENTER">
                     <columnConstraints>
-                      <ColumnConstraints hgrow="ALWAYS" maxWidth="100.0" minWidth="10.0" prefWidth="143.00001198904855" />
-                      <ColumnConstraints hgrow="ALWAYS" maxWidth="100.0" minWidth="10.0" prefWidth="131.00000871930806" />
+                      <ColumnConstraints hgrow="ALWAYS" maxWidth="100.0" minWidth="-Infinity" prefWidth="130.0" />
+                      <ColumnConstraints hgrow="ALWAYS" maxWidth="100.0" minWidth="-Infinity" prefWidth="130.0" />
                         <ColumnConstraints hgrow="ALWAYS" maxWidth="497.1428451538086" minWidth="10.0" prefWidth="150.42856270926342" />
                         <ColumnConstraints hgrow="ALWAYS" maxWidth="497.1428451538086" minWidth="10.0" prefWidth="240.71430533272883" />
                     </columnConstraints>
@@ -39,23 +39,44 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label text="Borgerens navn" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                        <Label text="Borgerens navn" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+                           <GridPane.margin>
+                              <Insets left="10.0" />
+                           </GridPane.margin></Label>
                         <TextField fx:id="navnTxtF" GridPane.columnIndex="1" />
-                        <Label text="Borgers CPR nr." GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                        <Label text="Borgers CPR nr." GridPane.halignment="LEFT" GridPane.rowIndex="1">
+                           <GridPane.margin>
+                              <Insets left="10.0" />
+                           </GridPane.margin></Label>
                         <TextField fx:id="cprTxtF" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <Label text="Adresse" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                        <Label text="Adresse" GridPane.halignment="LEFT" GridPane.rowIndex="2">
+                           <GridPane.margin>
+                              <Insets left="10.0" />
+                           </GridPane.margin></Label>
                         <TextField fx:id="adresseTxtF" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <TextField fx:id="paaroerendeTxtF" prefWidth="223.0" GridPane.columnIndex="3" GridPane.columnSpan="2147483647" GridPane.rowIndex="3">
                            <GridPane.margin>
                               <Insets />
                            </GridPane.margin>
                         </TextField>
-                        <Label text="Telefonnummer" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                        <Label text="Mail" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
+                        <Label text="Telefonnummer" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="1">
+                           <GridPane.margin>
+                              <Insets left="50.0" />
+                           </GridPane.margin></Label>
+                        <Label text="Mail" GridPane.columnIndex="2" GridPane.halignment="LEFT">
+                           <GridPane.margin>
+                              <Insets left="50.0" />
+                           </GridPane.margin></Label>
                         <TextField fx:id="mailTxtF" GridPane.columnIndex="3" />
                         <TextField fx:id="telefonTxtF" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                        <Label text="Nærmeste pårerøende" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-                        <Label text="Dato" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                        <Label text="Nærmeste pårerøende" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="3">
+                           <GridPane.margin>
+                              <Insets left="50.0" />
+                           </GridPane.margin></Label>
+                        <Label text="Dato" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="2">
+                           <GridPane.margin>
+                              <Insets left="50.0" />
+                           </GridPane.margin></Label>
                         <TextField fx:id="datoTxtF" GridPane.columnIndex="3" GridPane.rowIndex="2" />
                         <Label prefHeight="42.0" prefWidth="151.0" text="Værgemål og ræprecentatnt Angiv, hvis relevant" wrapText="true" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="5">
                            <GridPane.margin>

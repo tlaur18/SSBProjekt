@@ -12,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceDialog;
@@ -42,133 +43,6 @@ public class FXMLDocumentController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        informationBridge = InformationBridge.getInstance();
-        documentManager = DocumentManager.getInstance();
-        //Henter loggedInEmployee der lige er logget ind fra informationBridge
-        loggedInEmployee = informationBridge.getLoggedInEmployee();
-        // Forbinder tableView med observable list med dokumenterne
-        vumDocumentTableView.setItems(documentManager.getAllDocuments());
-        // Sætter kolonner til at fylde 20% af bredden
-        for (Object column : vumDocumentTableView.getColumns().toArray()) {
-            TableColumn<Document, ?> column1 = (TableColumn<Document, ?>) column;
-            column1.prefWidthProperty().bind(vumDocumentTableView.widthProperty().divide(5));
-        }
-    }
-
-    //Get the selected document from the tableview and opens it, if it´s clicked twice.
-    @FXML
-    public void openDocumentAction(MouseEvent event) throws IOException {
-        Document selectedDocument = vumDocumentTableView.getSelectionModel().getSelectedItem();
-        if (selectedDocument != null && event.getClickCount() == 2) {
-            InformationBridge.getInstance().setChosenDocument(selectedDocument);
-
-            loadDocumentController(selectedDocument);
-        }
-    }
-
-    // Selects the right FXML to load, based on the document type.
-    private void loadDocumentController(Document document) throws MalformedURLException, IOException {
-        switch (document.getType()) {
-            case HANDLEPLAN:
-                URL urlHandleplan = new File("src/ssb/presentation_layer/fxml_documents/Handleplan.fxml").toURL();
-                FXMLLoader loaderHandleplan = new FXMLLoader(urlHandleplan);
-                Parent rootHandleplan = (Parent) loaderHandleplan.load();
-                Stage stageHandleplan = new Stage();
-                stageHandleplan.setScene(new Scene(FXMLLoader.load(urlHandleplan)));
-                stageHandleplan.setTitle("Handleplan");
-                stageHandleplan.show();
-                break;
-            case SAGSÅBNING:
-                URL urlSagsaabning = new File("src/ssb/presentation_layer/fxml_documents/sagsåbning.fxml").toURL();
-                FXMLLoader loaderSagsaabning = new FXMLLoader(urlSagsaabning);
-                Parent rootSagsaabning = (Parent) loaderSagsaabning.load();
-                Stage stageSagsaabning = new Stage();
-                stageSagsaabning.setScene(new Scene(FXMLLoader.load(urlSagsaabning)));
-                stageSagsaabning.setTitle("Sagsåbnings");
-                stageSagsaabning.show();
-                break;
-        }
-    }
-
-    @FXML
-    private void createVUMOnAction(ActionEvent event) {
-        List<Resident> choices = new ArrayList<>();
-        List<Resident> employeeResidents = loggedInEmployee.getResidents();
-        if (employeeResidents.isEmpty()) {
-            Resident defaultChoice = loggedInEmployee.getResidents().get(0);
-
-        } else {
-            InformationBridge.getInstance().setChosenDocument(null);        //Sikrer at dokumentcontrollerne ikke begynder at loade dokumenter.
-
-            //Adds a "Ny Beboer" choice if the loggedInEmployee has authority to create a new Resident.
-            if (loggedInEmployee.canCreateNewProcessDoc()) {
-                Resident newRes = new Resident("Opret Ny", "Beboer", "123567890", "1234567890");
-                choices.add(newRes);
-            }
-
-            //Loads the Employee's Residents
-            for (Resident res : loggedInEmployee.getResidents()) {
-                choices.add(res);
-            }
-
-            ChoiceDialog<Resident> dialog = new ChoiceDialog("", choices);
-            dialog.setTitle("Opret VUM-Dokument");
-            dialog.setHeaderText("Vælg beboer");
-            dialog.setContentText("Vælg den beboer VUM-dokumentet skal tilknyttes til: ");
-
-            Optional<Resident> result = dialog.showAndWait();
-            if (result.isPresent()) {
-                selectVUMDialog(result.get());
-            }
-        }
-    }
-
-    private void selectVUMDialog(Resident resident) {
-        List<String> choices = new ArrayList<>();
-
-        //Initializes the drop down menu.
-        if (loggedInEmployee.canCreateNewProcessDoc()) {
-            choices.add(Document.type.SAGSÅBNING.toString());
-        }
-        choices.add(Document.type.HANDLEPLAN.toString());
-
-        InformationBridge.getInstance().putChosenResident(resident);
-        ChoiceDialog<String> dialog = new ChoiceDialog<>("", choices);
-        dialog.setTitle("Opret VUM-Dokument");
-        dialog.setHeaderText("Vælg dokument type til: " + resident.toString());
-        dialog.setContentText("Vælg en dokument type fra listen: ");
-
-        Optional<String> result = dialog.showAndWait();
-        if (result.isPresent()) {
-            switch (result.get()) {
-                case "SAGSÅBNING":
-                    try {
-                        Stage handleplanStage = new Stage();
-                        URL handleplanUrl = new File("src/ssb/presentation_layer/fxml_documents/sagsåbning.fxml").toURL();
-                        handleplanStage.setScene(new Scene(FXMLLoader.load(handleplanUrl)));
-                        handleplanStage.setTitle("Sagsåbning");
-                        handleplanStage.setMinHeight(425);
-                        handleplanStage.setMinWidth(650);
-                        handleplanStage.show();
-                    } catch (IOException e) {
-                        System.out.println("Sagsåbinigs stage change: " + e.getMessage());
-                    }
-                    break;
-                case "HANDLEPLAN":
-                    try {
-                        Stage handleplanStage = new Stage();
-                        URL handleplanUrl = new File("src/ssb/presentation_layer/fxml_documents/Handleplan.fxml").toURL();
-                        handleplanStage.setScene(new Scene(FXMLLoader.load(handleplanUrl)));
-                        handleplanStage.setTitle("Handleplan");
-                        handleplanStage.setMinHeight(425);
-                        handleplanStage.setMinWidth(650);
-                        handleplanStage.show();
-                    } catch (IOException e) {
-                        System.out.println("Handleplan stage change: " + e.getMessage());
-                    }
-                    break;
-            }
-        }
     }
 
     private void loadFXML(String documentName) throws MalformedURLException {
@@ -187,7 +61,8 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    private void sagerOnAction(ActionEvent event) {
+    private void sagerOnAction(ActionEvent event) throws MalformedURLException {
+        loadFXML("sagerTab");
     }
 
     @FXML

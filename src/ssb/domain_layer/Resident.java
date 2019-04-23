@@ -20,10 +20,9 @@ public class Resident extends Person {
         document.setResidentName(getFirstName());
         documents.add(document);
     }
-
+    
+    @Override
     public String toString() {
-        String string = "";
-        string += this.getFirstName() + " " + this.getLastName();
-        return string;
+        return getFirstName() + " " + getLastName();
     }
 }

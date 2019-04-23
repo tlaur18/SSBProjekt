@@ -36,15 +36,16 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private BorderPane borderPane;
 
-    private final DocumentManager documentManager = DocumentManager.getInstance();
+    private DocumentManager documentManager;
     private InformationBridge informationBridge;
     private Employee loggedInEmployee;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         informationBridge = InformationBridge.getInstance();
+        documentManager = DocumentManager.getInstance();
         //Henter loggedInEmployee der lige er logget ind fra informationBridge
-        loggedInEmployee = informationBridge.getLoggedInEmployee();        
+        loggedInEmployee = informationBridge.getLoggedInEmployee();
         // Forbinder tableView med observable list med dokumenterne
         vumDocumentTableView.setItems(documentManager.getAllDocuments());
         // Sætter kolonner til at fylde 20% af bredden
@@ -60,7 +61,7 @@ public class FXMLDocumentController implements Initializable {
         Document selectedDocument = vumDocumentTableView.getSelectionModel().getSelectedItem();
         if (selectedDocument != null && event.getClickCount() == 2) {
             InformationBridge.getInstance().setChosenDocument(selectedDocument);
-            
+
             loadDocumentController(selectedDocument);
         }
     }
@@ -74,7 +75,7 @@ public class FXMLDocumentController implements Initializable {
                 Parent rootHandleplan = (Parent) loaderHandleplan.load();
                 Stage stageHandleplan = new Stage();
                 stageHandleplan.setScene(new Scene(FXMLLoader.load(urlHandleplan)));
-                stageHandleplan.setTitle("Morten er awesome");
+                stageHandleplan.setTitle("Handleplan");
                 stageHandleplan.show();
                 break;
             case SAGSÅBNING:
@@ -83,7 +84,7 @@ public class FXMLDocumentController implements Initializable {
                 Parent rootSagsaabning = (Parent) loaderSagsaabning.load();
                 Stage stageSagsaabning = new Stage();
                 stageSagsaabning.setScene(new Scene(FXMLLoader.load(urlSagsaabning)));
-                stageSagsaabning.setTitle("Morten er awesome");
+                stageSagsaabning.setTitle("Sagsåbnings");
                 stageSagsaabning.show();
                 break;
         }
@@ -92,29 +93,33 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void createVUMOnAction(ActionEvent event) {
         List<Resident> choices = new ArrayList<>();
-        Resident defaultChoice = loggedInEmployee.getResidents().get(0);
-        InformationBridge.getInstance().setChosenDocument(null);        //Sikrer at dokumentcontrollerne ikke begynder at loade dokumenter.
+        List<Resident> employeeResidents = loggedInEmployee.getResidents();
+        if (employeeResidents.isEmpty()) {
+            Resident defaultChoice = loggedInEmployee.getResidents().get(0);
 
-        //Adds a "Ny Beboer" choice if the loggedInEmployee has authority to create a new Resident.
-        if (loggedInEmployee.canCreateNewProcessDoc()) {
-            Resident newRes = new Resident("Opret Ny", "Beboer", "123567890", "1234567890");
-            choices.add(newRes);
-            defaultChoice = newRes;
-        }
+        } else {
+            InformationBridge.getInstance().setChosenDocument(null);        //Sikrer at dokumentcontrollerne ikke begynder at loade dokumenter.
 
-        //Loads the Employee's Residents
-        for (Resident res : loggedInEmployee.getResidents()) {
-            choices.add(res);
-        }
+            //Adds a "Ny Beboer" choice if the loggedInEmployee has authority to create a new Resident.
+            if (loggedInEmployee.canCreateNewProcessDoc()) {
+                Resident newRes = new Resident("Opret Ny", "Beboer", "123567890", "1234567890");
+                choices.add(newRes);
+            }
 
-        ChoiceDialog<Resident> dialog = new ChoiceDialog(defaultChoice, choices);
-        dialog.setTitle("Opret VUM-Dokument");
-        dialog.setHeaderText("Vælg beboer");
-        dialog.setContentText("Vælg den beboer VUM-dokumentet skal tilknyttes til: ");
+            //Loads the Employee's Residents
+            for (Resident res : loggedInEmployee.getResidents()) {
+                choices.add(res);
+            }
 
-        Optional<Resident> result = dialog.showAndWait();
-        if (result.isPresent()) {
-            selectVUMDialog(result.get());
+            ChoiceDialog<Resident> dialog = new ChoiceDialog("", choices);
+            dialog.setTitle("Opret VUM-Dokument");
+            dialog.setHeaderText("Vælg beboer");
+            dialog.setContentText("Vælg den beboer VUM-dokumentet skal tilknyttes til: ");
+
+            Optional<Resident> result = dialog.showAndWait();
+            if (result.isPresent()) {
+                selectVUMDialog(result.get());
+            }
         }
     }
 
@@ -188,7 +193,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void HandleplanOnAction(ActionEvent event) {
     }
-    
+
     @FXML
     public void logOutHandler(MouseEvent event) {
         InformationBridge.getInstance().resetSystem();

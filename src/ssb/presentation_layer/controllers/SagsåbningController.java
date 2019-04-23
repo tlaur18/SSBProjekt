@@ -11,7 +11,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import ssb.domain_layer.Document;
 import ssb.domain_layer.DocumentManager;
@@ -126,27 +125,25 @@ public class SagsåbningController implements Initializable {
         textAreas.put(representationTxtA, null);
         textAreas.put(forlobAftalerTxtA, null);
     }
-    
-        @FXML
+
+    @FXML
     private void cancelButtonOnAction(ActionEvent event) {
         ((Stage) cancelButton.getScene().getWindow()).close();
     }
-    
 
     @FXML
     private void saveButtonOnAction(ActionEvent event) throws MalformedURLException, IOException {
         saveInfo();
-        if(InformationBridge.getInstance().getChosenDocument() != null) {
+        if (InformationBridge.getInstance().getChosenDocument() != null) {
             saveExistingDocument();
-        }
-        else {
-           saveNewDocument();
+        } else {
+            saveNewDocument();
         }
         Stage stage = (Stage) saveButton.getScene().getWindow();
         stage.close();
-        
+
     }
-    
+
     // Creating a new Document object, saves the checkboxes and textareas to it, and adds it to the residents list of Documents
     public void saveNewDocument() {
         Document doc = new Document(Document.type.SAGSÅBNING);
@@ -154,14 +151,15 @@ public class SagsåbningController implements Initializable {
         doc.setTextAreas(textAreas);
         documentManager.addDocument(doc, chosenResident);
     }
-    
+
     // adds the checkboxes and textAreas to the existing document
-        public void saveExistingDocument() {
+    public void saveExistingDocument() {
         Document document = InformationBridge.getInstance().getChosenDocument();
         document.setSelectedCheckboxes(checkBoxes);
         document.setTextAreas(textAreas);
+        documentManager.updateDocument(document, chosenResident);
     }
-        
+
     // Saves all the Checkboxes and textAreas to their hashmaps
     private void saveInfo() {
         for (CheckBox checkbox : checkBoxes.keySet()) {
@@ -172,6 +170,7 @@ public class SagsåbningController implements Initializable {
             textAreas.put(textArea, textArea.getText());
         }
     }
+
     // Gets the Hashmaps and set the values to the correct textAreas and checkboxes
     public void loadDocumentContent(Document doc) {
         HashMap<String, Boolean> checkBoxesFromDoc = doc.getSelectedCheckboxes();

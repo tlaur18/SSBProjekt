@@ -47,11 +47,10 @@ public class SagerTabController implements Initializable {
     private Button createVUMDocBtn;
     @FXML
     private TableView<Document> vumDocumentTableView;
-    
+
     private final DocumentManager documentManager = DocumentManager.getInstance();
     private InformationBridge informationBridge;
     private Employee loggedInEmployee;
-    
 
     /**
      * Initializes the controller class.
@@ -60,7 +59,7 @@ public class SagerTabController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         informationBridge = InformationBridge.getInstance();
         //Henter loggedInEmployee der lige er logget ind fra informationBridge
-        loggedInEmployee = informationBridge.getLoggedInEmployee();        
+        loggedInEmployee = informationBridge.getLoggedInEmployee();
         // Forbinder tableView med observable list med dokumenterne
         vumDocumentTableView.setItems(documentManager.getAllDocuments());
         // Sætter kolonner til at fylde 20% af bredden
@@ -69,18 +68,18 @@ public class SagerTabController implements Initializable {
             column1.prefWidthProperty().bind(vumDocumentTableView.widthProperty().divide(5));
         }
     }
-    
+
     //Get the selected document from the tableview and opens it, if it´s clicked twice.
     @FXML
     public void openDocumentAction(MouseEvent event) throws IOException {
         Document selectedDocument = vumDocumentTableView.getSelectionModel().getSelectedItem();
         if (selectedDocument != null && event.getClickCount() == 2) {
             InformationBridge.getInstance().setChosenDocument(selectedDocument);
-            
+
             loadDocumentController(selectedDocument);
         }
     }
-    
+
     // Selects the right FXML to load, based on the document type.
     private void loadDocumentController(Document document) throws MalformedURLException, IOException {
         switch (document.getType()) {
@@ -89,6 +88,8 @@ public class SagerTabController implements Initializable {
                 FXMLLoader loaderHandleplan = new FXMLLoader(urlHandleplan);
                 Parent rootHandleplan = (Parent) loaderHandleplan.load();
                 Stage stageHandleplan = new Stage();
+                stageHandleplan.setMinHeight(425);
+                stageHandleplan.setMinWidth(650);
                 stageHandleplan.setScene(new Scene(FXMLLoader.load(urlHandleplan)));
                 stageHandleplan.setTitle("Morten er awesome");
                 stageHandleplan.show();
@@ -98,13 +99,15 @@ public class SagerTabController implements Initializable {
                 FXMLLoader loaderSagsaabning = new FXMLLoader(urlSagsaabning);
                 Parent rootSagsaabning = (Parent) loaderSagsaabning.load();
                 Stage stageSagsaabning = new Stage();
+                stageSagsaabning.setMinHeight(425);
+                stageSagsaabning.setMinWidth(650);
                 stageSagsaabning.setScene(new Scene(FXMLLoader.load(urlSagsaabning)));
                 stageSagsaabning.setTitle("Morten er awesome");
                 stageSagsaabning.show();
                 break;
         }
     }
-    
+
     @FXML
     private void createVUMOnAction(ActionEvent event) {
         List<Resident> choices = new ArrayList<>();

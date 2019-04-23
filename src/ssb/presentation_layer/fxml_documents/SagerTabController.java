@@ -113,10 +113,9 @@ public class SagerTabController implements Initializable {
         List<Resident> choices = new ArrayList<>();
         Resident defaultChoice = loggedInEmployee.getResidents().get(0);
         InformationBridge.getInstance().setChosenDocument(null);        //Sikrer at dokumentcontrollerne ikke begynder at loade dokumenter.
-
+        Resident newRes = new Resident("Opret Ny", "Beboer", "123567890", "1234567890"); //Moved outside the "if statement" to be able to use the variable later.
         //Adds a "Ny Beboer" choice if the loggedInEmployee has authority to create a new Resident.
         if (loggedInEmployee.canCreateNewProcessDoc()) {
-            Resident newRes = new Resident("Opret Ny", "Beboer", "123567890", "1234567890");
             choices.add(newRes);
             defaultChoice = newRes;
         }
@@ -133,11 +132,30 @@ public class SagerTabController implements Initializable {
 
         Optional<Resident> result = dialog.showAndWait();
         if (result.isPresent()) {
+            if (result.get().equals(newRes)) {
+                newResident();
+            }
+            else{
             selectVUMDialog(result.get());
+            }
         }
     }
 
-    private void selectVUMDialog(Resident resident) {
+    private void newResident() {
+        try {
+            Stage nybeboerStage = new Stage();
+            URL nybeboerUrl = new File("src/ssb/presentation_layer/fxml_documents/nybeboer.fxml").toURL();
+            nybeboerStage.setScene(new Scene(FXMLLoader.load(nybeboerUrl)));
+            nybeboerStage.setTitle("Sagsåbning");
+            nybeboerStage.setMinHeight(425);
+            nybeboerStage.setMinWidth(650);
+            nybeboerStage.show();
+        } catch (IOException e) {
+            System.out.println("Sagsåbinigs stage change: " + e.getMessage());
+        }
+    }
+
+    public void selectVUMDialog(Resident resident) {
         List<String> choices = new ArrayList<>();
 
         //Initializes the drop down menu.

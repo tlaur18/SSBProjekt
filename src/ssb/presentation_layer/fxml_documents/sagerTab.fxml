@@ -13,8 +13,8 @@
 
 <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ssb.presentation_layer.fxml_documents.SagerTabController">
   <columnConstraints>
-    <ColumnConstraints hgrow="NEVER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="170.0" />
-    <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="350.0" prefWidth="449.71429879324774" />
+    <ColumnConstraints hgrow="NEVER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="148.0" />
+    <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="350.0" prefWidth="471.9999782017299" />
   </columnConstraints>
   <rowConstraints>
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -47,9 +47,6 @@
          <GridPane.margin>
             <Insets />
          </GridPane.margin>
-         <padding>
-            <Insets bottom="2.0" left="8.0" right="8.0" top="38.0" />
-         </padding>
       </VBox>
       <TableView id="tableView" fx:id="vumDocumentTableView" focusTraversable="false" onMouseClicked="#openDocumentAction" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
          <columns>

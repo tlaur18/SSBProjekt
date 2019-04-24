@@ -14,6 +14,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TableColumn;
@@ -98,14 +100,12 @@ public class SagerTabController implements Initializable {
     @FXML
     private void createVUMOnAction(ActionEvent event) {
         List<Resident> choices = new ArrayList<>();
-        Resident defaultChoice = loggedInEmployee.getResidents().get(0);
         InformationBridge.getInstance().setChosenDocument(null);                //Sikrer at dokumentcontrollerne ikke begynder at loade dokumenter.
 
         // Adds a "Ny Beboer" choice if the loggedInEmployee has authority to create a new Resident.
         if (loggedInEmployee.canCreateNewProcessDoc()) {
             Resident newRes = new Resident("Opret Ny", "Beboer", "123567890", "1234567890");
             choices.add(newRes);
-            defaultChoice = newRes;
         }
 
         //Loads the Employee's Residents
@@ -113,13 +113,24 @@ public class SagerTabController implements Initializable {
             choices.add(res);
         }
 
-        ChoiceDialog<Resident> dialog = new ChoiceDialog(defaultChoice, choices);
+        ChoiceDialog<Resident> dialog = new ChoiceDialog("", choices);
         dialog.setTitle("Opret VUM-Dokument");
         dialog.setHeaderText("Vælg beboer");
         dialog.setContentText("Vælg den beboer VUM-dokumentet skal tilknyttes til: ");
 
         Optional<Resident> result = dialog.showAndWait();
         if (result.isPresent()) {
+            //Displays an alert if the user did not pick any resident
+            if (!(result.get() instanceof Resident)) {
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Vælg beboer");
+                alert.setHeaderText(null);
+                alert.setContentText("Ingen beboer valgt.");
+                alert.showAndWait();
+                //Allows the user to try again by showing the first dialog again.
+                createVUMOnAction(new ActionEvent());
+                return;
+            }
             selectVUMDialog(result.get());
         }
     }

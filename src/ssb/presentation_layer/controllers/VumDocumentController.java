@@ -76,6 +76,7 @@ public class VumDocumentController {
     }
 
     protected void loadTabPaneChildren(TabPane tabPane) {
+        // TODO - make recursive and also fix bug in sagsåbning tab værge and repræsentation (there is an anchorpane for no reason)
         for (Tab tabChild : tabPane.getTabs()) {
             GridPane tabContents = (GridPane) tabChild.getContent();
             for (Node gridChild : tabContents.getChildren()) {

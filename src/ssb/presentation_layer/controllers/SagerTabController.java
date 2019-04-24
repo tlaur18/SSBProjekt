@@ -1,9 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package ssb.presentation_layer.fxml_documents;
+package ssb.presentation_layer.controllers;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,11 +27,6 @@ import ssb.domain_layer.Employee.Employee;
 import ssb.domain_layer.InformationBridge;
 import ssb.domain_layer.Resident;
 
-/**
- * FXML Controller class
- *
- * @author kvik0
- */
 public class SagerTabController implements Initializable {
 
     @FXML
@@ -52,9 +42,6 @@ public class SagerTabController implements Initializable {
     private InformationBridge informationBridge;
     private Employee loggedInEmployee;
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         informationBridge = InformationBridge.getInstance();
@@ -69,7 +56,7 @@ public class SagerTabController implements Initializable {
         }
     }
 
-    //Get the selected document from the tableview and opens it, if it´s clicked twice.
+    // Get the selected document from the tableview and opens it, if it´s clicked twice.
     @FXML
     public void openDocumentAction(MouseEvent event) throws IOException {
         Document selectedDocument = vumDocumentTableView.getSelectionModel().getSelectedItem();
@@ -112,9 +99,9 @@ public class SagerTabController implements Initializable {
     private void createVUMOnAction(ActionEvent event) {
         List<Resident> choices = new ArrayList<>();
         Resident defaultChoice = loggedInEmployee.getResidents().get(0);
-        InformationBridge.getInstance().setChosenDocument(null);        //Sikrer at dokumentcontrollerne ikke begynder at loade dokumenter.
+        InformationBridge.getInstance().setChosenDocument(null);                //Sikrer at dokumentcontrollerne ikke begynder at loade dokumenter.
 
-        //Adds a "Ny Beboer" choice if the loggedInEmployee has authority to create a new Resident.
+        // Adds a "Ny Beboer" choice if the loggedInEmployee has authority to create a new Resident.
         if (loggedInEmployee.canCreateNewProcessDoc()) {
             Resident newRes = new Resident("Opret Ny", "Beboer", "123567890", "1234567890");
             choices.add(newRes);
@@ -184,5 +171,4 @@ public class SagerTabController implements Initializable {
             }
         }
     }
-
 }

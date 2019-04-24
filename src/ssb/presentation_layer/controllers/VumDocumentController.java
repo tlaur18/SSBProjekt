@@ -33,10 +33,6 @@ public class VumDocumentController {
 
     // adds the checkboxes and textAreas to the existing document
     protected void saveExistingDocument() {
-        for (CheckBox checkBox : checkBoxes.keySet()) {
-            System.out.println(checkBox.isSelected());
-            System.out.println(checkBox.toString());
-        }
         Document document = InformationBridge.getInstance().getChosenDocument();
         document.setSelectedCheckboxes(checkBoxes);
         document.setTextAreas(textAreas);

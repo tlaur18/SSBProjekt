@@ -7,10 +7,10 @@ import java.io.Serializable;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Random;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputControl;
 
 public class Document implements Serializable {
 
@@ -106,9 +106,9 @@ public class Document implements Serializable {
         return textFieldInput;
     }
 
-    public void setTextFieldInput(HashMap<TextField, String> textFieldInput) {
+    public void setTextFieldInput(HashMap<TextInputControl, String> textFieldInput) {
         this.textFieldInput = new HashMap<>();
-        for (TextField tf : textFieldInput.keySet()) {
+        for (TextInputControl tf : textFieldInput.keySet()) {
             this.textFieldInput.put(tf.getId(), tf.getText());
         }
     }
@@ -117,9 +117,9 @@ public class Document implements Serializable {
         return this.textAreas;
     }
 
-    public void setTextAreas(HashMap<TextArea, String> textAreaInput) {
+    public void setTextAreas(HashMap<TextInputControl, String> textAreaInput) {
         this.textAreas = new HashMap<>();
-        for (TextArea ta : textAreaInput.keySet()) {
+        for (TextInputControl ta : textAreaInput.keySet()) {
             this.textAreas.put(ta.getId(), ta.getText());
         }
     }

@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,12 +34,6 @@ import ssb.domain_layer.Resident;
 public class SagerTabController implements Initializable {
 
     @FXML
-    private TextField searchResidentTxtField;
-    @FXML
-    private TextField searchDocNameTxtField;
-    @FXML
-    private Button createVUMDocBtn;
-    @FXML
     private TableView<Document> vumDocumentTableView;
 
     private final DocumentManager documentManager = DocumentManager.getInstance();
@@ -60,7 +56,7 @@ public class SagerTabController implements Initializable {
 
     // Get the selected document from the tableview and opens it, if it´s clicked twice.
     @FXML
-    public void openDocumentAction(MouseEvent event) throws IOException {
+    public void openDocumentAction(MouseEvent event) {
         Document selectedDocument = vumDocumentTableView.getSelectionModel().getSelectedItem();
         if (selectedDocument != null && event.getClickCount() == 2) {
             InformationBridge.getInstance().setChosenDocument(selectedDocument);
@@ -70,30 +66,30 @@ public class SagerTabController implements Initializable {
     }
 
     // Selects the right FXML to load, based on the document type.
-    private void loadDocumentController(Document document) throws MalformedURLException, IOException {
+    private void loadDocumentController(Document document) {
         switch (document.getType()) {
             case HANDLEPLAN:
-                URL urlHandleplan = new File("src/ssb/presentation_layer/fxml_documents/Handleplan.fxml").toURL();
-                FXMLLoader loaderHandleplan = new FXMLLoader(urlHandleplan);
-                Parent rootHandleplan = (Parent) loaderHandleplan.load();
-                Stage stageHandleplan = new Stage();
-                stageHandleplan.setMinHeight(425);
-                stageHandleplan.setMinWidth(650);
-                stageHandleplan.setScene(new Scene(FXMLLoader.load(urlHandleplan)));
-                stageHandleplan.setTitle("Morten er awesome");
-                stageHandleplan.show();
+                loadDocument("src/ssb/presentation_layer/fxml_documents/handleplan.fxml", "Handleplan");
                 break;
             case SAGSÅBNING:
-                URL urlSagsaabning = new File("src/ssb/presentation_layer/fxml_documents/sagsåbning.fxml").toURL();
-                FXMLLoader loaderSagsaabning = new FXMLLoader(urlSagsaabning);
-                Parent rootSagsaabning = (Parent) loaderSagsaabning.load();
-                Stage stageSagsaabning = new Stage();
-                stageSagsaabning.setMinHeight(425);
-                stageSagsaabning.setMinWidth(650);
-                stageSagsaabning.setScene(new Scene(FXMLLoader.load(urlSagsaabning)));
-                stageSagsaabning.setTitle("Morten er awesome");
-                stageSagsaabning.show();
+                loadDocument("src/ssb/presentation_layer/fxml_documents/sagsåbning.fxml", "Sagsåbning");
                 break;
+        }
+    }
+
+    private void loadDocument(String fileURL, String vumDocumentTitle) {
+        try {
+            URL urlHandleplan = new File(fileURL).toURL();
+            FXMLLoader loaderHandleplan = new FXMLLoader(urlHandleplan);
+            Parent rootHandleplan = (Parent) loaderHandleplan.load();
+            Stage stageHandleplan = new Stage();
+            stageHandleplan.setMinHeight(425);
+            stageHandleplan.setMinWidth(650);
+            stageHandleplan.setScene(new Scene(FXMLLoader.load(urlHandleplan)));
+            stageHandleplan.setTitle(vumDocumentTitle);
+            stageHandleplan.show();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
         }
     }
 

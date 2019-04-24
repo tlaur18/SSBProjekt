@@ -12,11 +12,9 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import ssb.domain_layer.Document;
-import ssb.domain_layer.DocumentManager;
-import ssb.domain_layer.Resident;
 import ssb.domain_layer.InformationBridge;
 
-public class HandleplanController implements Initializable {
+public class HandleplanController extends VumDocumentController implements Initializable {
 
     @FXML
     private TextField navnTxtF;
@@ -49,22 +47,13 @@ public class HandleplanController implements Initializable {
     @FXML
     private Button saveButton;
 
-    private DocumentManager documentManager;
-    private Resident chosenResident;
-    private HashMap<CheckBox, Boolean> checkBoxes;
-    private HashMap<TextField, String> textFields;
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        documentManager = DocumentManager.getInstance();
-        chosenResident = InformationBridge.getInstance().getChosenResident();
-        checkBoxes = new HashMap();
-        textFields = new HashMap();
         loadTextFields();
         loadCheckBoxes();
 
-        if (InformationBridge.getInstance().getChosenDocument() != null) {
-            loadDocumentContent(InformationBridge.getInstance().getChosenDocument());
+        if (chosenDocument != null) {
+            loadDocumentContent(chosenDocument);
         }
     }
 
@@ -79,79 +68,29 @@ public class HandleplanController implements Initializable {
     }
 
     private void loadTextFields() {
-        textFields.put(navnTxtF, null);
-        textFields.put(cprTxtF, null);
-        textFields.put(adresseTxtF, null);
-        textFields.put(paaroerendeTxtF, null);
-        textFields.put(mailTxtF, null);
-        textFields.put(telefonTxtF, null);
-        textFields.put(datoTxtF, null);
+        textAreas.put(navnTxtF, null);
+        textAreas.put(cprTxtF, null);
+        textAreas.put(adresseTxtF, null);
+        textAreas.put(paaroerendeTxtF, null);
+        textAreas.put(mailTxtF, null);
+        textAreas.put(telefonTxtF, null);
+        textAreas.put(datoTxtF, null);
     }
 
     @FXML
     private void saveBtnHandler(ActionEvent event) throws IOException {
         saveInfo();
-        if (InformationBridge.getInstance().getChosenDocument() != null) {
+        if (chosenDocument != null) {
             saveExistingDocument();
         } else {
             saveNewDocument();
         }
         Stage stage = (Stage) saveButton.getScene().getWindow();
         stage.close();
-
-    }
-
-    // Saves all the Checkboxes and textAreas to their hashmaps
-    private void saveInfo() {
-        for (CheckBox checkBox : checkBoxes.keySet()) {
-            checkBoxes.put(checkBox, checkBox.isSelected());
-        }
-
-        for (TextField textField : textFields.keySet()) {
-            textFields.put(textField, textField.getText());
-        }
-    }
-
-    // Creating a new Document object, saves the checkboxes and textareas to it, and adds it to the residents list of Documents
-    public void saveNewDocument() {
-        Document doc = new Document(Document.type.HANDLEPLAN);
-        doc.setSelectedCheckboxes(checkBoxes);
-        doc.setTextFieldInput(textFields);
-        documentManager.addDocument(doc, chosenResident);
-    }
-
-    // adds the checkboxes and textAreas to the existing document
-    public void saveExistingDocument() {
-        Document document = InformationBridge.getInstance().getChosenDocument();
-        document.setSelectedCheckboxes(checkBoxes);
-        document.setTextFieldInput(textFields);
-        documentManager.updateDocument(document);
     }
 
     @FXML
     private void cancelBtnHandler(ActionEvent event) {
         ((Stage) navnTxtF.getScene().getWindow()).close();
-    }
-
-    // Gets the Hashmaps and set the values to the correct textAreas and checkboxes
-    public void loadDocumentContent(Document doc) {
-        HashMap<String, Boolean> checkBoxesFromDoc = doc.getSelectedCheckboxes();
-        HashMap<String, String> textFieldsFromDoc = doc.getTextFieldInput();
-
-        for (CheckBox checkBox : checkBoxes.keySet()) {
-            for (String IDFromDoc : checkBoxesFromDoc.keySet()) {
-                if (checkBox.getId().equals(IDFromDoc)) {
-                    checkBox.setSelected(checkBoxesFromDoc.get(IDFromDoc));
-                }
-            }
-        }
-
-        for (TextField textField : textFields.keySet()) {
-            for (String IDFromDoc : textFieldsFromDoc.keySet()) {
-                if (textField.getId().equals(IDFromDoc)) {
-                    textField.setText(textFieldsFromDoc.get(IDFromDoc));
-                }
-            }
-        }
     }
 }

@@ -11,53 +11,43 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import ssb.domain_layer.Document;
-import ssb.domain_layer.DocumentManager;
-import ssb.domain_layer.Employee.Employee;
 import ssb.domain_layer.InformationBridge;
 
-public class FXMLDocumentController implements Initializable {
+public class MainScreenController implements Initializable {
 
     @FXML
     private ImageView homeBtn;
     @FXML
-    private TableView<Document> vumDocumentTableView;
-    @FXML
     private BorderPane borderPane;
-
-    private DocumentManager documentManager;
-    private InformationBridge informationBridge;
-    private Employee loggedInEmployee;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-    }
-
-    private void loadFXML(String documentName) throws MalformedURLException {
-
-            Parent root = null;
-            URL url = new File("src/ssb/presentation_layer/fxml_documents/" + documentName + ".fxml").toURL();
-            FXMLLoader loader = new FXMLLoader(url);
-            try {
-                root = (Parent) loader.load();
-                borderPane.setCenter(root);
-            } catch (IOException e) {
-            }
+        // TODO - Notification screen loading
     }
 
     @FXML
-    private void sagerOnAction(ActionEvent event) throws MalformedURLException {
+    private void sagerOnAction(ActionEvent event) {
         loadFXML("sagerTab");
     }
 
     @FXML
-    private void HandleplanOnAction(ActionEvent event) throws MalformedURLException {
+    private void HandleplanOnAction(ActionEvent event) {
         loadFXML("handleplantest");
+    }
+
+    private void loadFXML(String documentName) {
+        try {
+            URL url = new File("src/ssb/presentation_layer/fxml_documents/" + documentName + ".fxml").toURL();
+            FXMLLoader loader = new FXMLLoader(url);
+            Parent root = (Parent) loader.load();
+            borderPane.setCenter(root);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @FXML

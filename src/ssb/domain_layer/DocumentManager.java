@@ -43,8 +43,8 @@ public final class DocumentManager {
         DatabaseManager.getInstance().insertDocument(document, resident.getCprNr());
     }
 
-    public void updateDocument(Document document, Resident resident) {
-        DatabaseManager.getInstance().updateDocument(document, resident.getCprNr());
+    public void updateDocument(Document document) {
+        DatabaseManager.getInstance().updateDocument(document.encodeDocument(), String.valueOf(document.getId()));
     }
 
     public void clearDocuments() {

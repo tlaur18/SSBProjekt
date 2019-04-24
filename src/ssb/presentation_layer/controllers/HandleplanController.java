@@ -125,7 +125,7 @@ public class HandleplanController implements Initializable {
         Document document = InformationBridge.getInstance().getChosenDocument();
         document.setSelectedCheckboxes(checkBoxes);
         document.setTextFieldInput(textFields);
-        documentManager.updateDocument(document, chosenResident);
+        documentManager.updateDocument(document);
     }
 
     @FXML

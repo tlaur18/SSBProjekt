@@ -60,8 +60,8 @@ public class DatabaseManager {
         return residentData.insertDocument(document, residentCpr);
     }
 
-    public void updateDocument(Document document, String residentCpr) {
+    public void updateDocument(String encodedDocument, String documentID) {
         ResidentData residentData = new ResidentData();
-        residentData.updateDocument(document, residentCpr);
+        residentData.updateDocument(encodedDocument, documentID);
     }
 }

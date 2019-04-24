@@ -98,14 +98,14 @@ public class ResidentData {
         return idOfNewDocument;
     }
     
-    void updateDocument(Document document, String residentCpr) {
+    void updateDocument(String encodedDocument, String documentID) {
         String sqlUpdate = "UPDATE " + DocumentsContract.TABLE_NAME
             + " SET " + DocumentsContract.COLUMN_SERIALIZABLE + " = ?"
-            + " WHERE " + DocumentsContract.COLUMN_RESIDENT_CPR + " = ?";
+            + " WHERE " + DocumentsContract.COLUMN_ID + " = ?";
         try (Connection connection = db.connect();
             PreparedStatement updateStatement = connection.prepareStatement(sqlUpdate)) {
-            updateStatement.setString(1, document.encodeDocument());
-            updateStatement.setString(2, residentCpr);
+            updateStatement.setString(1, encodedDocument);
+            updateStatement.setString(2, documentID);
             updateStatement.execute();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());

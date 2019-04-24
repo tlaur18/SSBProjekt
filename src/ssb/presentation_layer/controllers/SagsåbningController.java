@@ -157,7 +157,7 @@ public class SagsåbningController implements Initializable {
         Document document = InformationBridge.getInstance().getChosenDocument();
         document.setSelectedCheckboxes(checkBoxes);
         document.setTextAreas(textAreas);
-        documentManager.updateDocument(document, chosenResident);
+        documentManager.updateDocument(document);
     }
 
     // Saves all the Checkboxes and textAreas to their hashmaps

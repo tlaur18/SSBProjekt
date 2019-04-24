@@ -2,14 +2,12 @@ package ssb.presentation_layer.controllers;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,11 +16,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import ssb.domain_layer.Document;
@@ -60,7 +56,6 @@ public class SagerTabController implements Initializable {
         Document selectedDocument = vumDocumentTableView.getSelectionModel().getSelectedItem();
         if (selectedDocument != null && event.getClickCount() == 2) {
             InformationBridge.getInstance().setChosenDocument(selectedDocument);
-
             loadDocumentController(selectedDocument);
         }
     }
@@ -77,26 +72,11 @@ public class SagerTabController implements Initializable {
         }
     }
 
-    private void loadDocument(String fileURL, String vumDocumentTitle) {
-        try {
-            URL urlHandleplan = new File(fileURL).toURL();
-            FXMLLoader loaderHandleplan = new FXMLLoader(urlHandleplan);
-            Parent rootHandleplan = (Parent) loaderHandleplan.load();
-            Stage stageHandleplan = new Stage();
-            stageHandleplan.setMinHeight(425);
-            stageHandleplan.setMinWidth(650);
-            stageHandleplan.setScene(new Scene(FXMLLoader.load(urlHandleplan)));
-            stageHandleplan.setTitle(vumDocumentTitle);
-            stageHandleplan.show();
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-        }
-    }
-
     @FXML
     private void createVUMOnAction(ActionEvent event) {
         List<Resident> choices = new ArrayList<>();
-        InformationBridge.getInstance().setChosenDocument(null);                //Sikrer at dokumentcontrollerne ikke begynder at loade dokumenter.
+        //Sikrer at dokumentcontrollerne ikke begynder at loade dokumenter.
+        InformationBridge.getInstance().setChosenDocument(null);
 
         // Adds a "Ny Beboer" choice if the loggedInEmployee has authority to create a new Resident.
         if (loggedInEmployee.canCreateNewProcessDoc()) {
@@ -150,32 +130,27 @@ public class SagerTabController implements Initializable {
         if (result.isPresent()) {
             switch (result.get()) {
                 case "SAGSÅBNING":
-                    try {
-                        Stage handleplanStage = new Stage();
-                        URL handleplanUrl = new File("src/ssb/presentation_layer/fxml_documents/sagsåbning.fxml").toURL();
-                        handleplanStage.setScene(new Scene(FXMLLoader.load(handleplanUrl)));
-                        handleplanStage.setTitle("Sagsåbning");
-                        handleplanStage.setMinHeight(425);
-                        handleplanStage.setMinWidth(650);
-                        handleplanStage.show();
-                    } catch (IOException e) {
-                        System.out.println("Sagsåbinigs stage change: " + e.getMessage());
-                    }
+                    loadDocument("src/ssb/presentation_layer/fxml_documents/sagsåbning.fxml", "Sagsåbning");
                     break;
                 case "HANDLEPLAN":
-                    try {
-                        Stage handleplanStage = new Stage();
-                        URL handleplanUrl = new File("src/ssb/presentation_layer/fxml_documents/Handleplan.fxml").toURL();
-                        handleplanStage.setScene(new Scene(FXMLLoader.load(handleplanUrl)));
-                        handleplanStage.setTitle("Handleplan");
-                        handleplanStage.setMinHeight(425);
-                        handleplanStage.setMinWidth(650);
-                        handleplanStage.show();
-                    } catch (IOException e) {
-                        System.out.println("Handleplan stage change: " + e.getMessage());
-                    }
-                    break;
+                    loadDocument("src/ssb/presentation_layer/fxml_documents/Handleplan.fxml", "Handleplan");
             }
+        }
+    }
+
+    private void loadDocument(String fileURL, String vumDocumentTitle) {
+        try {
+            URL urlHandleplan = new File(fileURL).toURL();
+            FXMLLoader loaderHandleplan = new FXMLLoader(urlHandleplan);
+            Parent rootHandleplan = (Parent) loaderHandleplan.load();
+            Stage stageHandleplan = new Stage();
+            stageHandleplan.setMinHeight(425);
+            stageHandleplan.setMinWidth(650);
+            stageHandleplan.setScene(new Scene(FXMLLoader.load(urlHandleplan)));
+            stageHandleplan.setTitle(vumDocumentTitle);
+            stageHandleplan.show();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
         }
     }
 }

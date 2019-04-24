@@ -1,8 +1,15 @@
 package ssb.presentation_layer.controllers;
 
 import java.util.HashMap;
+import javafx.scene.Node;
+import javafx.scene.control.Accordion;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextInputControl;
+import javafx.scene.control.TitledPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import ssb.domain_layer.Document;
 import ssb.domain_layer.DocumentManager;
 import ssb.domain_layer.InformationBridge;
@@ -17,8 +24,8 @@ public class VumDocumentController {
     protected Document chosenDocument = InformationBridge.getInstance().getChosenDocument();
 
     // Creating a new Document object, saves the checkboxes and textareas to it, and adds it to the residents list of Documents
-    protected void saveNewDocument() {
-        Document doc = new Document(Document.type.SAGSÅBNING);
+    protected void saveNewDocument(Document.type type) {
+        Document doc = new Document(type);
         doc.setSelectedCheckboxes(checkBoxes);
         doc.setTextAreas(textAreas);
         documentManager.addDocument(doc, chosenResident);
@@ -26,6 +33,10 @@ public class VumDocumentController {
 
     // adds the checkboxes and textAreas to the existing document
     protected void saveExistingDocument() {
+        for (CheckBox checkBox : checkBoxes.keySet()) {
+            System.out.println(checkBox.isSelected());
+            System.out.println(checkBox.toString());
+        }
         Document document = InformationBridge.getInstance().getChosenDocument();
         document.setSelectedCheckboxes(checkBoxes);
         document.setTextAreas(textAreas);
@@ -61,6 +72,42 @@ public class VumDocumentController {
                     textArea.setText(textAreasFromDoc.get(IDFromDoc));
                 }
             }
+        }
+    }
+
+    protected void loadTabPaneChildren(TabPane tabPane) {
+        for (Tab tabChild : tabPane.getTabs()) {
+            GridPane tabContents = (GridPane) tabChild.getContent();
+            for (Node gridChild : tabContents.getChildren()) {
+                if (gridChild instanceof Pane) {
+                    loadFieldsFromPane((Pane) gridChild);
+                } else {
+                    saveRelevantChildren(gridChild);
+                }
+            }
+        }
+    }
+
+    private void loadFieldsFromPane(Pane pane) {
+        for (Node gridChild : pane.getChildrenUnmodifiable()) {
+            if (gridChild instanceof Accordion) {
+                for (TitledPane titledPane : ((Accordion) gridChild).getPanes()) {
+                    GridPane titledPaneContents = (GridPane) titledPane.getContent();
+                    for (Node node : titledPaneContents.getChildren()) {
+                        saveRelevantChildren(node);
+                    }
+                }
+            } else {
+                saveRelevantChildren(gridChild);
+            }
+        }
+    }
+
+    private void saveRelevantChildren(Node node) {
+        if (node instanceof CheckBox) {
+            checkBoxes.put((CheckBox) node, Boolean.FALSE);
+        } else if (node instanceof TextInputControl) {
+            textAreas.put((TextInputControl) node, "");
         }
     }
 }

@@ -8,14 +8,12 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
 
 public class Document implements Serializable {
 
     public enum type {
-        SAGSÅBNING, UDREDNING, FAGLIGVURDERING, INDSTILLING, HANDLEPLAN, AFGØRELSE, BESTILLING, STATUSNOTAT, OPFØLGNING
+        SAGSÅBNING, HANDLEPLAN
     }
 
     private long id = 0;
@@ -25,7 +23,6 @@ public class Document implements Serializable {
     private Date editDate;
     private Date creationDate;
     private HashMap<String, Boolean> selectedCheckBoxes;
-    private HashMap<String, String> textFieldInput;
     private HashMap<String, String> textAreas;
 
     public Document(type type) {
@@ -99,17 +96,6 @@ public class Document implements Serializable {
         this.selectedCheckBoxes = new HashMap<>();
         for (CheckBox cb : selectedCheckBoxes.keySet()) {
             this.selectedCheckBoxes.put(cb.getId(), cb.isSelected());
-        }
-    }
-
-    public HashMap<String, String> getTextFieldInput() {
-        return textFieldInput;
-    }
-
-    public void setTextFieldInput(HashMap<TextInputControl, String> textFieldInput) {
-        this.textFieldInput = new HashMap<>();
-        for (TextInputControl tf : textFieldInput.keySet()) {
-            this.textFieldInput.put(tf.getId(), tf.getText());
         }
     }
 

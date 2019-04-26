@@ -7,15 +7,13 @@ import java.io.Serializable;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Random;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputControl;
 
 public class Document implements Serializable {
 
     public enum type {
-        SAGSÅBNING, UDREDNING, FAGLIGVURDERING, INDSTILLING, HANDLEPLAN, AFGØRELSE, BESTILLING, STATUSNOTAT, OPFØLGNING
+        SAGSÅBNING, HANDLEPLAN
     }
 
     private long id = 0;
@@ -25,7 +23,6 @@ public class Document implements Serializable {
     private Date editDate;
     private Date creationDate;
     private HashMap<String, Boolean> selectedCheckBoxes;
-    private HashMap<String, String> textFieldInput;
     private HashMap<String, String> textAreas;
 
     public Document(type type) {
@@ -102,24 +99,13 @@ public class Document implements Serializable {
         }
     }
 
-    public HashMap<String, String> getTextFieldInput() {
-        return textFieldInput;
-    }
-
-    public void setTextFieldInput(HashMap<TextField, String> textFieldInput) {
-        this.textFieldInput = new HashMap<>();
-        for (TextField tf : textFieldInput.keySet()) {
-            this.textFieldInput.put(tf.getId(), tf.getText());
-        }
-    }
-
     public HashMap<String, String> getTextAreas() {
         return this.textAreas;
     }
 
-    public void setTextAreas(HashMap<TextArea, String> textAreaInput) {
+    public void setTextAreas(HashMap<TextInputControl, String> textAreaInput) {
         this.textAreas = new HashMap<>();
-        for (TextArea ta : textAreaInput.keySet()) {
+        for (TextInputControl ta : textAreaInput.keySet()) {
             this.textAreas.put(ta.getId(), ta.getText());
         }
     }

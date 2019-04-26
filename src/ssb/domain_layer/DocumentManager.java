@@ -40,11 +40,12 @@ public final class DocumentManager {
     public void addDocument(Document document, Resident resident) {
         resident.addDocument(document);
         allDocuments.add(document);
-        DatabaseManager.getInstance().insertDocument(document, resident.getCprNr());
+        document.setId(DatabaseManager.getInstance().getDocumentIdCount() + 1);
+        DatabaseManager.getInstance().insertDocument(document.encodeDocument(), resident.getCprNr());
     }
 
-    public void updateDocument(Document document, Resident resident) {
-        DatabaseManager.getInstance().updateDocument(document, resident.getCprNr());
+    public void updateDocument(Document document) {
+        DatabaseManager.getInstance().updateDocument(document.encodeDocument(), String.valueOf(document.getId()));
     }
 
     public void clearDocuments() {

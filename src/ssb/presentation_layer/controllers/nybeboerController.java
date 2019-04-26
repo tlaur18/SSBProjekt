@@ -9,22 +9,15 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import ssb.domain_layer.Document;
 import ssb.domain_layer.Resident;
 import ssb.domain_layer.InformationBridge;
 import ssb.presentation_layer.fxml_documents.SagerTabController;
@@ -60,6 +53,9 @@ public class nybeboerController implements Initializable {
     private TextField fornavnTxtF;
     @FXML
     private TextField efternavnTxtF1;
+    private SagerTabController sagerTabController;
+    @FXML
+    private Label requiredFieldsLbl;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -71,63 +67,40 @@ public class nybeboerController implements Initializable {
     }
 
     @FXML
-    private void saveBtnHandler(ActionEvent event) throws MalformedURLException {
+    private void saveBtnHandler(ActionEvent event) throws MalformedURLException, IOException {
+        if(requiredBoxCheck()) {
         Resident newRes = new Resident(fornavnTxtF.getText(), efternavnTxtF1.getText(), telefonTxtF.getText(), cprTxtF.getText());
         newRes.setCityName(byTxtf.getText());
         newRes.setPostCode(postnrTxtf.getText());
         newRes.setStreetName(vejnavnTxtf.getText());
         InformationBridge.getInstance().getLoggedInEmployee().addResident(newRes);
-    
-          Stage stage = (Stage) saveButton.getScene().getWindow();
+
+        URL controllerUrl = new File("src/ssb/presentation_layer/fxml_documents/sagerTab.fxml").toURL();
+        FXMLLoader loader = new FXMLLoader(controllerUrl);
+        loader.load();
+        sagerTabController = loader.getController();
+        sagerTabController.selectVUMDialog(newRes);
+
+        Stage stage = (Stage) saveButton.getScene().getWindow();
         stage.close();
-        List<String> choices = new ArrayList<>();
-
-        //Initializes the drop down menu.
-        if (InformationBridge.getInstance().getLoggedInEmployee().canCreateNewProcessDoc()) {
-            choices.add(Document.type.SAGSÅBNING.toString());
         }
-        choices.add(Document.type.HANDLEPLAN.toString());
+        else {
+            
+        }
 
-        InformationBridge.getInstance().putChosenResident(newRes);
-        ChoiceDialog<String> dialog = new ChoiceDialog<>("", choices);
-        dialog.setTitle("Opret VUM-Dokument");
-        dialog.setHeaderText("Vælg dokument type til: " + newRes.toString());
-        dialog.setContentText("Vælg en dokument type fra listen: ");
-
-        Optional<String> result = dialog.showAndWait();
-        if (result.isPresent()) {
-            switch (result.get()) {
-                case "SAGSÅBNING":
-                    try {
-                        Stage handleplanStage = new Stage();
-                        URL handleplanUrl = new File("src/ssb/presentation_layer/fxml_documents/sagsåbning.fxml").toURL();
-                        handleplanStage.setScene(new Scene(FXMLLoader.load(handleplanUrl)));
-                        handleplanStage.setTitle("Sagsåbning");
-                        handleplanStage.setMinHeight(425);
-                        handleplanStage.setMinWidth(650);
-                        handleplanStage.show();
-                    } catch (IOException e) {
-                        System.out.println("Sagsåbinigs stage change: " + e.getMessage());
-                    }
-                    break;
-                case "HANDLEPLAN":
-                    try {
-                        Stage handleplanStage = new Stage();
-                        URL handleplanUrl = new File("src/ssb/presentation_layer/fxml_documents/Handleplan.fxml").toURL();
-                        handleplanStage.setScene(new Scene(FXMLLoader.load(handleplanUrl)));
-                        handleplanStage.setTitle("Handleplan");
-                        handleplanStage.setMinHeight(425);
-                        handleplanStage.setMinWidth(650);
-                        handleplanStage.show();
-                    } catch (IOException e) {
-                        System.out.println("Handleplan stage change: " + e.getMessage());
-                    }
-                    break;
-            }
+    }
+    
+    private boolean requiredBoxCheck(){
+        if (cprTxtF.getText().length() >= 4 && fornavnTxtF.getText().length() >= 4
+                && efternavnTxtF1.getText().length() >= 4 && !telefonTxtF.getText().isEmpty()
+                && !mailTxtF.getText().isEmpty()) {
+            return true;
+        }
+        else{
+            requiredFieldsLbl.setVisible(true);
+            return false;
         }
     }
-      
-
 
     @FXML
     private void sogBtnHandler(ActionEvent event) {

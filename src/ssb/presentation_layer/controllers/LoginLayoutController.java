@@ -15,7 +15,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import ssb.domain_layer.DocumentManager;
-import ssb.domain_layer.LoginManager;
+import ssb.domain_layer.EmployeeManager;
 
 /**
  * FXML Controller class
@@ -42,7 +42,7 @@ public class LoginLayoutController implements Initializable {
     public void handleSubmitButtonAction(ActionEvent event) {
         enteredUsername = userNameTxtField.getText();
         enteredPassword = passwordTxtField.getText();
-        LoginManager loginManager = new LoginManager();
+        EmployeeManager loginManager = new EmployeeManager();
         boolean correctCredentials = loginManager.checkUserLogIn(enteredUsername, enteredPassword);
         if (correctCredentials) {
             DocumentManager.getInstance().setDocumentsForEmployee();

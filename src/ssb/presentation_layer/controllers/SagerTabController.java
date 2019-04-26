@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -15,7 +14,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -78,9 +76,9 @@ public class SagerTabController implements Initializable {
         //Sikrer at dokumentcontrollerne ikke begynder at loade dokumenter.
         InformationBridge.getInstance().setChosenDocument(null);
 
+        Resident newRes = new Resident("Opret Ny", "Beboer", "123567890", "1234567890");
         // Adds a "Ny Beboer" choice if the loggedInEmployee has authority to create a new Resident.
         if (loggedInEmployee.canCreateNewProcessDoc()) {
-            Resident newRes = new Resident("Opret Ny", "Beboer", "123567890", "1234567890");
             choices.add(newRes);
         }
 
@@ -98,20 +96,36 @@ public class SagerTabController implements Initializable {
         if (result.isPresent()) {
             //Displays an alert if the user did not pick any resident
             if (!(result.get() instanceof Resident)) {
-                Alert alert = new Alert(AlertType.INFORMATION);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Vælg beboer");
                 alert.setHeaderText(null);
                 alert.setContentText("Ingen beboer valgt.");
                 alert.showAndWait();
                 //Allows the user to try again by showing the first dialog again.
                 createVUMOnAction(new ActionEvent());
-                return;
+            } else if (result.get().equals(newRes)) {
+                newResident();
+            } else {
+                selectVUMDialog(result.get());
             }
-            selectVUMDialog(result.get());
         }
     }
 
-    private void selectVUMDialog(Resident resident) {
+    private void newResident() {
+        try {
+            Stage nybeboerStage = new Stage();
+            URL nybeboerUrl = new File("src/ssb/presentation_layer/fxml_documents/nybeboer.fxml").toURL();
+            nybeboerStage.setScene(new Scene(FXMLLoader.load(nybeboerUrl)));
+            nybeboerStage.setTitle("Sagsåbning");
+            nybeboerStage.setMinHeight(425);
+            nybeboerStage.setMinWidth(650);
+            nybeboerStage.show();
+        } catch (IOException e) {
+            System.out.println("Sagsåbinigs stage change: " + e.getMessage());
+        }
+    }
+
+    public void selectVUMDialog(Resident resident) {
         List<String> choices = new ArrayList<>();
 
         //Initializes the drop down menu.
@@ -128,12 +142,23 @@ public class SagerTabController implements Initializable {
 
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()) {
-            switch (result.get()) {
-                case "SAGSÅBNING":
-                    loadDocument("src/ssb/presentation_layer/fxml_documents/sagsåbning.fxml", "Sagsåbning");
-                    break;
-                case "HANDLEPLAN":
-                    loadDocument("src/ssb/presentation_layer/fxml_documents/Handleplan.fxml", "Handleplan");
+            //Displays an alert if the user did not pick any documenttype
+            if (result.get().equals("")) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Vælg dokument");
+                alert.setHeaderText(null);
+                alert.setContentText("Ingen dokumenttype valgt.");
+                alert.showAndWait();
+                //Allows the user to try again by showing the first dialog again.
+                selectVUMDialog(resident);
+            } else {
+                switch (result.get()) {
+                    case "SAGSÅBNING":
+                        loadDocument("src/ssb/presentation_layer/fxml_documents/sagsåbning.fxml", "Sagsåbning");
+                        break;
+                    case "HANDLEPLAN":
+                        loadDocument("src/ssb/presentation_layer/fxml_documents/Handleplan.fxml", "Handleplan");
+                }
             }
         }
     }

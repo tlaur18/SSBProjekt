@@ -20,7 +20,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import ssb.domain_layer.Resident;
 import ssb.domain_layer.InformationBridge;
-import ssb.presentation_layer.fxml_documents.SagerTabController;
 
 /**
  * FXML Controller class

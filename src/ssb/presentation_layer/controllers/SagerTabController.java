@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ssb.presentation_layer.fxml_documents;
+package ssb.presentation_layer.controllers;
 
 import java.io.File;
 import java.io.IOException;

@@ -15,7 +15,7 @@ import ssb.domain_layer.DocumentManager;
 import ssb.domain_layer.InformationBridge;
 import ssb.domain_layer.Resident;
 
-public class VumDocumentController {
+public abstract class VumDocumentController {
 
     protected HashMap<CheckBox, Boolean> checkBoxes = new HashMap<>();
     protected HashMap<TextInputControl, String> textAreas = new HashMap<>();

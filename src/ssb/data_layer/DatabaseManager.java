@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import ssb.domain_layer.Document;
+import ssb.domain_layer.Resident;
 
 public class DatabaseManager {
 
@@ -54,14 +55,24 @@ public class DatabaseManager {
         ResidentData residentData = new ResidentData();
         return residentData.getResidentDocuments(residentCpr);
     }
-
-    public long insertDocument(Document document, String residentCpr) {
+    
+    public long getDocumentIdCount() {
         ResidentData residentData = new ResidentData();
-        return residentData.insertDocument(document, residentCpr);
+        return residentData.getDocumentIdCount();
+    }
+
+    public void insertDocument(String encodedDocumentString, String residentCpr) {
+        ResidentData residentData = new ResidentData();
+        residentData.insertDocument(encodedDocumentString, residentCpr);
     }
 
     public void updateDocument(String encodedDocument, String documentID) {
         ResidentData residentData = new ResidentData();
         residentData.updateDocument(encodedDocument, documentID);
+    }
+    
+    public void insertResident(String residentCpr, String firstName, String lastName, String phoneNumber, String employeeCpr) {
+        ResidentData residentData = new ResidentData();
+        residentData.insertResident(residentCpr, firstName, lastName, phoneNumber, employeeCpr);
     }
 }

@@ -40,7 +40,8 @@ public final class DocumentManager {
     public void addDocument(Document document, Resident resident) {
         resident.addDocument(document);
         allDocuments.add(document);
-        DatabaseManager.getInstance().insertDocument(document, resident.getCprNr());
+        document.setId(DatabaseManager.getInstance().getDocumentIdCount() + 1);
+        DatabaseManager.getInstance().insertDocument(document.encodeDocument(), resident.getCprNr());
     }
 
     public void updateDocument(Document document) {

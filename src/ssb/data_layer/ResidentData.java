@@ -11,7 +11,6 @@ import ssb.data_layer.contracts.DocumentsContract;
 import ssb.data_layer.contracts.EmployeeResidentLinkContract;
 import ssb.data_layer.contracts.PersonsContract;
 import ssb.data_layer.contracts.ResidentsContract;
-import ssb.domain_layer.Document;
 
 public class ResidentData {
 
@@ -70,43 +69,91 @@ public class ResidentData {
         return columnData;
     }
 
-    long insertDocument(Document document, String residentCpr) {
-        
+    long getDocumentIdCount() {
         String sqlCountId = "SELECT MAX(" + DocumentsContract.COLUMN_ID + ") AS " + DocumentsContract.COLUMN_ID
             + " FROM " + DocumentsContract.TABLE_NAME;
-
-        String sql = "INSERT INTO " + DocumentsContract.TABLE_NAME + "(" + DocumentsContract.COLUMN_RESIDENT_CPR
-            + ", " + DocumentsContract.COLUMN_SERIALIZABLE + ") VALUES (?, ?)";
-        long idOfNewDocument = -1;
+        long highestID = -1;
 
         try (Connection connection = db.connect();
             Statement countStatement = connection.createStatement();
+            ResultSet countResult = countStatement.executeQuery(sqlCountId)) {
+            if (countResult.isBeforeFirst()) {
+                highestID = countResult.getLong(DocumentsContract.COLUMN_ID);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return highestID;
+    }
+
+    void insertDocument(String encodedDocumentString, String residentCpr) {
+
+        String sql = "INSERT INTO " + DocumentsContract.TABLE_NAME + "(" + DocumentsContract.COLUMN_RESIDENT_CPR
+            + ", " + DocumentsContract.COLUMN_SERIALIZABLE + ") VALUES (?, ?)";
+
+        try (Connection connection = db.connect();
             PreparedStatement insertStatement = connection.prepareStatement(sql)) {
 
-            ResultSet countResult = countStatement.executeQuery(sqlCountId);
-            if (countResult.isBeforeFirst()) {
-                idOfNewDocument = countResult.getLong(DocumentsContract.COLUMN_ID) + 1;
-                document.setId(idOfNewDocument);
-            }
-
             insertStatement.setString(1, residentCpr);
-            insertStatement.setString(2, document.encodeDocument());
+            insertStatement.setString(2, encodedDocumentString);
             insertStatement.execute();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        return idOfNewDocument;
     }
-    
-    void updateDocument(String encodedDocument, String documentID) {
+
+    void updateDocument(String encodedDocumentString, String documentID) {
         String sqlUpdate = "UPDATE " + DocumentsContract.TABLE_NAME
             + " SET " + DocumentsContract.COLUMN_SERIALIZABLE + " = ?"
             + " WHERE " + DocumentsContract.COLUMN_ID + " = ?";
         try (Connection connection = db.connect();
             PreparedStatement updateStatement = connection.prepareStatement(sqlUpdate)) {
-            updateStatement.setString(1, encodedDocument);
+            updateStatement.setString(1, encodedDocumentString);
             updateStatement.setString(2, documentID);
             updateStatement.execute();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    void insertResident(String residentCpr, String firstName, String lastName, String phoneNumber, String employeeCpr) {
+        String sqlPersonInsertion = "INSERT INTO " + PersonsContract.TABLE_NAME + " VALUES "
+            + "(?, ?, ?, ?)";
+        try (Connection connection = db.connect();
+            PreparedStatement insertStatement = connection.prepareStatement(sqlPersonInsertion)) {
+            insertStatement.setString(1, residentCpr);
+            insertStatement.setString(2, firstName);
+            insertStatement.setString(3, lastName);
+            insertStatement.setString(4, phoneNumber);
+            insertStatement.execute();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        insertResident(residentCpr);
+        insertEmployeeResidentLink(employeeCpr, residentCpr);
+    }
+
+    private void insertResident(String cpr) {
+        String sqlResidentInsertion = "INSERT INTO " + ResidentsContract.TABLE_NAME + " VALUES "
+            + "(?)";
+
+        try (Connection connection = db.connect();
+            PreparedStatement insertStatement = connection.prepareStatement(sqlResidentInsertion)) {
+            insertStatement.setString(1, cpr);
+            insertStatement.execute();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    private void insertEmployeeResidentLink(String employeeCpr, String residentCpr) {
+        String sqlResidentInsertion = "INSERT INTO " + EmployeeResidentLinkContract.TABLE_NAME + " VALUES "
+            + "(?, ?)";
+        try (Connection connection = db.connect();
+            PreparedStatement insertStatement = connection.prepareStatement(sqlResidentInsertion)) {
+            insertStatement.setString(1, employeeCpr);
+            insertStatement.setString(2, residentCpr);
+            insertStatement.execute();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }

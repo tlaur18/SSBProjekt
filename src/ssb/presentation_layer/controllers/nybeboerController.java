@@ -74,18 +74,19 @@ public class nybeboerController implements Initializable {
         newRes.setPostCode(postnrTxtf.getText());
         newRes.setStreetName(vejnavnTxtf.getText());
         InformationBridge.getInstance().getLoggedInEmployee().addResident(newRes);
+        
+        Stage stage = (Stage) saveButton.getScene().getWindow();
+        stage.close();
 
         URL controllerUrl = new File("src/ssb/presentation_layer/fxml_documents/sagerTab.fxml").toURL();
         FXMLLoader loader = new FXMLLoader(controllerUrl);
         loader.load();
         sagerTabController = loader.getController();
         sagerTabController.selectVUMDialog(newRes);
-
-        Stage stage = (Stage) saveButton.getScene().getWindow();
-        stage.close();
+        
         }
         else {
-            
+            requiredFieldsLbl.setVisible(true);
         }
 
     }
@@ -96,10 +97,7 @@ public class nybeboerController implements Initializable {
                 && !mailTxtF.getText().isEmpty()) {
             return true;
         }
-        else{
-            requiredFieldsLbl.setVisible(true);
-            return false;
-        }
+        else return false;
     }
 
     @FXML

@@ -11,10 +11,10 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ssb.presentation_layer.controllers.SagerTabController">
+<GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ssb.presentation_layer.controllers.SagerTabController">
   <columnConstraints>
-    <ColumnConstraints hgrow="NEVER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="148.0" />
-    <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="350.0" prefWidth="471.9999782017299" />
+    <ColumnConstraints hgrow="NEVER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="250.0" />
+    <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" />
   </columnConstraints>
   <rowConstraints>
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -27,17 +27,17 @@
                   <Insets />
                </opaqueInsets>
                <VBox.margin>
-                  <Insets />
+                  <Insets bottom="8.0" left="8.0" right="8.0" />
                </VBox.margin>
             </TextField>
             <TextField fx:id="searchDocNameTxtField" promptText="Søg efter dokument navn" VBox.vgrow="ALWAYS">
                <VBox.margin>
-                  <Insets />
+                  <Insets bottom="8.0" left="8.0" right="8.0" />
                </VBox.margin>
             </TextField>
             <Button fx:id="createVUMDocBtn" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#createVUMOnAction" styleClass="createVUMDocument" text="Opret VUM-dokument" textAlignment="CENTER" VBox.vgrow="ALWAYS">
                <VBox.margin>
-                  <Insets />
+                  <Insets bottom="8.0" left="8.0" right="8.0" />
                </VBox.margin>
             </Button>
          </children>
@@ -45,7 +45,7 @@
             <Insets />
          </opaqueInsets>
          <GridPane.margin>
-            <Insets />
+            <Insets top="24.0" />
          </GridPane.margin>
       </VBox>
       <TableView id="tableView" fx:id="vumDocumentTableView" focusTraversable="false" onMouseClicked="#openDocumentAction" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">

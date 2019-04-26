@@ -11,7 +11,7 @@ import ssb.domain_layer.Employee.SocialPædagog;
 import ssb.domain_layer.Employee.Socialrådgiver;
 import ssb.domain_layer.Employee.Vikar;
 
-public class LoginManager {
+public class EmployeeManager {
 
     private final DatabaseManager db = DatabaseManager.getInstance();
     private final InformationBridge informationBridge = InformationBridge.getInstance();
@@ -73,5 +73,10 @@ public class LoginManager {
                 resident.addDocument(DocumentManager.getInstance().decodeDocument(serializableString));
             }
         }
+    }
+    
+    public void addResidentToEmployee(String employeeCpr, Resident resident) {
+        DatabaseManager.getInstance().insertResident(resident.getCprNr(), resident.getFirstName(), 
+            resident.getLastName(), resident.getPhoneNr(), employeeCpr);
     }
 }

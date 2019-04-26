@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +20,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import ssb.domain_layer.Employee.Employee;
+import ssb.domain_layer.EmployeeManager;
 import ssb.domain_layer.Resident;
 import ssb.domain_layer.InformationBridge;
 
@@ -45,10 +49,6 @@ public class nybeboerController implements Initializable {
     @FXML
     private TextField sogTxTF;
     @FXML
-    private Button sogBttn;
-
-    private Resident chosenResident;
-    @FXML
     private TextField fornavnTxtF;
     @FXML
     private TextField efternavnTxtF1;
@@ -66,37 +66,44 @@ public class nybeboerController implements Initializable {
     }
 
     @FXML
-    private void saveBtnHandler(ActionEvent event) throws MalformedURLException, IOException {
-        if(requiredBoxCheck()) {
-        Resident newRes = new Resident(fornavnTxtF.getText(), efternavnTxtF1.getText(), telefonTxtF.getText(), cprTxtF.getText());
-        newRes.setCityName(byTxtf.getText());
-        newRes.setPostCode(postnrTxtf.getText());
-        newRes.setStreetName(vejnavnTxtf.getText());
-        InformationBridge.getInstance().getLoggedInEmployee().addResident(newRes);
-        
-        Stage stage = (Stage) saveButton.getScene().getWindow();
-        stage.close();
+    private void saveBtnHandler(ActionEvent event) {
+        if (requiredBoxCheck()) {
+            Resident newRes = new Resident(fornavnTxtF.getText(), efternavnTxtF1.getText(), telefonTxtF.getText(), cprTxtF.getText());
+            newRes.setCityName(byTxtf.getText());
+            newRes.setPostCode(postnrTxtf.getText());
+            newRes.setStreetName(vejnavnTxtf.getText());
+            Employee loggedInEmployee = InformationBridge.getInstance().getLoggedInEmployee();
+            EmployeeManager employeeManager = new EmployeeManager();
+            employeeManager.addResidentToEmployee(loggedInEmployee.getCprNr(), newRes);
+            InformationBridge.getInstance().getLoggedInEmployee().addResident(newRes);
 
-        URL controllerUrl = new File("src/ssb/presentation_layer/fxml_documents/sagerTab.fxml").toURL();
-        FXMLLoader loader = new FXMLLoader(controllerUrl);
-        loader.load();
-        sagerTabController = loader.getController();
-        sagerTabController.selectVUMDialog(newRes);
-        
-        }
-        else {
+            Stage stage = (Stage) saveButton.getScene().getWindow();
+            stage.close();
+            try {
+                URL controllerUrl = new File("src/ssb/presentation_layer/fxml_documents/sagerTab.fxml").toURL();
+                FXMLLoader loader = new FXMLLoader(controllerUrl);
+                loader.load();
+                sagerTabController = loader.getController();
+                sagerTabController.selectVUMDialog(newRes);
+            } catch (MalformedURLException ex) {
+                System.out.println("Invalid URL: " + ex.getMessage());
+            } catch (IOException ex) {
+                System.out.println("Could not load url: " + ex.getMessage());
+            }
+        } else {
             requiredFieldsLbl.setVisible(true);
         }
 
     }
-    
-    private boolean requiredBoxCheck(){
+
+    private boolean requiredBoxCheck() {
         if (cprTxtF.getText().length() >= 4 && fornavnTxtF.getText().length() >= 4
-                && efternavnTxtF1.getText().length() >= 4 && !telefonTxtF.getText().isEmpty()
-                && !mailTxtF.getText().isEmpty()) {
+            && efternavnTxtF1.getText().length() >= 4 && !telefonTxtF.getText().isEmpty()
+            && !mailTxtF.getText().isEmpty()) {
             return true;
+        } else {
+            return false;
         }
-        else return false;
     }
 
     @FXML

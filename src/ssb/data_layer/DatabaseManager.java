@@ -75,4 +75,10 @@ public class DatabaseManager {
         ResidentData residentData = new ResidentData();
         residentData.insertResident(residentCpr, firstName, lastName, phoneNumber, employeeCpr);
     }
+    public void insertEmployee(String employeecpr, String firstName, String lastName, String phoneNumber, String employeeRole, String employeeUsername, String employeePassword){
+        EmployeeWorkData employeeWorkData = new EmployeeWorkData();
+        employeeWorkData.insertEmployeePerson(employeecpr, firstName, lastName, phoneNumber);
+        employeeWorkData.insertEmployee(employeecpr, employeeRole);
+        employeeWorkData.insertEmployeeLogin(employeecpr, employeeUsername, employeePassword);
+    }
 }

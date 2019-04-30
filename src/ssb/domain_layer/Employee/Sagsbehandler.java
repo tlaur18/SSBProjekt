@@ -1,6 +1,7 @@
 package ssb.domain_layer.Employee;
 
 public class Sagsbehandler extends Employee {
+    final String employeeRole = "sagsbehandler"; 
 
     public Sagsbehandler(String firstName, String lastName, String phoneNr, String cprNr) {
         super(firstName, lastName, phoneNr, cprNr);
@@ -8,6 +9,11 @@ public class Sagsbehandler extends Employee {
         setCanPrintDoc(true);
         setCanAccessCreateDocBtn(true);
         setCanCreateNewProcessDoc(true);
+    }
+
+    @Override
+    public String getEmployeeRole() {
+        return employeeRole;
     }
 
 }

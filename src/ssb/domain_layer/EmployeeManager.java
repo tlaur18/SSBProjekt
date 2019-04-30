@@ -5,6 +5,7 @@ import java.util.HashMap;
 import ssb.data_layer.DatabaseManager;
 import ssb.data_layer.contracts.EmployeeContract;
 import ssb.data_layer.contracts.PersonsContract;
+import ssb.domain_layer.Employee.Administrator;
 import ssb.domain_layer.Employee.Employee;
 import ssb.domain_layer.Employee.Sagsbehandler;
 import ssb.domain_layer.Employee.SocialPædagog;
@@ -48,6 +49,9 @@ public class EmployeeManager {
             case "vikar":
                 employee = new Vikar(firstName, lastName, phoneNr, cprNr);
                 break;
+            case "admin":
+                employee = new Administrator(firstName, lastName, phoneNr, cprNr);
+                break;
         }
         return employee;
     }
@@ -74,9 +78,15 @@ public class EmployeeManager {
             }
         }
     }
-    
+
     public void addResidentToEmployee(String employeeCpr, Resident resident) {
-        DatabaseManager.getInstance().insertResident(resident.getCprNr(), resident.getFirstName(), 
-            resident.getLastName(), resident.getPhoneNr(), employeeCpr);
+        DatabaseManager.getInstance().insertResident(resident.getCprNr(), resident.getFirstName(),
+                resident.getLastName(), resident.getPhoneNr(), employeeCpr);
     }
+
+    public void addEmployeeToDB(Employee employee, String username, String password) {
+        DatabaseManager.getInstance().insertEmployee(employee.getCprNr(), employee.getFirstName(), employee.getLastName(), employee.getPhoneNr(), employee.getEmployeeRole(), username, password);
+        
+    }
+    
 }

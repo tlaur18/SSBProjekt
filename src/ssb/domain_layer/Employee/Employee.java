@@ -18,6 +18,7 @@ public abstract class Employee extends Person {
     private boolean canCloseCase;
     private boolean canCreateNotification;
     private boolean canSeeNotifications;
+    private boolean canUseAdminRights;
 
     private List<Resident> residents;
 
@@ -109,4 +110,12 @@ public abstract class Employee extends Person {
     protected final void setCanSeeNotifications(boolean canSeeNotifications) {
         this.canSeeNotifications = canSeeNotifications;
     }
+    
+    protected final void setCanUseAdminRights(boolean canUseAdminRights) {
+        this.canUseAdminRights = canUseAdminRights;
+    }
+    public final boolean canUseAdminRights() {
+        return this.canUseAdminRights;
+    }
+    public abstract String getEmployeeRole();
 }

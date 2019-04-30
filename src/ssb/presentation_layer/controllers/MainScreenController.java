@@ -45,12 +45,15 @@ public class MainScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO - Notification screen loading
+        
+        //removes the admin buttons and disables them
         oversigtbttnid.setVisible(false);
         oversigtbttnid.setDisable(true);
         nybrugerid.setVisible(false);
         nybrugerid.setDisable(true);
         editbrugerid.setVisible(false);
         editbrugerid.setDisable(true);
+        //Controls if the logged in employee is administrator.
         if(InformationBridge.getInstance().getLoggedInEmployee() instanceof Administrator){
         adminLogin();
         }
@@ -94,17 +97,20 @@ public class MainScreenController implements Initializable {
     }
 
     public void adminLogin() {
+        //removes all the buttons in the left Menu
         vBoxMenu.getChildren().removeAll(vBoxMenu.getChildren());
         
+        // Shows the admin button in the left menu
         oversigtbttnid.setDisable(false);
         oversigtbttnid.setVisible(true);
         nybrugerid.setDisable(false);
         nybrugerid.setVisible(true);
         editbrugerid.setDisable(false);
         editbrugerid.setVisible(true);
-        vBoxMenu.getChildren().add(oversigtbttnid);
-        vBoxMenu.getChildren().add(nybrugerid);
-        vBoxMenu.getChildren().add(editbrugerid);
+        //Adds the buttons to the vboxmenu.
+//        vBoxMenu.getChildren().add(oversigtbttnid);
+//        vBoxMenu.getChildren().add(nybrugerid);
+//        vBoxMenu.getChildren().add(editbrugerid);
         
     }
 

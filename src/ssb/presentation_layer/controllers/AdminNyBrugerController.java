@@ -29,7 +29,7 @@ import ssb.domain_layer.EmployeeManager;
 /**
  * FXML Controller class
  *
- * @author morten
+ * @author Morten
  */
 public class AdminNyBrugerController implements Initializable {
     
@@ -76,7 +76,7 @@ public class AdminNyBrugerController implements Initializable {
             
             Optional<String> result = dialog.showAndWait();
             if (result.isPresent()) {
-                //Displays an alert if the user did not pick any documenttype
+                //Displays an alert if the user did not pick any Role
                 if (result.get().equals("")) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Vælg Rolle");
@@ -85,6 +85,7 @@ public class AdminNyBrugerController implements Initializable {
                     alert.showAndWait();
                     //Allows the user to try again by showing the first dialog again.
                 } else {
+                    //Find the chosen Role, and creates a new employee and adds it to the Database
                     switch (result.get()) {
                         case "SAGSBEHANDLER":
                             Employee sagsbehandler = new Sagsbehandler(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText());
@@ -115,6 +116,7 @@ public class AdminNyBrugerController implements Initializable {
     }
     
     public boolean requiredFields() {
+        //Controls that no fields are empty
         if (brugernavnTxtf.getText().length() != 0 && kodeordTxtf.getText().length() != 0
                 && fornavnTxtf.getText().length() != 0 && efternavnTxtf.getText().length() != 0
                 && cprFxtf.getText().length() != 0 && tlkTxtf.getText().length() != 0) {

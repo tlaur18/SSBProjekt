@@ -75,4 +75,19 @@ public class DatabaseManager {
         ResidentData residentData = new ResidentData();
         residentData.insertResident(residentCpr, firstName, lastName, phoneNumber, employeeCpr);
     }
+    
+    public void insertNotification(String message, String author, String creationDate) {
+        NotificationData notificationData = new NotificationData();
+        notificationData.insertNotification(message, author, creationDate);
+    }
+    
+    public void insertHomeNotificationLink(String notificationID, String homeID) {
+        NotificationData notificationData = new NotificationData();
+        notificationData.insertHomeNotificationLink(notificationID, homeID);
+    }
+
+    public long getNotificationIdCount() {
+        NotificationData notificationData = new NotificationData();
+        return notificationData.getNotificationIdCount();
+    }
 }

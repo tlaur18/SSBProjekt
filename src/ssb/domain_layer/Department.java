@@ -15,6 +15,7 @@ public class Department {
     private List<Employee> employees;
     private List<Resident> residents;
     private Address address;
+    private int id;
 
     public Department(String departmentName, specializations specialization, Address address) {
         this.departmentName = departmentName;
@@ -62,6 +63,14 @@ public class Department {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+    
+    public int getId() {
+        return this.id;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
     }
     
     public void addResident(Resident resident) {

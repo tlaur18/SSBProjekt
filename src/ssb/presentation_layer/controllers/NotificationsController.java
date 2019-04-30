@@ -10,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
@@ -18,8 +17,10 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import ssb.domain_layer.Department;
 import ssb.domain_layer.Employee.Employee;
 import ssb.domain_layer.InformationBridge;
+import ssb.domain_layer.NotificationManager;
 
 public class NotificationsController implements Initializable {
 
@@ -31,10 +32,14 @@ public class NotificationsController implements Initializable {
     private VBox notificationVbox;
 
     Employee loggedInEmployee;
+    Department currentDepartment;
+    NotificationManager notificationManager;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         loggedInEmployee = InformationBridge.getInstance().getLoggedInEmployee();
+        currentDepartment = InformationBridge.getInstance().getCurrentDepartment();
+        notificationManager = new NotificationManager();
 
         scrollPane.setFitToHeight(true);
         scrollPane.setFitToWidth(true);
@@ -48,15 +53,20 @@ public class NotificationsController implements Initializable {
         String employeeFirstName = loggedInEmployee.getFirstName().substring(0,1).toUpperCase() + loggedInEmployee.getFirstName().substring(1);
         String employeeLastName = loggedInEmployee.getLastName().substring(0, 1).toUpperCase() + loggedInEmployee.getLastName().substring(1);
         String employeeName = employeeFirstName + " " + employeeLastName;
+        Date creationDate = new Date();
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+        String dateString = dateFormat.format(creationDate);
 
-        GridPane newNotification = assembleNotification(employeeName, message);
+        GridPane newNotification = assembleNotification(employeeName, message, dateString);
         notificationVbox.getChildren().add(newNotification);
 
         //Makes the scrollPane go to the bottom
         scrollPane.vvalueProperty().bind(notificationVbox.heightProperty());
+        
+        notificationManager.saveNewNotification(message, employeeName, dateString, currentDepartment.getId());
     }
 
-    private GridPane assembleNotification(String name, String message) {
+    private GridPane assembleNotification(String name, String message, String creationDate) {
         GridPane gridPane = new GridPane();
 
         gridPane.addColumn(1);
@@ -80,11 +90,8 @@ public class NotificationsController implements Initializable {
         messageLabel.setPadding(new Insets(5, 5, 5, 5));
         messageLabel.setWrapText(true);
         gridPane.add(messageLabel, 0, 1);
-
-        Date date = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm");
-        String dateString = dateFormat.format(date);
-        Label dateLabel = new Label(dateString);
+        
+        Label dateLabel = new Label(creationDate);
         dateLabel.setPadding(new Insets(5, 5, 5, 5));
         gridPane.add(dateLabel, 1, 0);
         GridPane.setHalignment(dateLabel, HPos.RIGHT);

@@ -10,12 +10,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import ssb.domain_layer.Address;
+import ssb.domain_layer.Department;
 import ssb.domain_layer.DocumentManager;
 import ssb.domain_layer.EmployeeManager;
+import ssb.domain_layer.InformationBridge;
 
 /**
  * FXML Controller class
@@ -30,12 +35,19 @@ public class LoginLayoutController implements Initializable {
     private PasswordField passwordTxtField;
     @FXML
     private Label ugyldigtLoginLabel;
+    @FXML
+    private Button logInBtn;
+    @FXML
+    private ChoiceBox<String> homeChoice;
+    
+    
     private String enteredUsername;
     private String enteredPassword;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        homeChoice.getItems().add("Vammelby");
+        homeChoice.getItems().add("Dejligby");
     }
 
     @FXML
@@ -44,8 +56,15 @@ public class LoginLayoutController implements Initializable {
         enteredPassword = passwordTxtField.getText();
         EmployeeManager loginManager = new EmployeeManager();
         boolean correctCredentials = loginManager.checkUserLogIn(enteredUsername, enteredPassword);
-        if (correctCredentials) {
+        if (correctCredentials && homeChoice.getValue() != null) {
             DocumentManager.getInstance().setDocumentsForEmployee();
+            Department currentDepartment = new Department(homeChoice.getValue(), Department.specializations.STOFMISBRUG, new Address());
+            if (homeChoice.getValue().equals("Vammelby")) {
+                currentDepartment.setId(1);
+            } else {
+                currentDepartment.setId(2);
+            }
+            InformationBridge.getInstance().setCurrentDepartment(currentDepartment);
             changeStage();
         } else {
             ugyldigtLoginLabel.setVisible(true);

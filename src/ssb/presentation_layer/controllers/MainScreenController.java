@@ -10,6 +10,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -22,6 +24,12 @@ public class MainScreenController implements Initializable {
     private ImageView homeBtn;
     @FXML
     private BorderPane borderPane;
+    @FXML
+    private ImageView backBtn;
+    @FXML
+    private TextField searchCommandTxtField;
+    @FXML
+    private Button sagerFaneBtn;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -63,5 +71,10 @@ public class MainScreenController implements Initializable {
         } catch (IOException e) {
             System.out.println("Log out handler: " + e.getMessage());
         }
+    }
+
+    @FXML
+    private void homeButtonHandler(MouseEvent event) {
+        loadFXML("notifications");
     }
 }

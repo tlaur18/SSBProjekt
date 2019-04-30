@@ -32,7 +32,7 @@ import ssb.domain_layer.EmployeeManager;
  * @author morten
  */
 public class AdminNyBrugerController implements Initializable {
-
+    
     @FXML
     private Button saveBttn;
     @FXML
@@ -56,57 +56,71 @@ public class AdminNyBrugerController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
     }    
-
+    
     @FXML
     private void saveBttn(ActionEvent event) {
-        EmployeeManager employeeManager = new EmployeeManager();
+        if (requiredFields()) {
+            EmployeeManager employeeManager = new EmployeeManager();
             List<String> choices = new ArrayList<>();
 
-        //Initializes the drop down menu.
-        choices.add("SAGSBEHANDLER");
-        choices.add("SOCIALRÅDGIVER");
-        choices.add("SOCIALPÆDAGOG");
-        choices.add("ADMINISTRATOR");
-        choices.add("VIKAR");
-        ChoiceDialog<String> dialog = new ChoiceDialog<>("", choices);
-        dialog.setTitle("Opret ny Beboer");
-        dialog.setHeaderText("Vælg Rolle: ");
-        dialog.setContentText("Vælg en rolle fra listen: ");
-
-        Optional<String> result = dialog.showAndWait();
-        if (result.isPresent()) {
-            //Displays an alert if the user did not pick any documenttype
-            if (result.get().equals("")) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Vælg Rolle");
-                alert.setHeaderText(null);
-                alert.setContentText("Ingen rolle valgt.");
-                alert.showAndWait();
-                //Allows the user to try again by showing the first dialog again.
-            } else {
-                switch (result.get()) {
-                    case "SAGSBEHANDLER":
-                        Employee sagsbehandler = new Sagsbehandler(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText());
-                        employeeManager.addEmployeeToDB(sagsbehandler, brugernavnTxtf.getText(), kodeordTxtf.getText());
-                        break;
-                    case "SOCIALRÅDGIVER":
-                        Employee socialraadgiver = new Socialrådgiver(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText());
-                        employeeManager.addEmployeeToDB(socialraadgiver, brugernavnTxtf.getText(), kodeordTxtf.getText());
-                        break;
-                    case "SOCIALPÆDAGOG":
-                        Employee socialpaedagog = new SocialPædagog(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText());
-                        employeeManager.addEmployeeToDB(socialpaedagog, brugernavnTxtf.getText(), kodeordTxtf.getText());
-                        break;
-                    case "ADMINISTRATOR":
-                        Employee administrator = new Administrator(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText());
-                        employeeManager.addEmployeeToDB(administrator, brugernavnTxtf.getText(), kodeordTxtf.getText());
-                        break;
-                    case "VIKAR":
-                        Employee vikar = new Vikar(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText());
-                        employeeManager.addEmployeeToDB(vikar, brugernavnTxtf.getText(), kodeordTxtf.getText());
-                        break;
+            //Initializes the drop down menu.
+            choices.add("SAGSBEHANDLER");
+            choices.add("SOCIALRÅDGIVER");
+            choices.add("SOCIALPÆDAGOG");
+            choices.add("ADMINISTRATOR");
+            choices.add("VIKAR");
+            ChoiceDialog<String> dialog = new ChoiceDialog<>("", choices);
+            dialog.setTitle("Opret ny Beboer");
+            dialog.setHeaderText("Vælg Rolle: ");
+            dialog.setContentText("Vælg en rolle fra listen: ");
+            
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()) {
+                //Displays an alert if the user did not pick any documenttype
+                if (result.get().equals("")) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Vælg Rolle");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Ingen rolle valgt.");
+                    alert.showAndWait();
+                    //Allows the user to try again by showing the first dialog again.
+                } else {
+                    switch (result.get()) {
+                        case "SAGSBEHANDLER":
+                            Employee sagsbehandler = new Sagsbehandler(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText());
+                            employeeManager.addEmployeeToDB(sagsbehandler, brugernavnTxtf.getText(), kodeordTxtf.getText());
+                            break;
+                        case "SOCIALRÅDGIVER":
+                            Employee socialraadgiver = new Socialrådgiver(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText());
+                            employeeManager.addEmployeeToDB(socialraadgiver, brugernavnTxtf.getText(), kodeordTxtf.getText());
+                            break;
+                        case "SOCIALPÆDAGOG":
+                            Employee socialpaedagog = new SocialPædagog(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText());
+                            employeeManager.addEmployeeToDB(socialpaedagog, brugernavnTxtf.getText(), kodeordTxtf.getText());
+                            break;
+                        case "ADMINISTRATOR":
+                            Employee administrator = new Administrator(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText());
+                            employeeManager.addEmployeeToDB(administrator, brugernavnTxtf.getText(), kodeordTxtf.getText());
+                            break;
+                        case "VIKAR":
+                            Employee vikar = new Vikar(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText());
+                            employeeManager.addEmployeeToDB(vikar, brugernavnTxtf.getText(), kodeordTxtf.getText());
+                            break;
+                    }
                 }
             }
+        } else {
+            requiredFieldsLbl.setVisible(true);
+        }
+    }
+    
+    public boolean requiredFields() {
+        if (brugernavnTxtf.getText().length() != 0 && kodeordTxtf.getText().length() != 0
+                && fornavnTxtf.getText().length() != 0 && efternavnTxtf.getText().length() != 0
+                && cprFxtf.getText().length() != 0 && tlkTxtf.getText().length() != 0) {
+            return true;
+        } else {
+            return false;
         }
     }
     

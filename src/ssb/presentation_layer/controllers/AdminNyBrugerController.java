@@ -18,7 +18,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import ssb.domain_layer.Document;
 import ssb.domain_layer.Employee.Administrator;
 import ssb.domain_layer.Employee.Employee;
 import ssb.domain_layer.Employee.Sagsbehandler;
@@ -26,12 +25,11 @@ import ssb.domain_layer.Employee.SocialPædagog;
 import ssb.domain_layer.Employee.Socialrådgiver;
 import ssb.domain_layer.Employee.Vikar;
 import ssb.domain_layer.EmployeeManager;
-import ssb.domain_layer.InformationBridge;
 
 /**
  * FXML Controller class
  *
- * @author morte
+ * @author morten
  */
 public class AdminNyBrugerController implements Initializable {
 

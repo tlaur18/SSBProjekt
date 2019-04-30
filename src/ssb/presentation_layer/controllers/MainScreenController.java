@@ -8,36 +8,64 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import ssb.domain_layer.Employee.Administrator;
 import ssb.domain_layer.InformationBridge;
 
 public class MainScreenController implements Initializable {
-
+    
     @FXML
     private ImageView homeBtn;
     @FXML
     private BorderPane borderPane;
-
+    @FXML
+    private VBox vBoxMenu;
+    @FXML
+    private Button oversigtbttnid;
+    @FXML
+    private Button nybrugerid;
+    @FXML
+    private Button editbrugerid;
+    @FXML
+    private ImageView backBtn;
+    @FXML
+    private TextField searchCommandTxtField;
+    @FXML
+    private Button sagerFaneBtn;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO - Notification screen loading
+        oversigtbttnid.setVisible(false);
+        oversigtbttnid.setDisable(true);
+        nybrugerid.setVisible(false);
+        nybrugerid.setDisable(true);
+        editbrugerid.setVisible(false);
+        editbrugerid.setDisable(true);
+        if(InformationBridge.getInstance().getLoggedInEmployee() instanceof Administrator){
+        adminLogin();
+        }
     }
-
+    
     @FXML
     private void sagerOnAction(ActionEvent event) {
         loadFXML("sagerTab");
     }
-
+    
     @FXML
     private void HandleplanOnAction(ActionEvent event) {
         loadFXML("handleplantest");
     }
-
+    
     private void loadFXML(String documentName) {
         try {
             URL url = new File("src/ssb/presentation_layer/fxml_documents/" + documentName + ".fxml").toURL();
@@ -48,7 +76,7 @@ public class MainScreenController implements Initializable {
             System.out.println(e.getMessage());
         }
     }
-
+    
     @FXML
     public void logOutHandler(MouseEvent event) {
         InformationBridge.getInstance().resetSystem();
@@ -63,5 +91,35 @@ public class MainScreenController implements Initializable {
         } catch (IOException e) {
             System.out.println("Log out handler: " + e.getMessage());
         }
+    }
+
+    public void adminLogin() {
+        vBoxMenu.getChildren().removeAll(vBoxMenu.getChildren());
+        
+        oversigtbttnid.setDisable(false);
+        oversigtbttnid.setVisible(true);
+        nybrugerid.setDisable(false);
+        nybrugerid.setVisible(true);
+        editbrugerid.setDisable(false);
+        editbrugerid.setVisible(true);
+        vBoxMenu.getChildren().add(oversigtbttnid);
+        vBoxMenu.getChildren().add(nybrugerid);
+        vBoxMenu.getChildren().add(editbrugerid);
+        
+    }
+
+    @FXML
+    private void oversigtOnAction(ActionEvent event) {
+        System.out.println("Still to be done");   
+    }
+
+    @FXML
+    private void nybrugerOnAction(ActionEvent event) {
+        loadFXML("adminNyBruger");
+    }
+
+    @FXML
+    private void editbrugerOnAction(ActionEvent event) {
+        System.out.println("Still to be done");
     }
 }

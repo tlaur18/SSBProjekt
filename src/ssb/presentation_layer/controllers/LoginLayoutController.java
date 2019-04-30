@@ -56,14 +56,8 @@ public class LoginLayoutController implements Initializable {
     private void changeStage() {
         FXMLLoader loader = null;
         try {
-            if (InformationBridge.getInstance().getLoggedInEmployee().canUseAdminRights()) {
-                URL url3 = new File("src/ssb/presentation_layer/fxml_documents/admin_main_layout.fxml").toURL();
-                loader = new FXMLLoader(url3);
-            }
-            else {
-                URL url3 = new File("src/ssb/presentation_layer/fxml_documents/main_layout.fxml").toURL();
-                loader = new FXMLLoader(url3);
-            }
+            URL url3 = new File("src/ssb/presentation_layer/fxml_documents/main_layout.fxml").toURL();
+            loader = new FXMLLoader(url3);
             Parent root = (Parent) loader.load();
             Stage mainStage = new Stage();
             mainStage.setMinHeight(450);

@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
 import ssb.data_layer.contracts.DocumentsContract;
 import ssb.data_layer.contracts.HomesNotificationsLinkContract;
 import ssb.data_layer.contracts.NotificationsContract;
@@ -59,5 +61,34 @@ public class NotificationData {
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
+    }
+
+    ArrayList<Integer> getNotificationIds(String homeID) {
+
+        String sql = "SELECT " + HomesNotificationsLinkContract.COLUMN_NOTIFICATIONS_ID + " FROM " + HomesNotificationsLinkContract.TABLE_NAME
+                + " WHERE " + HomesNotificationsLinkContract.COLUMN_HOMES_ID + " = ?";
+        
+        ArrayList<Integer> columnData = new ArrayList<>();
+        
+        try (Connection connection = db.connect();
+            PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, homeID);
+            ResultSet result = statement.executeQuery();
+
+            while (result.next()) {
+                columnData.add(result.getInt(HomesNotificationsLinkContract.COLUMN_NOTIFICATIONS_ID));
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        
+        return columnData;
+    }
+    
+    HashMap<Integer, ArrayList<String>> loadNotifications(ArrayList<Integer> notificationIds) {
+        
+        
+        return null;
     }
 }

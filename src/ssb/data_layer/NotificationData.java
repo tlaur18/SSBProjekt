@@ -89,7 +89,7 @@ public class NotificationData {
     
     ArrayList<ArrayList<String>> getNotifications(String homeid) {
         String sql = "SELECT * FROM " + HomesNotificationsLinkContract.TABLE_NAME + " NATURAL JOIN " + NotificationsContract.TABLE_NAME
-            + " WHERE " + HomesContract.TABLE_NAME + "." + HomesContract.COLUMN_ID + " = ?";
+            + " WHERE " + HomesNotificationsLinkContract.TABLE_NAME + "." + HomesNotificationsLinkContract.COLUMN_HOMES_ID + " = ?";
 
         ArrayList<ArrayList<String>> columnData = new ArrayList<>();
         try (Connection connection = db.connect();

@@ -17,6 +17,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import ssb.domain_layer.InformationBridge;
+import ssb.domain_layer.NotificationManager;
 
 public class MainScreenController implements Initializable {
 
@@ -33,6 +34,8 @@ public class MainScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        int homeID = InformationBridge.getInstance().getCurrentDepartment().getId();
+        NotificationManager.getInstance().loadNotifications(homeID);
         loadFXML("notifications");
     }
 

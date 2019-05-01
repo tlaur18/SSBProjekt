@@ -95,4 +95,11 @@ public class DatabaseManager {
         NotificationData notificationData = new NotificationData();
         return notificationData.getNotificationIds(homeID);
     }
+    
+    public ArrayList<ArrayList<String>> getNotifications(String homeid){
+        NotificationData notificationData = new NotificationData();
+        return notificationData.getNotifications(homeid);
+    }
+    
+    
 }

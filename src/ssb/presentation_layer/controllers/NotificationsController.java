@@ -20,6 +20,7 @@ import javafx.scene.layout.VBox;
 import ssb.domain_layer.Department;
 import ssb.domain_layer.Employee.Employee;
 import ssb.domain_layer.InformationBridge;
+import ssb.domain_layer.Notification;
 import ssb.domain_layer.NotificationManager;
 
 public class NotificationsController implements Initializable {
@@ -39,18 +40,19 @@ public class NotificationsController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         loggedInEmployee = InformationBridge.getInstance().getLoggedInEmployee();
         currentDepartment = InformationBridge.getInstance().getCurrentDepartment();
-        notificationManager = new NotificationManager();
+        notificationManager = NotificationManager.getInstance();
 
         scrollPane.setFitToHeight(true);
         scrollPane.setFitToWidth(true);
 
+        showNotifications();
     }
 
     @FXML
     private void sendNotificationHandler(ActionEvent event) {
         String message = notificationTextArea.getText();
         notificationTextArea.clear();
-        String employeeFirstName = loggedInEmployee.getFirstName().substring(0,1).toUpperCase() + loggedInEmployee.getFirstName().substring(1);
+        String employeeFirstName = loggedInEmployee.getFirstName().substring(0, 1).toUpperCase() + loggedInEmployee.getFirstName().substring(1);
         String employeeLastName = loggedInEmployee.getLastName().substring(0, 1).toUpperCase() + loggedInEmployee.getLastName().substring(1);
         String employeeName = employeeFirstName + " " + employeeLastName;
         Date creationDate = new Date();
@@ -62,7 +64,7 @@ public class NotificationsController implements Initializable {
 
         //Makes the scrollPane go to the bottom
         scrollPane.vvalueProperty().bind(notificationVbox.heightProperty());
-        
+
         notificationManager.saveNewNotification(message, employeeName, dateString, currentDepartment.getId());
     }
 
@@ -90,12 +92,22 @@ public class NotificationsController implements Initializable {
         messageLabel.setPadding(new Insets(5, 5, 5, 5));
         messageLabel.setWrapText(true);
         gridPane.add(messageLabel, 0, 1);
-        
+
         Label dateLabel = new Label(creationDate);
         dateLabel.setPadding(new Insets(5, 5, 5, 5));
         gridPane.add(dateLabel, 1, 0);
         GridPane.setHalignment(dateLabel, HPos.RIGHT);
 
         return gridPane;
+    }
+
+    private void showNotifications() {
+        for (Notification notification : notificationManager.getNotifications()) {
+            GridPane notificatonGridPane = assembleNotification(notification.getAuthorName(), notification.getMessage(), notification.getCreationDate());
+            notificationVbox.getChildren().add(notificatonGridPane);
+
+            //Makes the scrollPane go to the bottom
+            scrollPane.vvalueProperty().bind(notificationVbox.heightProperty());
+        }
     }
 }

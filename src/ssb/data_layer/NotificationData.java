@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import ssb.data_layer.contracts.DocumentsContract;
+import ssb.data_layer.contracts.HomesContract;
 import ssb.data_layer.contracts.HomesNotificationsLinkContract;
 import ssb.data_layer.contracts.NotificationsContract;
 
@@ -86,9 +87,34 @@ public class NotificationData {
         return columnData;
     }
     
-    HashMap<Integer, ArrayList<String>> loadNotifications(ArrayList<Integer> notificationIds) {
+    ArrayList<ArrayList<String>> getNotifications(String homeid) {
+        String sql = "SELECT * FROM " + HomesNotificationsLinkContract.TABLE_NAME + " NATURAL JOIN " + NotificationsContract.TABLE_NAME
+            + " WHERE " + HomesContract.TABLE_NAME + "." + HomesContract.COLUMN_ID + " = ?";
+
+        ArrayList<ArrayList<String>> columnData = new ArrayList<>();
+        try (Connection connection = db.connect();
+            PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, homeid);
+            ResultSet result = statement.executeQuery();
+            while (result.next()) {
+                ArrayList<String> notificationData = new ArrayList<>();
+                String notificationID = result.getString(NotificationsContract.COLUMN_ID);
+                String notificationMessage = result.getString(NotificationsContract.COLUMN_MESSAGE);
+                String notificationAuthor = result.getString(NotificationsContract.COLUMN_AUTHOR);
+                String notificationDate = result.getString(NotificationsContract.COLUMN_CREATIONDATE);
+                notificationData.add(notificationID);
+                notificationData.add(notificationMessage);
+                notificationData.add(notificationAuthor);
+                notificationData.add(notificationDate);
+                columnData.add(notificationData);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        return columnData;
         
-        
-        return null;
     }
+    
+    
 }

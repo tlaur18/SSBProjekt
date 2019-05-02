@@ -107,16 +107,16 @@ public class MainScreenController implements Initializable {
         nybrugerid.setVisible(true);
         editbrugerid.setDisable(false);
         editbrugerid.setVisible(true);
-        //Adds the buttons to the vboxmenu.
-//        vBoxMenu.getChildren().add(oversigtbttnid);
-//        vBoxMenu.getChildren().add(nybrugerid);
-//        vBoxMenu.getChildren().add(editbrugerid);
+        //Adds the buttons to the Vbox menu.
+        vBoxMenu.getChildren().add(oversigtbttnid);
+        vBoxMenu.getChildren().add(nybrugerid);
+        vBoxMenu.getChildren().add(editbrugerid);
         
     }
 
     @FXML
     private void oversigtOnAction(ActionEvent event) {
-        System.out.println("Still to be done");   
+        loadFXML("adminOversigt");
     }
 
     @FXML

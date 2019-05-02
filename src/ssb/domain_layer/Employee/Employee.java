@@ -118,4 +118,9 @@ public abstract class Employee extends Person {
         return this.canUseAdminRights;
     }
     public abstract String getEmployeeRole();
+    
+    @Override
+    public String toString() {
+       return "ost: " + getFirstName();
+    }
 }

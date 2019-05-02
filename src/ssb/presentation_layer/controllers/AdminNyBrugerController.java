@@ -89,23 +89,23 @@ public class AdminNyBrugerController implements Initializable {
                     switch (result.get()) {
                         case "SAGSBEHANDLER":
                             Employee sagsbehandler = new Sagsbehandler(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText());
-                            employeeManager.addEmployeeToDB(sagsbehandler, brugernavnTxtf.getText(), kodeordTxtf.getText());
+                            EmployeeManager.getInstance().addEmployeeToDB(sagsbehandler, brugernavnTxtf.getText(), kodeordTxtf.getText());
                             break;
                         case "SOCIALRÅDGIVER":
                             Employee socialraadgiver = new Socialrådgiver(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText());
-                            employeeManager.addEmployeeToDB(socialraadgiver, brugernavnTxtf.getText(), kodeordTxtf.getText());
+                            EmployeeManager.getInstance().addEmployeeToDB(socialraadgiver, brugernavnTxtf.getText(), kodeordTxtf.getText());
                             break;
                         case "SOCIALPÆDAGOG":
                             Employee socialpaedagog = new SocialPædagog(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText());
-                            employeeManager.addEmployeeToDB(socialpaedagog, brugernavnTxtf.getText(), kodeordTxtf.getText());
+                            EmployeeManager.getInstance().addEmployeeToDB(socialpaedagog, brugernavnTxtf.getText(), kodeordTxtf.getText());
                             break;
                         case "ADMINISTRATOR":
                             Employee administrator = new Administrator(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText());
-                            employeeManager.addEmployeeToDB(administrator, brugernavnTxtf.getText(), kodeordTxtf.getText());
+                            EmployeeManager.getInstance().addEmployeeToDB(administrator, brugernavnTxtf.getText(), kodeordTxtf.getText());
                             break;
                         case "VIKAR":
                             Employee vikar = new Vikar(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText());
-                            employeeManager.addEmployeeToDB(vikar, brugernavnTxtf.getText(), kodeordTxtf.getText());
+                            EmployeeManager.getInstance().addEmployeeToDB(vikar, brugernavnTxtf.getText(), kodeordTxtf.getText());
                             break;
                     }
                 }

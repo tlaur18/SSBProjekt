@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import ssb.domain_layer.Document;
+import ssb.domain_layer.EmployeeManager;
 import ssb.domain_layer.Resident;
 
 public class DatabaseManager {
@@ -80,5 +81,9 @@ public class DatabaseManager {
         employeeWorkData.insertEmployeePerson(employeecpr, firstName, lastName, phoneNumber);
         employeeWorkData.insertEmployee(employeecpr, employeeRole);
         employeeWorkData.insertEmployeeLogin(employeecpr, employeeUsername, employeePassword);
+    }
+    public ArrayList<HashMap<String, String>> GetAllEmployees() {
+        EmployeeWorkData employeeWorkData = new EmployeeWorkData();
+        return employeeWorkData.loadAllEmployees();
     }
 }

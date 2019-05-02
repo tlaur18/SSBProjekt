@@ -33,6 +33,7 @@ public class LoginLayoutController implements Initializable {
     private Label ugyldigtLoginLabel;
     private String enteredUsername;
     private String enteredPassword;
+    private EmployeeManager loginManager = EmployeeManager.getInstance();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -43,7 +44,6 @@ public class LoginLayoutController implements Initializable {
     public void handleSubmitButtonAction(ActionEvent event) {
         enteredUsername = userNameTxtField.getText();
         enteredPassword = passwordTxtField.getText();
-        EmployeeManager loginManager = new EmployeeManager();
         boolean correctCredentials = loginManager.checkUserLogIn(enteredUsername, enteredPassword);
         if (correctCredentials) {
             DocumentManager.getInstance().setDocumentsForEmployee();

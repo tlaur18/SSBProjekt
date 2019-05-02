@@ -2,6 +2,10 @@ package ssb.domain_layer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import ssb.data_layer.DatabaseManager;
 import ssb.data_layer.contracts.EmployeeContract;
 import ssb.data_layer.contracts.PersonsContract;
@@ -16,6 +20,8 @@ public class EmployeeManager {
 
     private final DatabaseManager db = DatabaseManager.getInstance();
     private final InformationBridge informationBridge = InformationBridge.getInstance();
+    private static EmployeeManager INSTANCE = null;
+    private ObservableList<Employee> allEmployees = FXCollections.observableArrayList();
 
     public boolean checkUserLogIn(String userNameInput, String passwordInput) {
         String employeeCPRString = db.checkUserLogin(userNameInput, passwordInput);
@@ -28,6 +34,12 @@ public class EmployeeManager {
         }
         return false;
     }
+    public static EmployeeManager getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new EmployeeManager();
+        }
+        return INSTANCE;
+    }
 
     private Employee setEmployeeDetails(HashMap<String, String> employeeHashMap) {
         Employee employee = null;
@@ -39,20 +51,26 @@ public class EmployeeManager {
         switch (role) {
             case "socialrådgiver":
                 employee = new Socialrådgiver(firstName, lastName, phoneNr, cprNr);
+                allEmployees.add(employee);
                 break;
             case "sagsbehandler":
                 employee = new Sagsbehandler(firstName, lastName, phoneNr, cprNr);
+                allEmployees.add(employee);
                 break;
             case "socialpædagog":
                 employee = new SocialPædagog(firstName, lastName, phoneNr, cprNr);
+                allEmployees.add(employee);
                 break;
             case "vikar":
                 employee = new Vikar(firstName, lastName, phoneNr, cprNr);
+                allEmployees.add(employee);
                 break;
             case "admin":
                 employee = new Administrator(firstName, lastName, phoneNr, cprNr);
+                allEmployees.add(employee);
                 break;
         }
+        System.out.println("added employeee" + employee);
         return employee;
     }
 
@@ -88,5 +106,13 @@ public class EmployeeManager {
         DatabaseManager.getInstance().insertEmployee(employee.getCprNr(), employee.getFirstName(), employee.getLastName(), employee.getPhoneNr(), employee.getEmployeeRole(), username, password);
         
     }
-    
+    public void loadAllEmployess() {
+        
+        for (HashMap<String, String> map : db.GetAllEmployees()) {
+            setEmployeeDetails(map);
+        }
+    }
+    public ObservableList<Employee> getAllEmployees() {
+        return allEmployees;
+    }
 }

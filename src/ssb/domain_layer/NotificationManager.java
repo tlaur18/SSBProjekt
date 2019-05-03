@@ -20,6 +20,7 @@ public class NotificationManager {
     }
 
     public void saveNewNotification(String message, String authorName, String creationDate, int homeID) {
+        notifications.add(new Notification(message, authorName, creationDate));
         db.insertNotification(message, authorName, creationDate);
         long notificationID = db.getNotificationIdCount();
         db.insertHomeNotificationLink(Long.toString(notificationID), Integer.toString(homeID));
@@ -38,5 +39,9 @@ public class NotificationManager {
 
     public ArrayList<Notification> getNotifications() {
         return notifications;
+    }
+
+    void clearNotifications() {
+        this.notifications = new ArrayList<>();
     }
 }

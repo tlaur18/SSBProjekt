@@ -54,6 +54,7 @@ public class InformationBridge {
         chosenResident = null;
         loggedInEmployee = null;
         DocumentManager.getInstance().clearDocuments();
+        NotificationManager.getInstance().clearNotifications();
     }
 
 }

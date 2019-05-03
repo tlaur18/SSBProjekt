@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import ssb.data_layer.contracts.DocumentsContract;
 import ssb.data_layer.contracts.HomesContract;
 import ssb.data_layer.contracts.HomesNotificationsLinkContract;
@@ -32,7 +34,7 @@ public class NotificationData {
         }
     }
 
-    long getNotificationIdCount() {
+    long getMaxNotificationId() {
         String sqlCountId = "SELECT MAX(" + NotificationsContract.COLUMN_ID + ") AS " + NotificationsContract.COLUMN_ID
                 + " FROM " + NotificationsContract.TABLE_NAME;
         long highestID = -1;
@@ -91,5 +93,25 @@ public class NotificationData {
         }
 
         return columnData;
+    }
+
+    int getNotificationCount(String homeID) {
+        String sql = "SELECT COUNT() FROM " + HomesNotificationsLinkContract.TABLE_NAME
+                + " WHERE " + HomesNotificationsLinkContract.COLUMN_HOMES_ID + " = ?";
+        
+        int count = -1;
+        
+        try (Connection connection = db.connect();
+            PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, homeID);
+            ResultSet result = statement.executeQuery();
+            if (result.isBeforeFirst()) {
+                count = result.getInt("COUNT()");
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        
+        return count;
     }
 }

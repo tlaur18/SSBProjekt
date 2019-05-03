@@ -9,7 +9,8 @@ public class Notification {
     private String authorName;
     private String creationDate;
 
-    public Notification(String message, String authorName, String creationDate) {
+    public Notification(int id, String message, String authorName, String creationDate) {
+        this.id = id;
         this.message = message;
         this.authorName = authorName;
         this.creationDate = creationDate;

@@ -86,14 +86,19 @@ public class DatabaseManager {
         notificationData.insertHomeNotificationLink(notificationID, homeID);
     }
 
-    public long getNotificationIdCount() {
+    public long getMaxNotificationId() {
         NotificationData notificationData = new NotificationData();
-        return notificationData.getNotificationIdCount();
+        return notificationData.getMaxNotificationId();
     }
     
     public ArrayList<ArrayList<String>> getNotifications(String homeid){
         NotificationData notificationData = new NotificationData();
         return notificationData.getNotifications(homeid);
+    }
+
+    public int getNotificationCount(String homeID) {
+        NotificationData notificationData = new NotificationData();
+        return notificationData.getNotificationCount(homeID);
     }
     
     

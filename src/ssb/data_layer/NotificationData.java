@@ -66,15 +66,17 @@ public class NotificationData {
         }
     }
 
-    ArrayList<ArrayList<String>> getNotifications(String homeid) {
+    ArrayList<ArrayList<String>> loadNotifications(String homeid, String startIndex) {
         String sql = "SELECT * FROM " + HomesNotificationsLinkContract.TABLE_NAME + " INNER JOIN " + NotificationsContract.TABLE_NAME
                 + " ON " + HomesNotificationsLinkContract.COLUMN_NOTIFICATIONS_ID + " = " + NotificationsContract.COLUMN_ID
-                + " WHERE " + HomesNotificationsLinkContract.TABLE_NAME + "." + HomesNotificationsLinkContract.COLUMN_HOMES_ID + " = ?";
+                + " WHERE " + HomesNotificationsLinkContract.TABLE_NAME + "." + HomesNotificationsLinkContract.COLUMN_HOMES_ID + " = ? "
+                + " LIMIT ?, 999999999999999999";
 
         ArrayList<ArrayList<String>> columnData = new ArrayList<>();
         try (Connection connection = db.connect();
                 PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, homeid);
+            statement.setString(2, startIndex);
             ResultSet result = statement.executeQuery();
             while (result.next()) {
                 ArrayList<String> notificationData = new ArrayList<>();

@@ -45,9 +45,9 @@ public class NotificationsController implements Initializable {
         scrollPane.setFitToHeight(true);
         scrollPane.setFitToWidth(true);
 
+        notificationManager.checkForNewNotifications(currentDepartment.getId());
+
         showNotifications();
-        
-        checkForNewNotifications();
     }
 
     @FXML
@@ -111,9 +111,5 @@ public class NotificationsController implements Initializable {
             //Makes the scrollPane go to the bottom
             scrollPane.vvalueProperty().bind(notificationVbox.heightProperty());
         }
-    }
-
-    private void checkForNewNotifications() {
-        notificationManager.checkForNewNotifications(currentDepartment.getId());
     }
 }

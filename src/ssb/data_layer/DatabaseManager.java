@@ -91,9 +91,9 @@ public class DatabaseManager {
         return notificationData.getMaxNotificationId();
     }
     
-    public ArrayList<ArrayList<String>> getNotifications(String homeid){
+    public ArrayList<ArrayList<String>> loadNotifications(String homeid, String startIndex){
         NotificationData notificationData = new NotificationData();
-        return notificationData.getNotifications(homeid);
+        return notificationData.loadNotifications(homeid, startIndex);
     }
 
     public int getNotificationCount(String homeID) {

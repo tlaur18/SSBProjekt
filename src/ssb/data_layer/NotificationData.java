@@ -64,36 +64,13 @@ public class NotificationData {
         }
     }
 
-    ArrayList<Integer> getNotificationIds(String homeID) {
-
-        String sql = "SELECT " + HomesNotificationsLinkContract.COLUMN_NOTIFICATIONS_ID + " FROM " + HomesNotificationsLinkContract.TABLE_NAME
-                + " WHERE " + HomesNotificationsLinkContract.COLUMN_HOMES_ID + " = ?";
-        
-        ArrayList<Integer> columnData = new ArrayList<>();
-        
-        try (Connection connection = db.connect();
-            PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, homeID);
-            ResultSet result = statement.executeQuery();
-
-            while (result.next()) {
-                columnData.add(result.getInt(HomesNotificationsLinkContract.COLUMN_NOTIFICATIONS_ID));
-            }
-
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-        
-        return columnData;
-    }
-    
     ArrayList<ArrayList<String>> getNotifications(String homeid) {
         String sql = "SELECT * FROM " + HomesNotificationsLinkContract.TABLE_NAME + " NATURAL JOIN " + NotificationsContract.TABLE_NAME
-            + " WHERE " + HomesNotificationsLinkContract.TABLE_NAME + "." + HomesNotificationsLinkContract.COLUMN_HOMES_ID + " = ?";
+                + " WHERE " + HomesNotificationsLinkContract.TABLE_NAME + "." + HomesNotificationsLinkContract.COLUMN_HOMES_ID + " = ?";
 
         ArrayList<ArrayList<String>> columnData = new ArrayList<>();
         try (Connection connection = db.connect();
-            PreparedStatement statement = connection.prepareStatement(sql)) {
+                PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, homeid);
             ResultSet result = statement.executeQuery();
             while (result.next()) {
@@ -113,8 +90,5 @@ public class NotificationData {
         }
 
         return columnData;
-        
     }
-    
-    
 }

@@ -91,11 +91,6 @@ public class DatabaseManager {
         return notificationData.getNotificationIdCount();
     }
     
-    public ArrayList<Integer> getNotificationIds(String homeID) {
-        NotificationData notificationData = new NotificationData();
-        return notificationData.getNotificationIds(homeID);
-    }
-    
     public ArrayList<ArrayList<String>> getNotifications(String homeid){
         NotificationData notificationData = new NotificationData();
         return notificationData.getNotifications(homeid);

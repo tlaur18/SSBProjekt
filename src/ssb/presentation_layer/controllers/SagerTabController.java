@@ -31,12 +31,11 @@ public class SagerTabController implements Initializable {
     private TableView<Document> vumDocumentTableView;
 
     private final DocumentManager documentManager = DocumentManager.getInstance();
-    private InformationBridge informationBridge;
+    private InformationBridge informationBridge = InformationBridge.getInstance();
     private Employee loggedInEmployee;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        informationBridge = InformationBridge.getInstance();
         //Henter loggedInEmployee der lige er logget ind fra informationBridge
         loggedInEmployee = informationBridge.getLoggedInEmployee();
         // Forbinder tableView med observable list med dokumenterne

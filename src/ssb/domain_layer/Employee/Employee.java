@@ -121,6 +121,11 @@ public abstract class Employee extends Person {
     
     @Override
     public String toString() {
-       return "ost: " + getFirstName();
+       return "Employee firstname: " + getFirstName()
+                + "\n - lastname: " + getLastName()
+                + "\n - phonenumber: " + getPhoneNr()
+                + "\n - cpr: " +  getCprNr()
+                + "\n - CreationDate: "
+                + "\n";
     }
 }

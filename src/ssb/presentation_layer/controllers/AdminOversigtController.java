@@ -38,12 +38,14 @@ public class AdminOversigtController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        
         employeeManager.loadAllEmployess();
          oversigtTbl.setItems(employeeManager.getAllEmployees());
+         employeeManager.testMethod();
         // Sætter kolonner til at fylde 20% af bredden
         for (Object column : oversigtTbl.getColumns().toArray()) {
             TableColumn<Employee, ?> column1 = (TableColumn<Employee, ?>) column;
-//            column1.prefWidthProperty().bind(oversigtTbl.widthProperty().divide(1));
+            column1.prefWidthProperty().bind(oversigtTbl.widthProperty().divide(5));
             
         }
     }    

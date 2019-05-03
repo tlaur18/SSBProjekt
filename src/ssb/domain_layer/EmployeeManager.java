@@ -70,7 +70,6 @@ public class EmployeeManager {
                 allEmployees.add(employee);
                 break;
         }
-        System.out.println("added employeee" + employee);
         return employee;
     }
 
@@ -114,5 +113,10 @@ public class EmployeeManager {
     }
     public ObservableList<Employee> getAllEmployees() {
         return allEmployees;
+    }
+    public void testMethod() {
+        for (Employee emp : allEmployees) {
+            System.out.println(emp);
+        }
     }
 }

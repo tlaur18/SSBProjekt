@@ -65,7 +65,8 @@ public class NotificationData {
     }
 
     ArrayList<ArrayList<String>> getNotifications(String homeid) {
-        String sql = "SELECT * FROM " + HomesNotificationsLinkContract.TABLE_NAME + " NATURAL JOIN " + NotificationsContract.TABLE_NAME
+        String sql = "SELECT * FROM " + HomesNotificationsLinkContract.TABLE_NAME + " INNER JOIN " + NotificationsContract.TABLE_NAME
+                + " ON " + HomesNotificationsLinkContract.COLUMN_NOTIFICATIONS_ID + " = " + NotificationsContract.COLUMN_ID
                 + " WHERE " + HomesNotificationsLinkContract.TABLE_NAME + "." + HomesNotificationsLinkContract.COLUMN_HOMES_ID + " = ?";
 
         ArrayList<ArrayList<String>> columnData = new ArrayList<>();

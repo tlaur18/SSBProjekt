@@ -95,4 +95,11 @@ public class DatabaseManager {
         LogInData loginData = new LogInData();
         loginData.updateEmployeeLogin(userName, passWord, employeeCPR);
     }
+    public void deleteEmployee(String employeeCPR) {
+        LogInData loginData = new LogInData();
+        loginData.deleteEmployee(employeeCPR);
+        EmployeeWorkData employeeWorkData = new EmployeeWorkData();
+        employeeWorkData.deleteEmployee(employeeCPR);
+        employeeWorkData.deletePerson(employeeCPR);
+    }
 }

@@ -35,8 +35,6 @@ public class MainScreenController implements Initializable {
     @FXML
     private Button nybrugerid;
     @FXML
-    private Button editbrugerid;
-    @FXML
     private ImageView backBtn;
     @FXML
     private TextField searchCommandTxtField;
@@ -52,8 +50,6 @@ public class MainScreenController implements Initializable {
         oversigtbttnid.setDisable(true);
         nybrugerid.setVisible(false);
         nybrugerid.setDisable(true);
-        editbrugerid.setVisible(false);
-        editbrugerid.setDisable(true);
         //Controls if the logged in employee is administrator.
         if(InformationBridge.getInstance().getLoggedInEmployee() instanceof Administrator){
         adminLogin();
@@ -108,12 +104,9 @@ public class MainScreenController implements Initializable {
         oversigtbttnid.setVisible(true);
         nybrugerid.setDisable(false);
         nybrugerid.setVisible(true);
-        editbrugerid.setDisable(false);
-        editbrugerid.setVisible(true);
         //Adds the buttons to the Vbox menu.
         vBoxMenu.getChildren().add(oversigtbttnid);
         vBoxMenu.getChildren().add(nybrugerid);
-        vBoxMenu.getChildren().add(editbrugerid);
         
     }
 

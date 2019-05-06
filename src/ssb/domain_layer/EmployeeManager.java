@@ -118,5 +118,8 @@ public class EmployeeManager {
         DatabaseManager.getInstance().updateEmployeeData(person);
         DatabaseManager.getInstance().updateEmployeeLogin(userName, passWord, person.getCprNr());
     }
+    public void deleteEmployee(String emploueeCPR) {
+        DatabaseManager.getInstance().deleteEmployee(emploueeCPR);
+    }
 }
  

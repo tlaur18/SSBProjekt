@@ -5,9 +5,13 @@
  */
 package ssb.presentation_layer.controllers;
 
+import java.awt.Container;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -17,7 +21,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -59,6 +68,8 @@ public class AdminOversigtController implements Initializable {
     private Button EditUserBttn;
     @FXML
     private Label chooseAUserError;
+    @FXML
+    private Button deleteUserBttn;
 
     /**
      * Initializes the controller class.
@@ -66,13 +77,10 @@ public class AdminOversigtController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        
-        
-        
+
         // Set the Items of the Observable list 
         oversigtTbl.setItems(employeeManager.getAllEmployees());
 
-        
         //Loads the Role form the Employee, and places it in the column
         loadTableView();
         // Sets the width om the colums to 20 %
@@ -103,13 +111,16 @@ public class AdminOversigtController implements Initializable {
     private void newUserBttn(ActionEvent event) {
 
         try {
-            
-            URL url = new File("src/ssb/presentation_layer/fxml_documents/main_layout.fxml").toURL();
-            FXMLLoader loader = new FXMLLoader(url);
-            Parent root = (Parent) loader.load();
-            MainScreenController msc = new MainScreenController();
-            loader.getController();
-            msc.nybrugerOnAction(event);
+            InformationBridge.getInstance().putChosenEmployee(null);
+            URL urlEmployeeEditor = new File("src/ssb/presentation_layer/fxml_documents/adminNyBruger.fxml").toURL();
+                FXMLLoader loaderEmployeeEditor = new FXMLLoader(urlEmployeeEditor);
+                Parent rootEmployee = (Parent) loaderEmployeeEditor.load();
+                Stage stageEmployeeEditor = new Stage();
+                stageEmployeeEditor.setMinHeight(425);
+                stageEmployeeEditor.setMinWidth(650);
+                stageEmployeeEditor.setScene(new Scene(FXMLLoader.load(urlEmployeeEditor)));
+                stageEmployeeEditor.setTitle("Ny Bruger");
+                stageEmployeeEditor.show();
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -118,21 +129,44 @@ public class AdminOversigtController implements Initializable {
     @FXML
     private void EditUserBttn(ActionEvent event) {
         InformationBridge.getInstance().putChosenEmployee(oversigtTbl.getSelectionModel().getSelectedItem());
-        if(InformationBridge.getInstance().getChosenEmployee() != null) {
+        if (InformationBridge.getInstance().getChosenEmployee() != null) {
             try {
-            URL urlEmployeeEditor = new File("src/ssb/presentation_layer/fxml_documents/adminNyBruger.fxml").toURL();
-            FXMLLoader loaderEmployeeEditor = new FXMLLoader(urlEmployeeEditor);
-            Parent rootEmployee = (Parent) loaderEmployeeEditor.load();
-            Stage stageEmployeeEditor = new Stage();
-            stageEmployeeEditor.setMinHeight(425);
-            stageEmployeeEditor.setMinWidth(650);
-            stageEmployeeEditor.setScene(new Scene(FXMLLoader.load(urlEmployeeEditor)));
-            stageEmployeeEditor.setTitle("Employee Editor");
-            stageEmployeeEditor.show();
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
+                URL urlEmployeeEditor = new File("src/ssb/presentation_layer/fxml_documents/adminNyBruger.fxml").toURL();
+                FXMLLoader loaderEmployeeEditor = new FXMLLoader(urlEmployeeEditor);
+                Parent rootEmployee = (Parent) loaderEmployeeEditor.load();
+                Stage stageEmployeeEditor = new Stage();
+                stageEmployeeEditor.setMinHeight(425);
+                stageEmployeeEditor.setMinWidth(650);
+                stageEmployeeEditor.setScene(new Scene(FXMLLoader.load(urlEmployeeEditor)));
+                stageEmployeeEditor.setTitle("Employee Editor");
+                stageEmployeeEditor.show();
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+            }
+        } else {
+            chooseAUserError.setVisible(true);
         }
-    }else {
+    }
+
+    @FXML
+    private void deleteUserBttn(ActionEvent event) {
+        InformationBridge.getInstance().putChosenEmployee(oversigtTbl.getSelectionModel().getSelectedItem());
+        if(InformationBridge.getInstance().getChosenEmployee() != null) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Slet bruger");
+        alert.setHeaderText(null);
+        alert.setContentText("Ønsker du at slette " + InformationBridge.getInstance().getChosenEmployee().getFirstName());
+
+        alert.showAndWait().ifPresent(type -> {
+            if (type == ButtonType.OK) {
+                employeeManager.deleteEmployee(InformationBridge.getInstance().getChosenEmployee().getCprNr());
+            } else if (type == ButtonType.CANCEL) {
+                System.out.println("no is chosen");
+            } else {
+            }
+        });
+        }
+        else {
             chooseAUserError.setVisible(true);
         }
     }

@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import ssb.data_layer.contracts.LoginsContract;
 import ssb.data_layer.contracts.PersonsContract;
 
@@ -49,7 +51,17 @@ class LogInData implements Runnable {
             updateStatement.setString(1, userName);
             updateStatement.setString(2, passWord);
             updateStatement.setString(3, employeeCPR);
-            System.out.println(updateStatement);
+            updateStatement.execute();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+    void deleteEmployee (String employeeCPR) {
+        String sqlUpdate = "Delete From " + LoginsContract.TABLE_NAME +
+                " WHERE " + LoginsContract.COLUMN_EMPLOYEECPR + " = ?";
+        try(Connection connection = db.connect();
+          PreparedStatement updateStatement = connection.prepareStatement(sqlUpdate)) {
+            updateStatement.setString(1, employeeCPR);
             updateStatement.execute();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());

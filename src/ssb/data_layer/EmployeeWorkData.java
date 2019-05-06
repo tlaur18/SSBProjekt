@@ -8,6 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import ssb.data_layer.contracts.DocumentsContract;
 import ssb.data_layer.contracts.EmployeeContract;
 import ssb.data_layer.contracts.LoginsContract;
@@ -82,34 +84,34 @@ class EmployeeWorkData {
 
     ArrayList<HashMap<String, String>> loadAllEmployees() {
         PreparedStatement ps = null;
-            String sql = "SELECT * FROM " + EmployeeContract.TABLE_NAME + " NATURAL JOIN " + PersonsContract.TABLE_NAME;
-            
+        String sql = "SELECT * FROM " + EmployeeContract.TABLE_NAME + " NATURAL JOIN " + PersonsContract.TABLE_NAME;
+
         ArrayList<HashMap<String, String>> allEmployeeHashmaps = new ArrayList();
-        
-        try(Connection connection = db.connect(); 
-            PreparedStatement statement = connection.prepareStatement(sql)) {
-            
+
+        try (Connection connection = db.connect();
+                PreparedStatement statement = connection.prepareStatement(sql)) {
+
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 allEmployeeHashmaps.add(getEmployeeData(rs.getString(EmployeeContract.COLUMN_CPR)));
-            } 
+            }
         } catch (SQLException e) {
             // handle exception
         } finally {
-         
+
         }
         return allEmployeeHashmaps;
     }
-    
-     void updateEmployee(String employeeCpr, String firstName, String lastName, String phoneNumber) {
+
+    void updateEmployee(String employeeCpr, String firstName, String lastName, String phoneNumber) {
         String sqlUpdate = "UPDATE " + PersonsContract.TABLE_NAME
-            + " SET "  
+                + " SET "
                 + PersonsContract.COLUMN_FIRST_NAME + " = ?, "
                 + PersonsContract.COLUMN_LAST_NAME + " = ?, "
                 + PersonsContract.COLUMN_PHONE + " = ?"
-            + " WHERE " + PersonsContract.COLUMN_CPR + " = ?";
+                + " WHERE " + PersonsContract.COLUMN_CPR + " = ?";
         try (Connection connection = db.connect();
-            PreparedStatement updateStatement = connection.prepareStatement(sqlUpdate)) {
+                PreparedStatement updateStatement = connection.prepareStatement(sqlUpdate)) {
             updateStatement.setString(1, firstName);
             updateStatement.setString(2, lastName);
             updateStatement.setString(3, phoneNumber);
@@ -120,5 +122,27 @@ class EmployeeWorkData {
             System.out.println(ex.getMessage());
         }
     }
-     
+
+    void deleteEmployee(String employeeCPR) {
+        String sqlUpdate = "DELETE FROM " + EmployeeContract.TABLE_NAME
+                + " WHERE " + EmployeeContract.COLUMN_CPR + " = ?";
+        try (Connection connection = db.connect();
+                PreparedStatement updateStatement = connection.prepareStatement(sqlUpdate)) {
+            updateStatement.setString(1, employeeCPR);
+            updateStatement.execute();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+    void deletePerson(String personCPR) {
+        String sqlUpdate = "DELETE FROM " + PersonsContract.TABLE_NAME +
+                " WHERE " + PersonsContract.COLUMN_CPR + " = ?";
+        try(Connection connection = db.connect();
+                PreparedStatement updateStatement = connection.prepareStatement(sqlUpdate)) {
+            updateStatement.setString(1, personCPR);
+            updateStatement.execute();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
 }

@@ -18,6 +18,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import ssb.domain_layer.Employee.Administrator;
 import ssb.domain_layer.Employee.Employee;
 import ssb.domain_layer.Employee.Sagsbehandler;
@@ -61,13 +62,13 @@ public class AdminNyBrugerController implements Initializable {
         System.out.println(informationBridge.getChosenEmployee());
         if (informationBridge.getChosenEmployee() != null) {
             loadEmployeeDetails();
+            cprFxtf.setDisable(true);
         }
     }
 
     @FXML
     private void saveBttn(ActionEvent event) {
-        if (informationBridge.getChosenEmployee() == null);
-        {
+        if (informationBridge.getChosenEmployee() == null) {
             if (requiredFields()) {
                 EmployeeManager employeeManager = new EmployeeManager();
                 List<String> choices = new ArrayList<>();
@@ -119,13 +120,18 @@ public class AdminNyBrugerController implements Initializable {
                         }
                     }
                 }
+
             } else {
                 requiredFieldsLbl.setVisible(true);
             }
-        } 
-//        else {
-//                
-//                }
+        } else {
+            EmployeeManager empManager = new EmployeeManager();
+            Person person = new Person(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText()) {
+            };
+            empManager.updateEmployeDetails(person, brugernavnTxtf.getText(), kodeordTxtf.getText());
+            Stage stage = (Stage) saveBttn.getScene().getWindow();
+            stage.close();
+        }
     }
 
     public boolean requiredFields() {

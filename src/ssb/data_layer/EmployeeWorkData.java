@@ -103,22 +103,22 @@ class EmployeeWorkData {
     
      void updateEmployee(String employeeCpr, String firstName, String lastName, String phoneNumber) {
         String sqlUpdate = "UPDATE " + PersonsContract.TABLE_NAME
-            + " SET " + PersonsContract.COLUMN_CPR + " = ?, "
+            + " SET "  
                 + PersonsContract.COLUMN_FIRST_NAME + " = ?, "
                 + PersonsContract.COLUMN_LAST_NAME + " = ?, "
                 + PersonsContract.COLUMN_PHONE + " = ?"
             + " WHERE " + PersonsContract.COLUMN_CPR + " = ?";
         try (Connection connection = db.connect();
             PreparedStatement updateStatement = connection.prepareStatement(sqlUpdate)) {
-            updateStatement.setString(1, employeeCpr);
-            updateStatement.setString(2, firstName);
-            updateStatement.setString(3, lastName);
-            updateStatement.setString(4, phoneNumber);
-            updateStatement.setString(5, employeeCpr);
+            updateStatement.setString(1, firstName);
+            updateStatement.setString(2, lastName);
+            updateStatement.setString(3, phoneNumber);
+            updateStatement.setString(4, employeeCpr);
             System.out.println(updateStatement);
             updateStatement.execute();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
     }
+     
 }

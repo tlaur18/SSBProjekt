@@ -89,6 +89,10 @@ public class DatabaseManager {
     }
     public void updateEmployeeData(Person person) {
         EmployeeWorkData employeeWorkData = new EmployeeWorkData();
-        employeeWorkData.updateEmployee(person.getCprNr(), person.getFirstName(), person.getLastName(), DATABASE_NAME);
+        employeeWorkData.updateEmployee(person.getCprNr(), person.getFirstName(), person.getLastName(), person.getPhoneNr());
+    }
+    public void updateEmployeeLogin(String userName, String passWord, String employeeCPR) {
+        LogInData loginData = new LogInData();
+        loginData.updateEmployeeLogin(userName, passWord, employeeCPR);
     }
 }

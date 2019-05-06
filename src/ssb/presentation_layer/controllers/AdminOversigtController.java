@@ -18,6 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
@@ -56,6 +57,8 @@ public class AdminOversigtController implements Initializable {
     private Button newUserBttn;
     @FXML
     private Button EditUserBttn;
+    @FXML
+    private Label chooseAUserError;
 
     /**
      * Initializes the controller class.
@@ -115,6 +118,7 @@ public class AdminOversigtController implements Initializable {
     @FXML
     private void EditUserBttn(ActionEvent event) {
         InformationBridge.getInstance().putChosenEmployee(oversigtTbl.getSelectionModel().getSelectedItem());
+        if(InformationBridge.getInstance().getChosenEmployee() != null) {
             try {
             URL urlEmployeeEditor = new File("src/ssb/presentation_layer/fxml_documents/adminNyBruger.fxml").toURL();
             FXMLLoader loaderEmployeeEditor = new FXMLLoader(urlEmployeeEditor);
@@ -127,6 +131,9 @@ public class AdminOversigtController implements Initializable {
             stageEmployeeEditor.show();
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
+        }
+    }else {
+            chooseAUserError.setVisible(true);
         }
     }
 }

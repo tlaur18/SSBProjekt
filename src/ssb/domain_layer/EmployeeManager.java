@@ -114,7 +114,9 @@ public class EmployeeManager {
     public ObservableList<Person> getAllEmployees() {
         return allEmployees;
     }
-    public void updateEmployeDetails(Person person) {
-//        DatabaseManager.getInstance().
+    public void updateEmployeDetails(Person person, String userName, String passWord) {
+        DatabaseManager.getInstance().updateEmployeeData(person);
+        DatabaseManager.getInstance().updateEmployeeLogin(userName, passWord, person.getCprNr());
     }
 }
+ 

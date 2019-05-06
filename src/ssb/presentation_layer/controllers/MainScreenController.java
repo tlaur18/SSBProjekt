@@ -19,6 +19,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import ssb.domain_layer.Employee.Administrator;
+import ssb.domain_layer.EmployeeManager;
 import ssb.domain_layer.InformationBridge;
 
 public class MainScreenController implements Initializable {
@@ -98,6 +99,8 @@ public class MainScreenController implements Initializable {
 
     public void adminLogin() {
         //removes all the buttons in the left Menu
+         //Loads all employees from the database and create new employees
+        EmployeeManager.getInstance().loadAllEmployess();
         vBoxMenu.getChildren().removeAll(vBoxMenu.getChildren());
         
         // Shows the admin button in the left menu
@@ -120,12 +123,15 @@ public class MainScreenController implements Initializable {
     }
 
     @FXML
-    private void nybrugerOnAction(ActionEvent event) {
+    public void nybrugerOnAction(ActionEvent event) {
         loadFXML("adminNyBruger");
     }
 
     @FXML
     private void editbrugerOnAction(ActionEvent event) {
         System.out.println("Still to be done");
+    }
+    public BorderPane getBorderPane(){
+        return this.borderPane;
     }
 }

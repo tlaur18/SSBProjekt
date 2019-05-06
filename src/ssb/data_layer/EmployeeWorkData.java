@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import ssb.data_layer.contracts.DocumentsContract;
 import ssb.data_layer.contracts.EmployeeContract;
 import ssb.data_layer.contracts.LoginsContract;
 import ssb.data_layer.contracts.PersonsContract;
@@ -98,5 +99,26 @@ class EmployeeWorkData {
          
         }
         return allEmployeeHashmaps;
+    }
+    
+     void updateEmployee(String employeeCpr, String firstName, String lastName, String phoneNumber) {
+        String sqlUpdate = "UPDATE " + PersonsContract.TABLE_NAME
+            + " SET " + PersonsContract.COLUMN_CPR + " = ?, "
+                + PersonsContract.COLUMN_FIRST_NAME + " = ?, "
+                + PersonsContract.COLUMN_LAST_NAME + " = ?, "
+                + PersonsContract.COLUMN_PHONE + " = ?"
+            + " WHERE " + PersonsContract.COLUMN_CPR + " = ?";
+        try (Connection connection = db.connect();
+            PreparedStatement updateStatement = connection.prepareStatement(sqlUpdate)) {
+            updateStatement.setString(1, employeeCpr);
+            updateStatement.setString(2, firstName);
+            updateStatement.setString(3, lastName);
+            updateStatement.setString(4, phoneNumber);
+            updateStatement.setString(5, employeeCpr);
+            System.out.println(updateStatement);
+            updateStatement.execute();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 }

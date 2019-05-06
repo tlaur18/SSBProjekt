@@ -51,9 +51,7 @@
       <TableView id="tableView" fx:id="vumDocumentTableView" focusTraversable="false" onMouseClicked="#openDocumentAction" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
          <columns>
             <TableColumn id="tableColumn" editable="false" minWidth="-Infinity" prefWidth="102.0" resizable="false" text="Dokument navn">
-               <cellValueFactory>
-                  <PropertyValueFactory property="documentName" />
-               </cellValueFactory>
+               
             </TableColumn>
             <TableColumn id="tableColumn" fx:id="beboerColumn" editable="false" minWidth="-Infinity" prefWidth="50.0" resizable="false" text="Beboer">
                <cellValueFactory>

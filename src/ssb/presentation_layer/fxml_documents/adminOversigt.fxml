@@ -5,15 +5,18 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="488.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ssb.presentation_layer.controllers.AdminOversigtController">
+<GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ssb.presentation_layer.controllers.AdminOversigtController">
   <columnConstraints>
-      <ColumnConstraints hgrow="NEVER" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="25.0" prefWidth="400.0" />
-    <ColumnConstraints hgrow="NEVER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" percentWidth="25.0" prefWidth="234.0" />
-    <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="32.0" prefWidth="400.0" />
+      <ColumnConstraints hgrow="NEVER" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="10.0" prefWidth="400.0" />
+      <ColumnConstraints hgrow="NEVER" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="26.0" prefWidth="400.0" />
+    <ColumnConstraints hgrow="NEVER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" percentWidth="26.0" prefWidth="150.0" />
+    <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="26.0" prefWidth="400.0" />
+      <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="10.0" prefWidth="400.0" />
   </columnConstraints>
   <rowConstraints>
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -24,19 +27,41 @@
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Button fx:id="saveBttn" alignment="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#saveBttn" text="Gem" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+      <Button fx:id="newUserBttn" alignment="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#newUserBttn" text="Opret Ny beboer" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
       </Button>
-      <Label text="Bruger Oversigt" GridPane.columnIndex="1" />
-      <TableView fx:id="oversigtTbl" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="1" GridPane.rowSpan="4">
+      <Button fx:id="EditUserBttn" alignment="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#EditUserBttn" text="Rediger bruger" GridPane.columnIndex="2" GridPane.rowIndex="5">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </Button>
+      <Label text="Bruger Oversigt" GridPane.columnIndex="2" />
+      <TableView fx:id="oversigtTbl" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1" GridPane.rowSpan="4">
         <columns>
-            <TableColumn prefWidth="75.0" text="Column X" />
-            <TableColumn prefWidth="75.0" text="Column X" />
-          <TableColumn prefWidth="233.0" text="Brugere" />
-            <TableColumn prefWidth="75.0" text="Column X" />
-            <TableColumn prefWidth="75.0" text="Column X" />
+            <TableColumn fx:id="tableColumnFornavn" prefWidth="75.0" text="Fornavn">
+                <cellValueFactory>
+                  <PropertyValueFactory property="firstName" />
+               </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="tableColumnEftrnavn" prefWidth="75.0" text="Efternavn">
+                <cellValueFactory>
+                  <PropertyValueFactory property="lastName" />
+               </cellValueFactory>
+            </TableColumn>
+          <TableColumn fx:id="tableColumnCPR" prefWidth="233.0" text="CPR Nummer">
+              <cellValueFactory>
+                  <PropertyValueFactory property="phoneNr" />
+               </cellValueFactory>
+          </TableColumn>
+            <TableColumn fx:id="tableColumnTelefon" prefWidth="75.0" text="Telefon">
+                <cellValueFactory>
+                  <PropertyValueFactory property="cprNr" />
+               </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="tableColumnRolle" prefWidth="75.0" text="Rolle">
+            </TableColumn>
         </columns>
       </TableView>
    </children>

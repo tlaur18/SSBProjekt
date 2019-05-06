@@ -21,7 +21,7 @@ public class EmployeeManager {
     private final DatabaseManager db = DatabaseManager.getInstance();
     private final InformationBridge informationBridge = InformationBridge.getInstance();
     private static EmployeeManager INSTANCE = null;
-    private ObservableList<Employee> allEmployees = FXCollections.observableArrayList();
+    private ObservableList<Person> allEmployees = FXCollections.observableArrayList();
 
     public boolean checkUserLogIn(String userNameInput, String passwordInput) {
         String employeeCPRString = db.checkUserLogin(userNameInput, passwordInput);
@@ -111,12 +111,10 @@ public class EmployeeManager {
             setEmployeeDetails(map);
         }
     }
-    public ObservableList<Employee> getAllEmployees() {
+    public ObservableList<Person> getAllEmployees() {
         return allEmployees;
     }
-    public void testMethod() {
-        for (Employee emp : allEmployees) {
-            System.out.println(emp);
-        }
+    public void updateEmployeDetails(Person person) {
+//        DatabaseManager.getInstance().
     }
 }

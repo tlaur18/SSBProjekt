@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import ssb.domain_layer.Document;
 import ssb.domain_layer.EmployeeManager;
+import ssb.domain_layer.Person;
 import ssb.domain_layer.Resident;
 
 public class DatabaseManager {
@@ -85,5 +86,9 @@ public class DatabaseManager {
     public ArrayList<HashMap<String, String>> GetAllEmployees() {
         EmployeeWorkData employeeWorkData = new EmployeeWorkData();
         return employeeWorkData.loadAllEmployees();
+    }
+    public void updateEmployeeData(Person person) {
+        EmployeeWorkData employeeWorkData = new EmployeeWorkData();
+        employeeWorkData.updateEmployee(person.getCprNr(), person.getFirstName(), person.getLastName(), DATABASE_NAME);
     }
 }

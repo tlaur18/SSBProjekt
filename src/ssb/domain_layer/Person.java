@@ -20,7 +20,12 @@ public abstract class Person {
     ID: First four letters of the Person's name + birthdate (without the year)
      */
     private String generateID() {
+        if(firstName.length() >= 4 && lastName.length() >= 4 && cprNr.length() >= 5){
         return firstName.substring(0, 3) + lastName.substring(0, 3) + cprNr.substring(0, 4);
+        }
+        else {
+            return firstName.substring(0, firstName.length()) + lastName.substring(0, lastName.length()) + cprNr.substring(0, cprNr.length());
+        }
     }
 
     public String getFirstName() {

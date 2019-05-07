@@ -20,13 +20,10 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import ssb.domain_layer.DocumentManager;
 import ssb.domain_layer.EmployeeManager;
+import ssb.domain_layer.InformationBridge;
 import ssb.domain_layer.LoginCallBack;
 
-/**
- * FXML Controller class
- *
- * @author olive
- */
+
 public class LoginLayoutController implements Initializable, LoginCallBack {
 
     @FXML
@@ -40,7 +37,7 @@ public class LoginLayoutController implements Initializable, LoginCallBack {
 
     private String enteredUsername;
     private String enteredPassword;
-    private EmployeeManager loginManager = new EmployeeManager();
+    private EmployeeManager loginManager = EmployeeManager.getInstance();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -60,9 +57,10 @@ public class LoginLayoutController implements Initializable, LoginCallBack {
     }
 
     private void changeStage() {
+        FXMLLoader loader = null;
         try {
             URL url3 = new File("src/ssb/presentation_layer/fxml_documents/main_layout.fxml").toURL();
-            FXMLLoader loader = new FXMLLoader(url3);
+            loader = new FXMLLoader(url3);
             Parent root = (Parent) loader.load();
             Stage mainStage = new Stage();
             mainStage.setMinHeight(450);

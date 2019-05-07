@@ -74,4 +74,34 @@ public class DatabaseManager {
         return homeData.getEmployeeHomes(employeeCPRString);
     }
 
+    public void insertEmployee(String employeecpr, String firstName, String lastName, String phoneNumber, String employeeRole, String employeeUsername, String employeePassword){
+        EmployeeWorkData employeeWorkData = new EmployeeWorkData();
+        employeeWorkData.insertEmployeePerson(employeecpr, firstName, lastName, phoneNumber);
+        employeeWorkData.insertEmployee(employeecpr, employeeRole);
+        LogInData loginData = new LogInData();
+        loginData.insertEmployeeLogin(employeecpr, employeeUsername, employeePassword);
+    }
+    public ArrayList<HashMap<String, String>> GetAllEmployees() {
+        EmployeeWorkData employeeWorkData = new EmployeeWorkData();
+        return employeeWorkData.loadAllEmployees();
+    }
+    public void updateEmployeeData(String employeeCPR, String firstName, String lastName, String phoneNr) {
+        EmployeeWorkData employeeWorkData = new EmployeeWorkData();
+        employeeWorkData.updateEmployee(employeeCPR, firstName, lastName, phoneNr);
+    }
+    public void updateEmployeeLogin(String userName, String passWord, String employeeCPR) {
+        LogInData loginData = new LogInData();
+        loginData.updateEmployeeLogin(userName, passWord, employeeCPR);
+    }
+    public void deleteEmployee(String employeeCPR) {
+        LogInData loginData = new LogInData();
+        loginData.deleteEmployee(employeeCPR);
+        EmployeeWorkData employeeWorkData = new EmployeeWorkData();
+        employeeWorkData.deleteEmployee(employeeCPR);
+        employeeWorkData.deletePerson(employeeCPR);
+    }
+    public HashMap<String, String> getEmployeeLogin(Person person) {
+        LogInData loginData = new LogInData();
+        return loginData.getLoginData(person.getCprNr());
+    }
 }

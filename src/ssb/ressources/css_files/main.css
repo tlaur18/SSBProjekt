@@ -6,6 +6,21 @@
     -fx-prompt-text-fill: #757575;
 }
 
+.menuTextError {
+    -fx-text-fill: #fc1414;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-background-color: transparent;
+    -fx-prompt-text-fill: #fc1414;
+}
+
+.menuTitleText {
+    -fx-text-fill: #212121;
+    -fx-font-weight: bold;
+    -fx-font-size: 32px;
+    -fx-prompt-text-fill: #757575;
+}
+
 .menuButtons {
     -fx-border-color: transparent;
     -fx-border-width: 0;
@@ -31,6 +46,26 @@
 }
 
 .orderingButtons {
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+    -fx-text-alignment: left;
+    -fx-text-fill: #212121;
+    ;
+}
+
+.creationButtons {
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: #cecece;
+    -fx-text-alignment: left;
+    -fx-text-fill: #212121;
+    ;
+}
+
+.creationToolbar {
     -fx-border-color: transparent;
     -fx-border-width: 0;
     -fx-background-radius: 0;
@@ -81,4 +116,5 @@
     -fx-text-fill: #212121;
     -fx-alignment: center-left;
     -fx-padding: 1;
+    
 }

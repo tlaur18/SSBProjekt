@@ -12,6 +12,7 @@ public abstract class Employee extends Person {
     private boolean canCloseCase;
     private boolean canCreateNotification;
     private boolean canSeeNotifications;
+    private boolean canUseAdminRights;
 
     public Employee(String firstName, String lastName, String phoneNr, String cprNr) {
         super(firstName, lastName, phoneNr, cprNr);
@@ -79,5 +80,23 @@ public abstract class Employee extends Person {
 
     protected final void setCanSeeNotifications(boolean canSeeNotifications) {
         this.canSeeNotifications = canSeeNotifications;
+    }
+    
+    protected final void setCanUseAdminRights(boolean canUseAdminRights) {
+        this.canUseAdminRights = canUseAdminRights;
+    }
+    public final boolean canUseAdminRights() {
+        return this.canUseAdminRights;
+    }
+    public abstract String getEmployeeRole();
+    
+    @Override
+    public String toString() {
+       return "Employee firstname: " + getFirstName()
+                + "\n - lastname: " + getLastName()
+                + "\n - phonenumber: " + getPhoneNr()
+                + "\n - cpr: " +  getCprNr()
+                + "\n - CreationDate: "
+                + "\n";
     }
 }

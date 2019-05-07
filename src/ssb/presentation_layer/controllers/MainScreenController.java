@@ -15,7 +15,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import ssb.domain_layer.Employee.Administrator;
+import ssb.domain_layer.EmployeeManager;
 import ssb.domain_layer.InformationBridge;
 
 public class MainScreenController implements Initializable {
@@ -25,6 +28,18 @@ public class MainScreenController implements Initializable {
     @FXML
     private BorderPane borderPane;
     @FXML
+    private VBox vBoxMenu;
+    @FXML
+    private Button oversigtbttnid;
+    @FXML
+    private Button nybrugerid;
+    @FXML
+    private ImageView backBtn;
+    @FXML
+    private TextField searchCommandTxtField;
+    @FXML
+    private Button sagerFaneBtn;
+    @FXML
     private ImageView backBtn;
     @FXML
     private TextField searchCommandTxtField;
@@ -33,7 +48,18 @@ public class MainScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        loadFXML("notifications");
+        // TODO - Notification screen loading
+
+        //removes the admin buttons and disables them
+        SKAL FLYTTES TIL FXML
+        oversigtbttnid.setVisible(false);
+        oversigtbttnid.setDisable(true);
+        //Controls if the logged in employee is administrator.
+        if (InformationBridge.getInstance().getLoggedInEmployee() instanceof Administrator) {
+            adminLogin();
+        } else {
+            loadFXML("notifications");
+        }
     }
 
     @FXML
@@ -76,5 +102,24 @@ public class MainScreenController implements Initializable {
     @FXML
     private void homeButtonHandler(MouseEvent event) {
         loadFXML("notifications");
+    }
+
+    public void adminLogin() {
+        //removes all the buttons in the left Menu
+        //Loads all employees from the database and create new employees
+        EmployeeManager.getInstance().clearObservableList();
+        EmployeeManager.getInstance().loadAllEmployess();
+        vBoxMenu.getChildren().removeAll(vBoxMenu.getChildren());
+
+        // Shows the admin button in the left menu
+        oversigtbttnid.setDisable(false);
+        oversigtbttnid.setVisible(true);
+        //Adds the button to the Vbox menu.
+        vBoxMenu.getChildren().add(oversigtbttnid);
+    }
+
+    @FXML
+    private void oversigtOnAction(ActionEvent event) {
+        loadFXML("adminOversigt");
     }
 }

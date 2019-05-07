@@ -3,10 +3,13 @@ package ssb.domain_layer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import ssb.data_layer.DatabaseManager;
 import ssb.data_layer.contracts.EmployeeContract;
 import ssb.data_layer.contracts.HomesContract;
 import ssb.data_layer.contracts.PersonsContract;
+import ssb.domain_layer.Employee.Administrator;
 import ssb.domain_layer.Employee.Employee;
 import ssb.domain_layer.Employee.Sagsbehandler;
 import ssb.domain_layer.Employee.SocialPædagog;
@@ -18,6 +21,10 @@ public class EmployeeManager {
     private final DatabaseManager db = DatabaseManager.getInstance();
     private final InformationBridge informationBridge = InformationBridge.getInstance();
     private List<Home> employeeHomes;
+    private static EmployeeManager INSTANCE = null;
+    private ObservableList<Person> allEmployees = FXCollections.observableArrayList();
+    
+    private EmployeeManager() {}
 
     public boolean checkUserLogIn(String userNameInput, String passwordInput, LoginCallBack loginCallBack) {
         String employeeCPRString = db.checkUserLogin(userNameInput, passwordInput);
@@ -37,6 +44,13 @@ public class EmployeeManager {
             return true;
         }
         return false;
+    }
+
+    public static EmployeeManager getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new EmployeeManager();
+        }
+        return INSTANCE;
     }
 
     public void fillHomeData(String homeName) {
@@ -59,15 +73,23 @@ public class EmployeeManager {
         switch (role) {
             case "socialrådgiver":
                 employee = new Socialrådgiver(firstName, lastName, phoneNr, cprNr);
+                allEmployees.add(employee);
                 break;
             case "sagsbehandler":
                 employee = new Sagsbehandler(firstName, lastName, phoneNr, cprNr);
+                allEmployees.add(employee);
                 break;
             case "socialpædagog":
                 employee = new SocialPædagog(firstName, lastName, phoneNr, cprNr);
+                allEmployees.add(employee);
                 break;
             case "vikar":
                 employee = new Vikar(firstName, lastName, phoneNr, cprNr);
+                allEmployees.add(employee);
+                break;
+            case "admin":
+                employee = new Administrator(firstName, lastName, phoneNr, cprNr);
+                allEmployees.add(employee);
                 break;
         }
         return employee;
@@ -110,5 +132,45 @@ public class EmployeeManager {
         for (HashMap<String, String> hashMap : residentsData) {
             home.addResident(makeResidentObject(hashMap));
         }
+    }
+
+    public void addEmployeeToDB(Employee employee, String username, String password) {
+        DatabaseManager.getInstance().insertEmployee(employee.getCprNr(), employee.getFirstName(), employee.getLastName(), employee.getPhoneNr(), employee.getEmployeeRole(), username, password);
+        addEmployeeToObservable(employee);
+    }
+
+    public void loadAllEmployess() {
+
+        for (HashMap<String, String> map : db.GetAllEmployees()) {
+            setEmployeeDetails(map);
+        }
+    }
+
+    public ObservableList<Person> getAllEmployees() {
+        return allEmployees;
+    }
+
+    public void addEmployeeToObservable(Person person) {
+        allEmployees.add(person);
+    }
+
+    public void deleteEmployeeFromObservable(Person person) {
+        allEmployees.remove(person);
+    }
+    public void clearObservableList() {
+        allEmployees.clear();
+    }
+
+    public void updateEmployeeDetails(Person person, String userName, String passWord) {
+        DatabaseManager.getInstance().updateEmployeeData(person.getCprNr(), person.getFirstName(), person.getLastName(), person.getPhoneNr());
+        DatabaseManager.getInstance().updateEmployeeLogin(userName, passWord, person.getCprNr());
+    }
+
+    public void deleteEmployee(String employeeCPR) {
+        DatabaseManager.getInstance().deleteEmployee(employeeCPR);
+    }
+
+    public HashMap<String, String> getEmployeeLogin(Person person) {
+        return DatabaseManager.getInstance().getEmployeeLogin(person);
     }
 }

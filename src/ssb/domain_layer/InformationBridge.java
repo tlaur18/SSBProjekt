@@ -8,6 +8,7 @@ public class InformationBridge {
     private Resident chosenResident;
     private Document chosenDocument;
     private Employee loggedInEmployee = null;
+    private Person chosenEmployee;
     private Home currentHome;
 
     public Home getCurrentHome() {
@@ -23,6 +24,12 @@ public class InformationBridge {
 
     public void putChosenResident(Resident resident) {
         this.chosenResident = resident;
+    }
+    public void putChosenEmployee(Person person) {
+        this.chosenEmployee = person;
+    }
+    public Person getChosenEmployee(){
+        return this.chosenEmployee;
     }
 
     public Resident getChosenResident() {

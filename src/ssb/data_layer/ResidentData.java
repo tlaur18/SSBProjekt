@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import ssb.data_layer.contracts.DocumentsContract;
-import ssb.data_layer.contracts.EmployeeResidentLinkContract;
 import ssb.data_layer.contracts.PersonsContract;
 import ssb.data_layer.contracts.ResidentsContract;
 

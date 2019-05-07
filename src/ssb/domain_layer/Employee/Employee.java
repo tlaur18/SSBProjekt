@@ -1,12 +1,6 @@
 package ssb.domain_layer.Employee;
 
-import java.util.ArrayList;
-import java.util.List;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import ssb.domain_layer.Document;
 import ssb.domain_layer.Person;
-import ssb.domain_layer.Resident;
 
 public abstract class Employee extends Person {
 
@@ -19,31 +13,8 @@ public abstract class Employee extends Person {
     private boolean canCreateNotification;
     private boolean canSeeNotifications;
 
-    private List<Resident> residents;
-
     public Employee(String firstName, String lastName, String phoneNr, String cprNr) {
         super(firstName, lastName, phoneNr, cprNr);
-        residents = new ArrayList<>();
-    }
-
-    public List<Resident> getResidents() {
-        return residents;
-    }
-
-    public List<Document> getResidentDocuments() {
-        List<Document> allDocumentsForAllResidents = new ArrayList<>();
-        for (Resident resident : residents) {
-            allDocumentsForAllResidents.addAll(resident.getDocuments());
-        }
-        return allDocumentsForAllResidents;
-    }
-
-    public void addResident(Resident resident) {
-        residents.add(resident);
-    }
-
-    public void removeResident(Resident resident) {
-        residents.remove(resident);
     }
 
     public final boolean canAccessCreateDocBtn() {

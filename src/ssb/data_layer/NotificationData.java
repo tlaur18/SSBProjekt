@@ -6,17 +6,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import ssb.data_layer.contracts.DocumentsContract;
-import ssb.data_layer.contracts.HomesContract;
 import ssb.data_layer.contracts.HomesNotificationsLinkContract;
 import ssb.data_layer.contracts.NotificationsContract;
 
 public class NotificationData {
 
-    private final DatabaseManager db = DatabaseManager.getInstance();
+    private final DatabaseConnection db = DatabaseConnection.getInstance();
 
     public void insertNotification(String message, String author, String creationDate) {
         String sql = "INSERT INTO " + NotificationsContract.TABLE_NAME + "(" + NotificationsContract.COLUMN_MESSAGE

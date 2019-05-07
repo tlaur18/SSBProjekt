@@ -9,22 +9,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import ssb.data_layer.contracts.DocumentsContract;
 import ssb.data_layer.contracts.PersonsContract;
+import ssb.data_layer.contracts.PersonsHomesLinkContract;
 import ssb.data_layer.contracts.ResidentsContract;
 
 public class ResidentData {
 
-    private final DatabaseManager db = DatabaseManager.getInstance();
+    private final DatabaseConnection db = DatabaseConnection.getInstance();
 
-    ArrayList<HashMap<String, String>> getEmployeeResidents(String employeeCpr) {
+    ArrayList<HashMap<String, String>> getHomeResidents(String homeId) {
         String sql = "SELECT * FROM " + ResidentsContract.TABLE_NAME + " NATURAL JOIN " + PersonsContract.TABLE_NAME
-            + " WHERE " + ResidentsContract.TABLE_NAME + "." + ResidentsContract.COLUMN_CPR + " IN ("
-            + "SELECT " + EmployeeResidentLinkContract.COLUMN_RESIDENT_CPR + " FROM " + EmployeeResidentLinkContract.TABLE_NAME
-            + " WHERE " + EmployeeResidentLinkContract.COLUMN_EMPLOYEE_CPR + " = ?)";
+                + " WHERE " + ResidentsContract.TABLE_NAME + "." + ResidentsContract.COLUMN_CPR + " IN ("
+                + "SELECT " + PersonsHomesLinkContract.COLUMN_PERSON_CPR + " FROM " + PersonsHomesLinkContract.TABLE_NAME
+                + " WHERE " + PersonsHomesLinkContract.COLUMN_HOMES_ID + " = ?)";
 
         ArrayList<HashMap<String, String>> columnData = new ArrayList<>();
         try (Connection connection = db.connect();
-            PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, employeeCpr);
+                PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, homeId);
             ResultSet result = statement.executeQuery();
             while (result.next()) {
                 HashMap<String, String> residentData = new HashMap<>();
@@ -48,12 +49,12 @@ public class ResidentData {
     ArrayList<String> getResidentDocuments(String residentCpr) {
 
         String sql = "SELECT " + DocumentsContract.COLUMN_SERIALIZABLE + " FROM " + DocumentsContract.TABLE_NAME
-            + " WHERE " + DocumentsContract.COLUMN_RESIDENT_CPR + " = ?";
+                + " WHERE " + DocumentsContract.COLUMN_RESIDENT_CPR + " = ?";
 
         ArrayList<String> columnData = new ArrayList<>();
 
         try (Connection connection = db.connect();
-            PreparedStatement statement = connection.prepareStatement(sql)) {
+                PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, residentCpr);
             ResultSet result = statement.executeQuery();
 
@@ -70,12 +71,12 @@ public class ResidentData {
 
     long getDocumentIdCount() {
         String sqlCountId = "SELECT MAX(" + DocumentsContract.COLUMN_ID + ") AS " + DocumentsContract.COLUMN_ID
-            + " FROM " + DocumentsContract.TABLE_NAME;
+                + " FROM " + DocumentsContract.TABLE_NAME;
         long highestID = -1;
 
         try (Connection connection = db.connect();
-            Statement countStatement = connection.createStatement();
-            ResultSet countResult = countStatement.executeQuery(sqlCountId)) {
+                Statement countStatement = connection.createStatement();
+                ResultSet countResult = countStatement.executeQuery(sqlCountId)) {
             if (countResult.isBeforeFirst()) {
                 highestID = countResult.getLong(DocumentsContract.COLUMN_ID);
             }
@@ -88,10 +89,10 @@ public class ResidentData {
     void insertDocument(String encodedDocumentString, String residentCpr) {
 
         String sql = "INSERT INTO " + DocumentsContract.TABLE_NAME + "(" + DocumentsContract.COLUMN_RESIDENT_CPR
-            + ", " + DocumentsContract.COLUMN_SERIALIZABLE + ") VALUES (?, ?)";
+                + ", " + DocumentsContract.COLUMN_SERIALIZABLE + ") VALUES (?, ?)";
 
         try (Connection connection = db.connect();
-            PreparedStatement insertStatement = connection.prepareStatement(sql)) {
+                PreparedStatement insertStatement = connection.prepareStatement(sql)) {
 
             insertStatement.setString(1, residentCpr);
             insertStatement.setString(2, encodedDocumentString);
@@ -103,10 +104,10 @@ public class ResidentData {
 
     void updateDocument(String encodedDocumentString, String documentID) {
         String sqlUpdate = "UPDATE " + DocumentsContract.TABLE_NAME
-            + " SET " + DocumentsContract.COLUMN_SERIALIZABLE + " = ?"
-            + " WHERE " + DocumentsContract.COLUMN_ID + " = ?";
+                + " SET " + DocumentsContract.COLUMN_SERIALIZABLE + " = ?"
+                + " WHERE " + DocumentsContract.COLUMN_ID + " = ?";
         try (Connection connection = db.connect();
-            PreparedStatement updateStatement = connection.prepareStatement(sqlUpdate)) {
+                PreparedStatement updateStatement = connection.prepareStatement(sqlUpdate)) {
             updateStatement.setString(1, encodedDocumentString);
             updateStatement.setString(2, documentID);
             updateStatement.execute();
@@ -115,43 +116,13 @@ public class ResidentData {
         }
     }
 
-    void insertResident(String residentCpr, String firstName, String lastName, String phoneNumber, String employeeCpr) {
-        String sqlPersonInsertion = "INSERT INTO " + PersonsContract.TABLE_NAME + " VALUES "
-            + "(?, ?, ?, ?)";
-        try (Connection connection = db.connect();
-            PreparedStatement insertStatement = connection.prepareStatement(sqlPersonInsertion)) {
-            insertStatement.setString(1, residentCpr);
-            insertStatement.setString(2, firstName);
-            insertStatement.setString(3, lastName);
-            insertStatement.setString(4, phoneNumber);
-            insertStatement.execute();
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-        insertResident(residentCpr);
-        insertEmployeeResidentLink(employeeCpr, residentCpr);
-    }
-
-    private void insertResident(String cpr) {
+    public void insertResident(String cpr) {
         String sqlResidentInsertion = "INSERT INTO " + ResidentsContract.TABLE_NAME + " VALUES "
-            + "(?)";
+                + "(?)";
 
         try (Connection connection = db.connect();
-            PreparedStatement insertStatement = connection.prepareStatement(sqlResidentInsertion)) {
+                PreparedStatement insertStatement = connection.prepareStatement(sqlResidentInsertion)) {
             insertStatement.setString(1, cpr);
-            insertStatement.execute();
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-    }
-
-    private void insertEmployeeResidentLink(String employeeCpr, String residentCpr) {
-        String sqlResidentInsertion = "INSERT INTO " + EmployeeResidentLinkContract.TABLE_NAME + " VALUES "
-            + "(?, ?)";
-        try (Connection connection = db.connect();
-            PreparedStatement insertStatement = connection.prepareStatement(sqlResidentInsertion)) {
-            insertStatement.setString(1, employeeCpr);
-            insertStatement.setString(2, residentCpr);
             insertStatement.execute();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());

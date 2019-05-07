@@ -22,6 +22,7 @@ import javafx.stage.Stage;
 import ssb.domain_layer.Document;
 import ssb.domain_layer.DocumentManager;
 import ssb.domain_layer.Employee.Employee;
+import ssb.domain_layer.Home;
 import ssb.domain_layer.InformationBridge;
 import ssb.domain_layer.Resident;
 
@@ -33,12 +34,14 @@ public class SagerTabController implements Initializable {
     private final DocumentManager documentManager = DocumentManager.getInstance();
     private InformationBridge informationBridge;
     private Employee loggedInEmployee;
+    private Home currentHome;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         informationBridge = InformationBridge.getInstance();
         //Henter loggedInEmployee der lige er logget ind fra informationBridge
         loggedInEmployee = informationBridge.getLoggedInEmployee();
+        currentHome = informationBridge.getCurrentHome();
         // Forbinder tableView med observable list med dokumenterne
         vumDocumentTableView.setItems(documentManager.getAllDocuments());
         // Sætter kolonner til at fylde 20% af bredden
@@ -83,7 +86,7 @@ public class SagerTabController implements Initializable {
         }
 
         //Loads the Employee's Residents
-        for (Resident res : loggedInEmployee.getResidents()) {
+        for (Resident res : currentHome.getResidents()) {
             choices.add(res);
         }
 

@@ -17,7 +17,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import ssb.domain_layer.Department;
+import ssb.domain_layer.Home;
 import ssb.domain_layer.Employee.Employee;
 import ssb.domain_layer.InformationBridge;
 import ssb.domain_layer.Notification;
@@ -33,13 +33,13 @@ public class NotificationsController implements Initializable {
     private VBox notificationVbox;
 
     Employee loggedInEmployee;
-    Department currentDepartment;
+    Home currentDepartment;
     NotificationManager notificationManager;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         loggedInEmployee = InformationBridge.getInstance().getLoggedInEmployee();
-        currentDepartment = InformationBridge.getInstance().getCurrentDepartment();
+        currentDepartment = InformationBridge.getInstance().getCurrentHome();
         notificationManager = NotificationManager.getInstance();
 
         scrollPane.setFitToHeight(true);

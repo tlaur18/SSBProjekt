@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ssb.presentation_layer.controllers;
 
 import java.io.File;
@@ -10,8 +5,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,16 +13,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import ssb.domain_layer.Employee.Employee;
 import ssb.domain_layer.EmployeeManager;
+import ssb.domain_layer.Home;
 import ssb.domain_layer.Resident;
 import ssb.domain_layer.InformationBridge;
 
-/**
- * FXML Controller class
- *
- * @author morte
- */
 public class nybeboerController implements Initializable {
 
     @FXML
@@ -52,10 +40,9 @@ public class nybeboerController implements Initializable {
     private TextField fornavnTxtF;
     @FXML
     private TextField efternavnTxtF1;
-    private SagerTabController sagerTabController;
     @FXML
     private Label requiredFieldsLbl;
-
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
     }
@@ -72,10 +59,10 @@ public class nybeboerController implements Initializable {
             newRes.setCityName(byTxtf.getText());
             newRes.setPostCode(postnrTxtf.getText());
             newRes.setStreetName(vejnavnTxtf.getText());
-            Employee loggedInEmployee = InformationBridge.getInstance().getLoggedInEmployee();
+            Home currentHome = InformationBridge.getInstance().getCurrentHome();
             EmployeeManager employeeManager = new EmployeeManager();
-            employeeManager.addResidentToEmployee(loggedInEmployee.getCprNr(), newRes);
-            InformationBridge.getInstance().getLoggedInEmployee().addResident(newRes);
+            employeeManager.addResidentToHome(currentHome.getId(), newRes);
+            InformationBridge.getInstance().getCurrentHome().addResident(newRes);
 
             Stage stage = (Stage) saveButton.getScene().getWindow();
             stage.close();
@@ -83,7 +70,7 @@ public class nybeboerController implements Initializable {
                 URL controllerUrl = new File("src/ssb/presentation_layer/fxml_documents/sagerTab.fxml").toURL();
                 FXMLLoader loader = new FXMLLoader(controllerUrl);
                 loader.load();
-                sagerTabController = loader.getController();
+                SagerTabController sagerTabController = loader.getController();
                 sagerTabController.selectVUMDialog(newRes);
             } catch (MalformedURLException ex) {
                 System.out.println("Invalid URL: " + ex.getMessage());

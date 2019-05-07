@@ -18,8 +18,10 @@ public final class DocumentManager {
     }
 
     public void setDocumentsForEmployee() {
-        for (Document doc : InformationBridge.getInstance().getLoggedInEmployee().getResidentDocuments()) {
-            allDocuments.add(doc);
+        for (Resident resident : InformationBridge.getInstance().getCurrentHome().getResidents()) {
+            for (Document document : resident.getDocuments()) {
+                allDocuments.add(document);
+            }
         }
     }
 

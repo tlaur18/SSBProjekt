@@ -3,6 +3,7 @@ package ssb.presentation_layer.controllers;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,17 +18,18 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import ssb.domain_layer.Address;
-import ssb.domain_layer.Department;
+import ssb.domain_layer.Home;
 import ssb.domain_layer.DocumentManager;
 import ssb.domain_layer.EmployeeManager;
 import ssb.domain_layer.InformationBridge;
+import ssb.domain_layer.LoginCallBack;
 
 /**
  * FXML Controller class
  *
  * @author olive
  */
-public class LoginLayoutController implements Initializable {
+public class LoginLayoutController implements Initializable, LoginCallBack {
 
     @FXML
     private TextField userNameTxtField;
@@ -37,17 +39,12 @@ public class LoginLayoutController implements Initializable {
     private Label ugyldigtLoginLabel;
     @FXML
     private Button logInBtn;
-    @FXML
-    private ChoiceBox<String> homeChoice;
-    
-    
+
     private String enteredUsername;
     private String enteredPassword;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        homeChoice.getItems().add("Vammelby");
-        homeChoice.getItems().add("Dejligby");
     }
 
     @FXML
@@ -55,16 +52,9 @@ public class LoginLayoutController implements Initializable {
         enteredUsername = userNameTxtField.getText();
         enteredPassword = passwordTxtField.getText();
         EmployeeManager loginManager = new EmployeeManager();
-        boolean correctCredentials = loginManager.checkUserLogIn(enteredUsername, enteredPassword);
-        if (correctCredentials && homeChoice.getValue() != null) {
+        boolean correctCredentials = loginManager.checkUserLogIn(enteredUsername, enteredPassword, this);
+        if (correctCredentials) {
             DocumentManager.getInstance().setDocumentsForEmployee();
-            Department currentDepartment = new Department(homeChoice.getValue(), Department.specializations.STOFMISBRUG, new Address());
-            if (homeChoice.getValue().equals("Vammelby")) {
-                currentDepartment.setId(1);
-            } else {
-                currentDepartment.setId(2);
-            }
-            InformationBridge.getInstance().setCurrentDepartment(currentDepartment);
             changeStage();
         } else {
             ugyldigtLoginLabel.setVisible(true);
@@ -85,5 +75,10 @@ public class LoginLayoutController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void handleMultipleHomes(List<String> homeNames) {
+        System.out.println(homeNames);
     }
 }

@@ -2,8 +2,10 @@ package ssb.domain_layer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import ssb.data_layer.DatabaseManager;
 import ssb.data_layer.contracts.EmployeeContract;
+import ssb.data_layer.contracts.HomesContract;
 import ssb.data_layer.contracts.PersonsContract;
 import ssb.domain_layer.Employee.Employee;
 import ssb.domain_layer.Employee.Sagsbehandler;
@@ -15,17 +17,36 @@ public class EmployeeManager {
 
     private final DatabaseManager db = DatabaseManager.getInstance();
     private final InformationBridge informationBridge = InformationBridge.getInstance();
+    private List<Home> employeeHomes;
 
-    public boolean checkUserLogIn(String userNameInput, String passwordInput) {
+    public boolean checkUserLogIn(String userNameInput, String passwordInput, LoginCallBack loginCallBack) {
         String employeeCPRString = db.checkUserLogin(userNameInput, passwordInput);
         if (employeeCPRString != null) {
             HashMap<String, String> employeeData = db.getEmployeeDetails(employeeCPRString);
             informationBridge.setLoggedInEmployee(setEmployeeDetails(employeeData));
-            setEmployeeResidents(employeeCPRString);
-            setResidentDocuments();
+            employeeHomes = assembleHomes(db.getHomes(employeeCPRString));
+            if (employeeHomes.size() > 1) {
+                List<String> homeNames = new ArrayList<>();
+                for (Home home : employeeHomes) {
+                    homeNames.add(home.getHomeName());
+                }
+                loginCallBack.handleMultipleHomes(homeNames);
+            } else {
+                fillHomeData(employeeHomes.get(0).getHomeName());
+            }
             return true;
         }
         return false;
+    }
+
+    public void fillHomeData(String homeName) {
+        for (Home home : employeeHomes) {
+            if (home.getHomeName().equalsIgnoreCase(homeName)) {
+                informationBridge.setCurrentHome(home);
+                setHomeResidents(home);
+                setResidentDocuments(home);
+            }
+        }
     }
 
     private Employee setEmployeeDetails(HashMap<String, String> employeeHashMap) {
@@ -52,13 +73,6 @@ public class EmployeeManager {
         return employee;
     }
 
-    private void setEmployeeResidents(String employeeCpr) {
-        ArrayList<HashMap<String, String>> residents = db.getEmployeeAssoResidents(employeeCpr);
-        for (HashMap<String, String> residentData : residents) {
-            informationBridge.getLoggedInEmployee().addResident(makeResidentObject(residentData));
-        }
-    }
-
     private Resident makeResidentObject(HashMap<String, String> residentData) {
         String firstName = residentData.get(PersonsContract.COLUMN_FIRST_NAME);
         String lastName = residentData.get(PersonsContract.COLUMN_LAST_NAME);
@@ -67,16 +81,34 @@ public class EmployeeManager {
         return new Resident(firstName, lastName, phoneNr, cprNr);
     }
 
-    private void setResidentDocuments() {
-        for (Resident resident : informationBridge.getLoggedInEmployee().getResidents()) {
+    private void setResidentDocuments(Home home) {
+        for (Resident resident : home.getResidents()) {
             for (String serializableString : db.getResidentDocuments(resident.getCprNr())) {
                 resident.addDocument(DocumentManager.getInstance().decodeDocument(serializableString));
             }
         }
     }
-    
-    public void addResidentToEmployee(String employeeCpr, Resident resident) {
-        DatabaseManager.getInstance().insertResident(resident.getCprNr(), resident.getFirstName(), 
-            resident.getLastName(), resident.getPhoneNr(), employeeCpr);
+
+    public void addResidentToHome(int homeId, Resident resident) {
+        db.insertResident(resident.getCprNr(), resident.getFirstName(), resident.getLastName(), resident.getPhoneNr(), Integer.toString(homeId));
+    }
+
+    private List<Home> assembleHomes(ArrayList<HashMap<String, String>> homes) {
+        List<Home> employeeHomes = new ArrayList<>();
+
+        for (HashMap<String, String> homeData : homes) {
+            String homeName = homeData.get(HomesContract.COLUMN_NAME);
+            int homeId = Integer.parseInt(homeData.get(HomesContract.COLUMN_ID));
+            employeeHomes.add(new Home(homeName, homeId));
+        }
+
+        return employeeHomes;
+    }
+
+    private void setHomeResidents(Home home) {
+        List<HashMap<String, String>> residentsData = db.getHomeResidents(Integer.toString(home.getId()));
+        for (HashMap<String, String> hashMap : residentsData) {
+            home.addResident(makeResidentObject(hashMap));
+        }
     }
 }

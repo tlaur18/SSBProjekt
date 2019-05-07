@@ -8,7 +8,7 @@ import ssb.data_layer.contracts.LoginsContract;
 
 class LogInData implements Runnable {
 
-    private final DatabaseManager db = DatabaseManager.getInstance();
+    private final DatabaseConnection db = DatabaseConnection.getInstance();
 
     @Override
     public void run() {

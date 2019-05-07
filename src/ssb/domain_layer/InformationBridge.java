@@ -8,14 +8,14 @@ public class InformationBridge {
     private Resident chosenResident;
     private Document chosenDocument;
     private Employee loggedInEmployee = null;
-    private Department currentDepartment;
+    private Home currentHome;
 
-    public Department getCurrentDepartment() {
-        return currentDepartment;
+    public Home getCurrentHome() {
+        return currentHome;
     }
 
-    public void setCurrentDepartment(Department currentDepartment) {
-        this.currentDepartment = currentDepartment;
+    public void setCurrentHome(Home currentHome) {
+        this.currentHome = currentHome;
     }
     
     private InformationBridge() {

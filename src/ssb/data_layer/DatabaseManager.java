@@ -1,32 +1,19 @@
 package ssb.data_layer;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import ssb.domain_layer.Document;
-import ssb.domain_layer.Resident;
 
 public class DatabaseManager {
 
-    private static final String DATABASE_NAME = "ssbprojektdata.db";
-
     private static DatabaseManager instance = null;
+    private LogInData logInData = new LogInData();
+    private PersonData personData = new PersonData();
+    private EmployeeWorkData employeeWorkData = new EmployeeWorkData();
+    private ResidentData residentData = new ResidentData();
+    private NotificationData notificationData = new NotificationData();
+    private HomeData homeData = new HomeData();
 
     private DatabaseManager() {
-    }
-
-    Connection connect() {
-        Connection connection = null;
-        try {
-            Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection("jdbc:sqlite:" + DATABASE_NAME);
-        } catch (ClassNotFoundException | SQLException e) {
-            System.out.println("Could not connect to the database");
-            System.out.println(e.getMessage());
-        }
-        return connection;
     }
 
     public static DatabaseManager getInstance() {
@@ -37,69 +24,60 @@ public class DatabaseManager {
     }
 
     public String checkUserLogin(String username, String password) {
-        LogInData logInData = new LogInData();
         return logInData.getUserLoginWith(username, password);
     }
 
     public HashMap<String, String> getEmployeeDetails(String employeeCpr) {
-        EmployeeWorkData employeeWorkData = new EmployeeWorkData();
         return employeeWorkData.getEmployeeData(employeeCpr);
     }
 
-    public ArrayList<HashMap<String, String>> getEmployeeAssoResidents(String employeeCpr) {
-        ResidentData residentData = new ResidentData();
-        return residentData.getEmployeeResidents(employeeCpr);
+    public ArrayList<HashMap<String, String>> getHomeResidents(String employeeCpr) {
+        return residentData.getHomeResidents(employeeCpr);
     }
 
     public ArrayList<String> getResidentDocuments(String residentCpr) {
-        ResidentData residentData = new ResidentData();
         return residentData.getResidentDocuments(residentCpr);
     }
-    
+
     public long getDocumentIdCount() {
-        ResidentData residentData = new ResidentData();
         return residentData.getDocumentIdCount();
     }
 
     public void insertDocument(String encodedDocumentString, String residentCpr) {
-        ResidentData residentData = new ResidentData();
         residentData.insertDocument(encodedDocumentString, residentCpr);
     }
 
     public void updateDocument(String encodedDocument, String documentID) {
-        ResidentData residentData = new ResidentData();
         residentData.updateDocument(encodedDocument, documentID);
     }
-    
-    public void insertResident(String residentCpr, String firstName, String lastName, String phoneNumber, String employeeCpr) {
-        ResidentData residentData = new ResidentData();
-        residentData.insertResident(residentCpr, firstName, lastName, phoneNumber, employeeCpr);
+
+    public void insertResident(String residentCpr, String firstName, String lastName, String phoneNumber, String homeId) {
+        personData.insertPerson(residentCpr, firstName, lastName, phoneNumber, homeId);
+        residentData.insertResident(residentCpr);
     }
-    
+
     public void insertNotification(String message, String author, String creationDate) {
-        NotificationData notificationData = new NotificationData();
         notificationData.insertNotification(message, author, creationDate);
     }
-    
+
     public void insertHomeNotificationLink(String notificationID, String homeID) {
-        NotificationData notificationData = new NotificationData();
         notificationData.insertHomeNotificationLink(notificationID, homeID);
     }
 
     public long getMaxNotificationId() {
-        NotificationData notificationData = new NotificationData();
         return notificationData.getMaxNotificationId();
     }
-    
-    public ArrayList<ArrayList<String>> loadNotifications(String homeid, String startIndex){
-        NotificationData notificationData = new NotificationData();
+
+    public ArrayList<ArrayList<String>> loadNotifications(String homeid, String startIndex) {
         return notificationData.loadNotifications(homeid, startIndex);
     }
 
     public int getNotificationCount(String homeID) {
-        NotificationData notificationData = new NotificationData();
         return notificationData.getNotificationCount(homeID);
     }
-    
-    
+
+    public ArrayList<HashMap<String, String>> getHomes(String employeeCPRString) {
+        return homeData.getEmployeeHomes(employeeCPRString);
+    }
+
 }

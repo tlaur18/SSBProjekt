@@ -10,7 +10,7 @@ import ssb.data_layer.contracts.PersonsContract;
 
 class EmployeeWorkData {
 
-    private final DatabaseManager db = DatabaseManager.getInstance();
+    private final DatabaseConnection db = DatabaseConnection.getInstance();
 
     HashMap<String, String> getEmployeeData(String employeeCpr) {
         String sql = "SELECT * FROM " + EmployeeContract.TABLE_NAME + " NATURAL JOIN " + PersonsContract.TABLE_NAME

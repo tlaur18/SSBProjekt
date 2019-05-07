@@ -125,6 +125,9 @@ public class AdminNyBrugerController implements Initializable {
                         }
                     }
                 }
+                //Closes the stage
+        Stage stage = (Stage) saveBttn.getScene().getWindow();
+        stage.close();
                 
             } else {
                 requiredFieldsLbl.setVisible(true);
@@ -135,10 +138,10 @@ public class AdminNyBrugerController implements Initializable {
             };
             //Updates the new details of the Employee to the database
             empManager.updateEmployeDetails(person, brugernavnTxtf.getText(), kodeordTxtf.getText());
-        }
-        //Closes the stage
+            //Closes the stage
         Stage stage = (Stage) saveBttn.getScene().getWindow();
         stage.close();
+        }
     }
     
     public boolean requiredFields() {

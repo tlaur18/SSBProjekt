@@ -87,5 +87,6 @@
          </GridPane.margin>
       </TextField>
       <Label styleClass="menuTitleText" stylesheets="@../../ressources/css_files/main.css" text="Opret Ny Bruger" GridPane.columnSpan="4" GridPane.halignment="CENTER" />
+      <Label fx:id="requiredFieldsLbl" text="Alle felter med * skal være udfyldt" textFill="#c60101" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="4" />
    </children>
 </GridPane>

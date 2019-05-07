@@ -2,8 +2,6 @@ package ssb.domain_layer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import ssb.data_layer.DatabaseManager;
@@ -129,13 +127,13 @@ public class EmployeeManager {
         allEmployees.clear();
     }
 
-    public void updateEmployeDetails(Person person, String userName, String passWord) {
-        DatabaseManager.getInstance().updateEmployeeData(person);
+    public void updateEmployeeDetails(Person person, String userName, String passWord) {
+        DatabaseManager.getInstance().updateEmployeeData(person.getCprNr(), person.getFirstName(), person.getLastName(), person.getPhoneNr());
         DatabaseManager.getInstance().updateEmployeeLogin(userName, passWord, person.getCprNr());
     }
 
-    public void deleteEmployee(String emploueeCPR) {
-        DatabaseManager.getInstance().deleteEmployee(emploueeCPR);
+    public void deleteEmployee(String employeeCPR) {
+        DatabaseManager.getInstance().deleteEmployee(employeeCPR);
     }
 
     public HashMap<String, String> getEmployeeLogin(Person person) {

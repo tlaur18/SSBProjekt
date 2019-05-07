@@ -5,10 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import ssb.domain_layer.Document;
-import ssb.domain_layer.EmployeeManager;
 import ssb.domain_layer.Person;
-import ssb.domain_layer.Resident;
 
 public class DatabaseManager {
 
@@ -82,15 +79,16 @@ public class DatabaseManager {
         EmployeeWorkData employeeWorkData = new EmployeeWorkData();
         employeeWorkData.insertEmployeePerson(employeecpr, firstName, lastName, phoneNumber);
         employeeWorkData.insertEmployee(employeecpr, employeeRole);
-        employeeWorkData.insertEmployeeLogin(employeecpr, employeeUsername, employeePassword);
+        LogInData loginData = new LogInData();
+        loginData.insertEmployeeLogin(employeecpr, employeeUsername, employeePassword);
     }
     public ArrayList<HashMap<String, String>> GetAllEmployees() {
         EmployeeWorkData employeeWorkData = new EmployeeWorkData();
         return employeeWorkData.loadAllEmployees();
     }
-    public void updateEmployeeData(Person person) {
+    public void updateEmployeeData(String employeeCPR, String firstName, String lastName, String phoneNr) {
         EmployeeWorkData employeeWorkData = new EmployeeWorkData();
-        employeeWorkData.updateEmployee(person.getCprNr(), person.getFirstName(), person.getLastName(), person.getPhoneNr());
+        employeeWorkData.updateEmployee(employeeCPR, firstName, lastName, phoneNr);
     }
     public void updateEmployeeLogin(String userName, String passWord, String employeeCPR) {
         LogInData loginData = new LogInData();

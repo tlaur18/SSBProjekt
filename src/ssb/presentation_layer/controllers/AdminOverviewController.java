@@ -1,17 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package ssb.presentation_layer.controllers;
 
-import java.awt.Container;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -19,36 +11,24 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Point2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ChoiceDialog;
-import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import ssb.domain_layer.Document;
 import ssb.domain_layer.Employee.Employee;
 import ssb.domain_layer.EmployeeManager;
 import ssb.domain_layer.InformationBridge;
 import ssb.domain_layer.Person;
 
-/**
- * FXML Controller class
- *
- * @author morte
- */
-public class AdminOversigtController implements Initializable {
+public class AdminOverviewController implements Initializable {
 
     @FXML
     private TableView<Person> oversigtTbl;
@@ -66,7 +46,7 @@ public class AdminOversigtController implements Initializable {
     @FXML
     private Button newUserBttn;
     @FXML
-    private Button EditUserBttn;
+    private Button editUserBttn;
     @FXML
     private Label chooseAUserError;
     @FXML

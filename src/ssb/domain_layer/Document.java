@@ -17,7 +17,7 @@ public class Document implements Serializable {
     }
 
     private long id = 0;
-    private String documentNames;
+    private String documentName;
     private String residentName;
     private final type type;
     private Date editDate;
@@ -52,7 +52,7 @@ public class Document implements Serializable {
     }
 
     private String generateDocumentName() {
-        return documentNames = residentName.substring(0, 3) + type.toString().substring(0, 3) + " Test";
+        return documentName = residentName.substring(0, 3) + type.toString().substring(0, 3) + " Test";
     }
 
     public type getType() {
@@ -116,7 +116,7 @@ public class Document implements Serializable {
 
     @Override
     public String toString() {
-        return "DocumentName: " + documentNames
+        return "DocumentName: " + documentName
                 + "\n - AssociatedResident: " + residentName
                 + "\n - Type: " + type
                 + "\n - EditDate: " + editDate

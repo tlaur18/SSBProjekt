@@ -4,10 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import ssb.data_layer.contracts.LoginsContract;
 
 class LogInData implements Runnable {
@@ -70,6 +67,20 @@ class LogInData implements Runnable {
         }
     }
 
+    void insertEmployeeLogin(String employeeCPR, String username, String password) {
+        String sqlEmployeeLoginInsertion = "INSERT INTO " + LoginsContract.TABLE_NAME + " VALUES "
+                + "(?, ?, ?)";
+
+        try (Connection connection = db.connect();
+                PreparedStatement insertStatement = connection.prepareStatement(sqlEmployeeLoginInsertion)) {
+            insertStatement.setString(1, employeeCPR);
+            insertStatement.setString(2, username);
+            insertStatement.setString(3, password);
+            insertStatement.execute();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
     HashMap<String, String> getLoginData(String employeeCPR) {
         String sql = "SELECT *"
                 + " FROM " + LoginsContract.TABLE_NAME

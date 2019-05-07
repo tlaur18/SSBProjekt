@@ -4,15 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import ssb.data_layer.contracts.DocumentsContract;
 import ssb.data_layer.contracts.EmployeeContract;
-import ssb.data_layer.contracts.LoginsContract;
 import ssb.data_layer.contracts.PersonsContract;
 
 class EmployeeWorkData {
@@ -67,23 +61,7 @@ class EmployeeWorkData {
         }
     }
 
-    void insertEmployeeLogin(String employeeCPR, String username, String password) {
-        String sqlEmployeeLoginInsertion = "INSERT INTO " + LoginsContract.TABLE_NAME + " VALUES "
-                + "(?, ?, ?)";
-
-        try (Connection connection = db.connect();
-                PreparedStatement insertStatement = connection.prepareStatement(sqlEmployeeLoginInsertion)) {
-            insertStatement.setString(1, employeeCPR);
-            insertStatement.setString(2, username);
-            insertStatement.setString(3, password);
-            insertStatement.execute();
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-    }
-
     ArrayList<HashMap<String, String>> loadAllEmployees() {
-        PreparedStatement ps = null;
         String sql = "SELECT * FROM " + EmployeeContract.TABLE_NAME + " NATURAL JOIN " + PersonsContract.TABLE_NAME;
 
         ArrayList<HashMap<String, String>> allEmployeeHashmaps = new ArrayList();
@@ -96,7 +74,7 @@ class EmployeeWorkData {
                 allEmployeeHashmaps.add(getEmployeeData(rs.getString(EmployeeContract.COLUMN_CPR)));
             }
         } catch (SQLException e) {
-            // handle exception
+            System.out.println(e.getMessage());
         } finally {
 
         }

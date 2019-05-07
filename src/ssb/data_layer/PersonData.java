@@ -10,7 +10,7 @@ public class PersonData {
     
     private final DatabaseConnection db = DatabaseConnection.getInstance();
     
-    void insertPerson(String personCpr, String firstName, String lastName, String phoneNumber, String homeId) {
+    void insertPerson(String personCpr, String firstName, String lastName, String phoneNumber, int homeId) {
         String sqlPersonInsertion = "INSERT INTO " + PersonsContract.TABLE_NAME + " VALUES "
                 + "(?, ?, ?, ?)";
         try (Connection connection = db.connect();
@@ -26,13 +26,13 @@ public class PersonData {
         insertPersonHomeLink(personCpr, homeId);
     }
     
-    public void insertPersonHomeLink(String personCpr, String homeId) {
+    public void insertPersonHomeLink(String personCpr, int homeId) {
         String sqlResidentInsertion = "INSERT INTO " + PersonsHomesLinkContract.TABLE_NAME + " VALUES "
                 + "(?, ?)";
         try (Connection connection = db.connect();
                 PreparedStatement insertStatement = connection.prepareStatement(sqlResidentInsertion)) {
             insertStatement.setString(1, personCpr);
-            insertStatement.setString(2, homeId);
+            insertStatement.setInt(2, homeId);
             insertStatement.execute();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());

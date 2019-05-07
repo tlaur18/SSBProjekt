@@ -47,7 +47,7 @@ public final class DocumentManager {
     }
 
     public void updateDocument(Document document) {
-        DatabaseManager.getInstance().updateDocument(document.encodeDocument(), String.valueOf(document.getId()));
+        DatabaseManager.getInstance().updateDocument(document.encodeDocument(), (int) document.getId());
     }
 
     public void clearDocuments() {

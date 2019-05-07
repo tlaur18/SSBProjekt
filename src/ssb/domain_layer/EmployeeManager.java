@@ -90,7 +90,7 @@ public class EmployeeManager {
     }
 
     public void addResidentToHome(int homeId, Resident resident) {
-        db.insertResident(resident.getCprNr(), resident.getFirstName(), resident.getLastName(), resident.getPhoneNr(), Integer.toString(homeId));
+        db.insertResident(resident.getCprNr(), resident.getFirstName(), resident.getLastName(), resident.getPhoneNr(), homeId);
     }
 
     private List<Home> assembleHomes(ArrayList<HashMap<String, String>> homes) {
@@ -106,7 +106,7 @@ public class EmployeeManager {
     }
 
     private void setHomeResidents(Home home) {
-        List<HashMap<String, String>> residentsData = db.getHomeResidents(Integer.toString(home.getId()));
+        List<HashMap<String, String>> residentsData = db.getHomeResidents(home.getId());
         for (HashMap<String, String> hashMap : residentsData) {
             home.addResident(makeResidentObject(hashMap));
         }

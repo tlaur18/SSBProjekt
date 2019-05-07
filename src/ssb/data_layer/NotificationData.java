@@ -14,9 +14,10 @@ public class NotificationData {
 
     private final DatabaseConnection db = DatabaseConnection.getInstance();
 
-    public void insertNotification(String message, String author, String creationDate) {
+    public int insertNotification(String message, String author, String creationDate) {
         String sql = "INSERT INTO " + NotificationsContract.TABLE_NAME + "(" + NotificationsContract.COLUMN_MESSAGE
-                + ", " + NotificationsContract.COLUMN_AUTHOR + ", " + NotificationsContract.COLUMN_CREATIONDATE + ") VALUES (?, ?, ?)";
+                + ", " + NotificationsContract.COLUMN_AUTHOR + ", " + NotificationsContract.COLUMN_CREATIONDATE
+                + ") VALUES (?, ?, ?) RETURNING " + NotificationsContract.COLUMN_ID;
 
         try (Connection connection = db.connect();
                 PreparedStatement insertStatement = connection.prepareStatement(sql)) {
@@ -24,55 +25,42 @@ public class NotificationData {
             insertStatement.setString(1, message);
             insertStatement.setString(2, author);
             insertStatement.setString(3, creationDate);
-            insertStatement.execute();
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-    }
-
-    long getMaxNotificationId() {
-        String sqlCountId = "SELECT MAX(" + NotificationsContract.COLUMN_ID + ") AS " + NotificationsContract.COLUMN_ID
-                + " FROM " + NotificationsContract.TABLE_NAME;
-        long highestID = -1;
-
-        try (Connection connection = db.connect();
-                Statement countStatement = connection.createStatement();
-                ResultSet countResult = countStatement.executeQuery(sqlCountId)) {
-            if (countResult.isBeforeFirst()) {
-                highestID = countResult.getLong(DocumentsContract.COLUMN_ID);
+            ResultSet result = insertStatement.executeQuery();
+            if (result.next()) {
+                return result.getInt(NotificationsContract.COLUMN_ID);
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        return highestID;
+        return -1;
     }
 
-    void insertHomeNotificationLink(String notificationID, String homeID) {
+    void insertHomeNotificationLink(int notificationID, int homeID) {
         String sql = "INSERT INTO " + HomesNotificationsLinkContract.TABLE_NAME + "(" + HomesNotificationsLinkContract.COLUMN_HOMES_ID
                 + ", " + HomesNotificationsLinkContract.COLUMN_NOTIFICATIONS_ID + ") VALUES (?, ?)";
 
         try (Connection connection = db.connect();
                 PreparedStatement insertStatement = connection.prepareStatement(sql)) {
 
-            insertStatement.setString(1, homeID);
-            insertStatement.setString(2, notificationID);
+            insertStatement.setInt(1, homeID);
+            insertStatement.setInt(2, notificationID);
             insertStatement.execute();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
     }
 
-    ArrayList<ArrayList<String>> loadNotifications(String homeid, String startIndex) {
+    ArrayList<ArrayList<String>> loadNotifications(int homeid, int startIndex) {
         String sql = "SELECT * FROM " + HomesNotificationsLinkContract.TABLE_NAME + " INNER JOIN " + NotificationsContract.TABLE_NAME
                 + " ON " + HomesNotificationsLinkContract.COLUMN_NOTIFICATIONS_ID + " = " + NotificationsContract.COLUMN_ID
                 + " WHERE " + HomesNotificationsLinkContract.TABLE_NAME + "." + HomesNotificationsLinkContract.COLUMN_HOMES_ID + " = ? "
-                + " LIMIT ?, 999999999999999999";
+                + " OFFSET ?";
 
         ArrayList<ArrayList<String>> columnData = new ArrayList<>();
         try (Connection connection = db.connect();
                 PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, homeid);
-            statement.setString(2, startIndex);
+            statement.setInt(1, homeid);
+            statement.setInt(2, startIndex);
             ResultSet result = statement.executeQuery();
             while (result.next()) {
                 ArrayList<String> notificationData = new ArrayList<>();
@@ -93,23 +81,23 @@ public class NotificationData {
         return columnData;
     }
 
-    int getNotificationCount(String homeID) {
-        String sql = "SELECT COUNT() FROM " + HomesNotificationsLinkContract.TABLE_NAME
+    int getNotificationCount(int homeID) {
+        String sql = "SELECT COUNT(" + HomesNotificationsLinkContract.COLUMN_HOMES_ID + ") AS COUNT FROM " + HomesNotificationsLinkContract.TABLE_NAME
                 + " WHERE " + HomesNotificationsLinkContract.COLUMN_HOMES_ID + " = ?";
-        
+
         int count = -1;
-        
+
         try (Connection connection = db.connect();
-            PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, homeID);
+                PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, homeID);
             ResultSet result = statement.executeQuery();
-            if (result.isBeforeFirst()) {
-                count = result.getInt("COUNT()");
+            if (result.next()) {
+                count = result.getInt("COUNT");
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        
+
         return count;
     }
 }

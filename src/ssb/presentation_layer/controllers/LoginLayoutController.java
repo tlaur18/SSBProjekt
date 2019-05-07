@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,16 +13,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import ssb.domain_layer.Address;
-import ssb.domain_layer.Home;
 import ssb.domain_layer.DocumentManager;
 import ssb.domain_layer.EmployeeManager;
-import ssb.domain_layer.InformationBridge;
 import ssb.domain_layer.LoginCallBack;
 
 /**
@@ -42,6 +40,7 @@ public class LoginLayoutController implements Initializable, LoginCallBack {
 
     private String enteredUsername;
     private String enteredPassword;
+    private EmployeeManager loginManager = new EmployeeManager();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -51,7 +50,6 @@ public class LoginLayoutController implements Initializable, LoginCallBack {
     public void handleSubmitButtonAction(ActionEvent event) {
         enteredUsername = userNameTxtField.getText();
         enteredPassword = passwordTxtField.getText();
-        EmployeeManager loginManager = new EmployeeManager();
         boolean correctCredentials = loginManager.checkUserLogIn(enteredUsername, enteredPassword, this);
         if (correctCredentials) {
             DocumentManager.getInstance().setDocumentsForEmployee();
@@ -79,6 +77,14 @@ public class LoginLayoutController implements Initializable, LoginCallBack {
 
     @Override
     public void handleMultipleHomes(List<String> homeNames) {
-        System.out.println(homeNames);
+        ChoiceDialog<String> dialog = new ChoiceDialog<>(homeNames.get(0), homeNames);
+        dialog.setTitle("Vælg bosted");
+        dialog.setHeaderText("Hvilket bosted vil du logge ind på?");
+        dialog.setContentText("Bosted:");
+
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            loginManager.fillHomeData(result.get());
+        }
     }
 }

@@ -7,28 +7,34 @@ import java.sql.SQLException;
 public class DatabaseConnection {
 
     private static final String DATABASE_NAME = "ssbprojektdata.db";
-    
+
     private static DatabaseConnection instance = null;
-    
+    private String url = "jdbc:postgresql://manny.db.elephantsql.com:5432/erpvuwlh";
+    private String username = "erpvuwlh";
+    private String password = "P93u5USiQppfjlNkvsndF7Yg_Ml8NK_u";
+
     private DatabaseConnection() {
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (java.lang.ClassNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
     }
-    
+
     public static DatabaseConnection getInstance() {
         if (instance == null) {
             instance = new DatabaseConnection();
         }
         return instance;
     }
-    
+
     Connection connect() {
-        Connection connection = null;
         try {
-            Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection("jdbc:sqlite:" + DATABASE_NAME);
-        } catch (ClassNotFoundException | SQLException e) {
-            System.out.println("Could not connect to the database");
+            Connection db = DriverManager.getConnection(url, username, password);
+            return db;
+        } catch (java.sql.SQLException e) {
             System.out.println(e.getMessage());
         }
-        return connection;
+        return null;
     }
 }

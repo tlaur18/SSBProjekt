@@ -17,23 +17,22 @@ class LogInData implements Runnable {
 
     String getUserLoginWith(String enteredUserName, String enteredPassword) {
         String sql = "SELECT " + LoginsContract.COLUMN_EMPLOYEECPR
-            + " FROM " + LoginsContract.TABLE_NAME
-            + " WHERE " + LoginsContract.COLUMN_USERNAME + " = ?"
-            + " AND " + LoginsContract.COLUMN_PASSWORD + " = ?";
+                + " FROM " + LoginsContract.TABLE_NAME
+                + " WHERE " + LoginsContract.COLUMN_USERNAME + " = ?"
+                + " AND " + LoginsContract.COLUMN_PASSWORD + " = ?";
 
         String employeeCprNr = null;
         try (Connection connection = db.connect();
-            PreparedStatement statement = connection.prepareStatement(sql)) {
+                PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, enteredUserName);
             statement.setString(2, enteredPassword);
             ResultSet result = statement.executeQuery();
-            if (result.isBeforeFirst()) {
+            if (result.next()) {
                 employeeCprNr = result.getString(LoginsContract.COLUMN_EMPLOYEECPR);
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-
         return employeeCprNr;
     }
 }

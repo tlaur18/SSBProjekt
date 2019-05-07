@@ -16,7 +16,7 @@ public class ResidentData {
 
     private final DatabaseConnection db = DatabaseConnection.getInstance();
 
-    ArrayList<HashMap<String, String>> getHomeResidents(String homeId) {
+    ArrayList<HashMap<String, String>> getHomeResidents(int homeId) {
         String sql = "SELECT * FROM " + ResidentsContract.TABLE_NAME + " NATURAL JOIN " + PersonsContract.TABLE_NAME
                 + " WHERE " + ResidentsContract.TABLE_NAME + "." + ResidentsContract.COLUMN_CPR + " IN ("
                 + "SELECT " + PersonsHomesLinkContract.COLUMN_PERSON_CPR + " FROM " + PersonsHomesLinkContract.TABLE_NAME
@@ -25,7 +25,7 @@ public class ResidentData {
         ArrayList<HashMap<String, String>> columnData = new ArrayList<>();
         try (Connection connection = db.connect();
                 PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, homeId);
+            statement.setInt(1, homeId);
             ResultSet result = statement.executeQuery();
             while (result.next()) {
                 HashMap<String, String> residentData = new HashMap<>();
@@ -77,7 +77,7 @@ public class ResidentData {
         try (Connection connection = db.connect();
                 Statement countStatement = connection.createStatement();
                 ResultSet countResult = countStatement.executeQuery(sqlCountId)) {
-            if (countResult.isBeforeFirst()) {
+            if (countResult.next()) {
                 highestID = countResult.getLong(DocumentsContract.COLUMN_ID);
             }
         } catch (SQLException ex) {
@@ -102,14 +102,14 @@ public class ResidentData {
         }
     }
 
-    void updateDocument(String encodedDocumentString, String documentID) {
+    void updateDocument(String encodedDocumentString, int documentID) {
         String sqlUpdate = "UPDATE " + DocumentsContract.TABLE_NAME
                 + " SET " + DocumentsContract.COLUMN_SERIALIZABLE + " = ?"
                 + " WHERE " + DocumentsContract.COLUMN_ID + " = ?";
         try (Connection connection = db.connect();
                 PreparedStatement updateStatement = connection.prepareStatement(sqlUpdate)) {
             updateStatement.setString(1, encodedDocumentString);
-            updateStatement.setString(2, documentID);
+            updateStatement.setInt(2, documentID);
             updateStatement.execute();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());

@@ -19,16 +19,14 @@ public class NotificationManager {
         return INSTANCE;
     }
 
-    public void saveNewNotification(String message, String authorName, String creationDate, int homeID) {
-        notifications.add(new Notification(notifications.get(notifications.size() - 1).getId(), message, authorName, creationDate));        //maybe change this way of getting the largest ID.
-        db.insertNotification(message, authorName, creationDate);
-        long notificationID = db.getMaxNotificationId();
-        db.insertHomeNotificationLink(Long.toString(notificationID), Integer.toString(homeID));
+    public void saveNewNotification(String message, String authorName, String creationDate, int homeId) {
+        int notificationId = db.insertNotification(message, authorName, creationDate, homeId);
+        notifications.add(new Notification(notificationId, message, authorName, creationDate));
     }
-    
-    public void checkForNewNotifications(long homeID) {
+
+    public void checkForNewNotifications(int homeID) {
         int listNotificationCount = notifications.size();
-        int dbNotificationCount = db.getNotificationCount(Long.toString(homeID));
+        int dbNotificationCount = db.getNotificationCount(homeID);
 
         if (listNotificationCount < dbNotificationCount) {
             ArrayList<ArrayList<String>> notificationData = loadNotifications(homeID, listNotificationCount);
@@ -44,7 +42,7 @@ public class NotificationManager {
     }
 
     private ArrayList<ArrayList<String>> loadNotifications(long homeID, int startIndex) {
-        return db.loadNotifications(Long.toString(homeID), Integer.toString(startIndex));
+        return db.loadNotifications((int)homeID, startIndex);
     }
 
     public ArrayList<Notification> getNotifications() {

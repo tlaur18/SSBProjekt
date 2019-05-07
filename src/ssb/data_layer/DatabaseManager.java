@@ -31,7 +31,7 @@ public class DatabaseManager {
         return employeeWorkData.getEmployeeData(employeeCpr);
     }
 
-    public ArrayList<HashMap<String, String>> getHomeResidents(String employeeCpr) {
+    public ArrayList<HashMap<String, String>> getHomeResidents(int employeeCpr) {
         return residentData.getHomeResidents(employeeCpr);
     }
 
@@ -47,32 +47,26 @@ public class DatabaseManager {
         residentData.insertDocument(encodedDocumentString, residentCpr);
     }
 
-    public void updateDocument(String encodedDocument, String documentID) {
+    public void updateDocument(String encodedDocument, int documentID) {
         residentData.updateDocument(encodedDocument, documentID);
     }
 
-    public void insertResident(String residentCpr, String firstName, String lastName, String phoneNumber, String homeId) {
+    public void insertResident(String residentCpr, String firstName, String lastName, String phoneNumber, int homeId) {
         personData.insertPerson(residentCpr, firstName, lastName, phoneNumber, homeId);
         residentData.insertResident(residentCpr);
     }
 
-    public void insertNotification(String message, String author, String creationDate) {
-        notificationData.insertNotification(message, author, creationDate);
+    public int insertNotification(String message, String author, String creationDate, int homeId) {
+        int notificationID = notificationData.insertNotification(message, author, creationDate);
+        notificationData.insertHomeNotificationLink(notificationID, homeId);
+        return notificationID;
     }
 
-    public void insertHomeNotificationLink(String notificationID, String homeID) {
-        notificationData.insertHomeNotificationLink(notificationID, homeID);
-    }
-
-    public long getMaxNotificationId() {
-        return notificationData.getMaxNotificationId();
-    }
-
-    public ArrayList<ArrayList<String>> loadNotifications(String homeid, String startIndex) {
+    public ArrayList<ArrayList<String>> loadNotifications(int homeid, int startIndex) {
         return notificationData.loadNotifications(homeid, startIndex);
     }
 
-    public int getNotificationCount(String homeID) {
+    public int getNotificationCount(int homeID) {
         return notificationData.getNotificationCount(homeID);
     }
 

@@ -6,5 +6,5 @@ public class NotificationsContract {
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_MESSAGE = "message";
     public static final String COLUMN_AUTHOR = "author";
-    public static final String COLUMN_CREATIONDATE = "creationDate";
+    public static final String COLUMN_CREATIONDATE = "creation_date";
 }

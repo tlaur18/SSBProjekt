@@ -34,14 +34,6 @@ public class AdminOverviewController implements Initializable {
     private TableView<Person> oversigtTbl;
     private EmployeeManager employeeManager = EmployeeManager.getInstance();
     @FXML
-    private TableColumn<Employee, String> tableColumnFornavn;
-    @FXML
-    private TableColumn<Employee, String> tableColumnEftrnavn;
-    @FXML
-    private TableColumn<Employee, String> tableColumnCPR;
-    @FXML
-    private TableColumn<Employee, String> tableColumnTelefon;
-    @FXML
     private TableColumn<Employee, String> tableColumnRolle;
     @FXML
     private Button newUserBttn;

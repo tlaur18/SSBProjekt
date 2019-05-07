@@ -19,6 +19,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Point2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -76,11 +77,11 @@ public class AdminOversigtController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-
+        
         // Set the Items of the Observable list 
+        oversigtTbl.sort();
         oversigtTbl.setItems(employeeManager.getAllEmployees());
-
+        
         //Loads the Role form the Employee, and places it in the column
         loadTableView();
         // Sets the width om the colums to 20 %
@@ -92,8 +93,10 @@ public class AdminOversigtController implements Initializable {
     }
 
     private void loadTableView() {
+        
         tableColumnRolle.setCellValueFactory(new PropertyValueFactory<>("Rolle"));
 
+        //Manually adds the Role of the Employee to the Tableview
         tableColumnRolle.setCellValueFactory(new Callback<CellDataFeatures<Employee, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(CellDataFeatures<Employee, String> p) {
@@ -113,14 +116,14 @@ public class AdminOversigtController implements Initializable {
         try {
             InformationBridge.getInstance().putChosenEmployee(null);
             URL urlEmployeeEditor = new File("src/ssb/presentation_layer/fxml_documents/adminNyBruger.fxml").toURL();
-                FXMLLoader loaderEmployeeEditor = new FXMLLoader(urlEmployeeEditor);
-                Parent rootEmployee = (Parent) loaderEmployeeEditor.load();
-                Stage stageEmployeeEditor = new Stage();
-                stageEmployeeEditor.setMinHeight(425);
-                stageEmployeeEditor.setMinWidth(650);
-                stageEmployeeEditor.setScene(new Scene(FXMLLoader.load(urlEmployeeEditor)));
-                stageEmployeeEditor.setTitle("Ny Bruger");
-                stageEmployeeEditor.show();
+            FXMLLoader loaderEmployeeEditor = new FXMLLoader(urlEmployeeEditor);
+            Parent rootEmployee = (Parent) loaderEmployeeEditor.load();
+            Stage stageEmployeeEditor = new Stage();
+            stageEmployeeEditor.setMinHeight(425);
+            stageEmployeeEditor.setMinWidth(650);
+            stageEmployeeEditor.setScene(new Scene(FXMLLoader.load(urlEmployeeEditor)));
+            stageEmployeeEditor.setTitle("Ny Bruger");
+            stageEmployeeEditor.show();
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -151,22 +154,24 @@ public class AdminOversigtController implements Initializable {
     @FXML
     private void deleteUserBttn(ActionEvent event) {
         InformationBridge.getInstance().putChosenEmployee(oversigtTbl.getSelectionModel().getSelectedItem());
-        if(InformationBridge.getInstance().getChosenEmployee() != null) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Slet bruger");
-        alert.setHeaderText(null);
-        alert.setContentText("Ønsker du at slette " + InformationBridge.getInstance().getChosenEmployee().getFirstName());
+        Person person = InformationBridge.getInstance().getChosenEmployee();
+        if (InformationBridge.getInstance().getChosenEmployee() != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Slet bruger");
+            alert.setHeaderText(null);
+            alert.setContentText("Ønsker du at slette " + person.getFirstName());
 
-        alert.showAndWait().ifPresent(type -> {
-            if (type == ButtonType.OK) {
-                employeeManager.deleteEmployee(InformationBridge.getInstance().getChosenEmployee().getCprNr());
-            } else if (type == ButtonType.CANCEL) {
-                System.out.println("no is chosen");
-            } else {
-            }
-        });
-        }
-        else {
+            alert.showAndWait().ifPresent(type -> {
+                if (type == ButtonType.OK) {
+                    //Deletes the user from the Observable List and Database
+                    employeeManager.deleteEmployeeFromObservable(person);
+                    employeeManager.deleteEmployee(person.getCprNr());
+                } else if (type == ButtonType.CANCEL) {
+                    System.out.println("no is chosen");
+                } else {
+                }
+            });
+        } else {
             chooseAUserError.setVisible(true);
         }
     }

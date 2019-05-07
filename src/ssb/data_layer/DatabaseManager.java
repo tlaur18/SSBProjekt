@@ -40,6 +40,7 @@ public class DatabaseManager {
 
     public String checkUserLogin(String username, String password) {
         LogInData logInData = new LogInData();
+        System.out.println(logInData.getUserLoginWith(username, password));
         return logInData.getUserLoginWith(username, password);
     }
 
@@ -101,5 +102,9 @@ public class DatabaseManager {
         EmployeeWorkData employeeWorkData = new EmployeeWorkData();
         employeeWorkData.deleteEmployee(employeeCPR);
         employeeWorkData.deletePerson(employeeCPR);
+    }
+    public HashMap<String, String> getEmployeeLogin(Person person) {
+        LogInData loginData = new LogInData();
+        return loginData.getLoginData(person.getCprNr());
     }
 }

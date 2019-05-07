@@ -34,6 +34,7 @@ public class EmployeeManager {
         }
         return false;
     }
+
     public static EmployeeManager getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new EmployeeManager();
@@ -103,23 +104,41 @@ public class EmployeeManager {
 
     public void addEmployeeToDB(Employee employee, String username, String password) {
         DatabaseManager.getInstance().insertEmployee(employee.getCprNr(), employee.getFirstName(), employee.getLastName(), employee.getPhoneNr(), employee.getEmployeeRole(), username, password);
-        
+        addEmployeeToObservable(employee);
     }
+
     public void loadAllEmployess() {
-        
+
         for (HashMap<String, String> map : db.GetAllEmployees()) {
             setEmployeeDetails(map);
         }
     }
+
     public ObservableList<Person> getAllEmployees() {
         return allEmployees;
     }
+
+    public void addEmployeeToObservable(Person person) {
+        allEmployees.add(person);
+    }
+
+    public void deleteEmployeeFromObservable(Person person) {
+        allEmployees.remove(person);
+    }
+    public void clearObservableList() {
+        allEmployees.clear();
+    }
+
     public void updateEmployeDetails(Person person, String userName, String passWord) {
         DatabaseManager.getInstance().updateEmployeeData(person);
         DatabaseManager.getInstance().updateEmployeeLogin(userName, passWord, person.getCprNr());
     }
+
     public void deleteEmployee(String emploueeCPR) {
         DatabaseManager.getInstance().deleteEmployee(emploueeCPR);
     }
+
+    public HashMap<String, String> getEmployeeLogin(Person person) {
+        return DatabaseManager.getInstance().getEmployeeLogin(person);
+    }
 }
- 

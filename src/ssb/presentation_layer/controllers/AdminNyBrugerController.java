@@ -8,6 +8,7 @@ package ssb.presentation_layer.controllers;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -19,6 +20,7 @@ import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javax.swing.text.html.parser.Entity;
 import ssb.domain_layer.Employee.Administrator;
 import ssb.domain_layer.Employee.Employee;
 import ssb.domain_layer.Employee.Sagsbehandler;
@@ -35,7 +37,7 @@ import ssb.domain_layer.Person;
  * @author Morten
  */
 public class AdminNyBrugerController implements Initializable {
-
+    
     @FXML
     private Button saveBttn;
     @FXML
@@ -53,21 +55,25 @@ public class AdminNyBrugerController implements Initializable {
     @FXML
     private Label requiredFieldsLbl;
     private InformationBridge informationBridge = InformationBridge.getInstance();
+    private EmployeeManager employeeManager = new EmployeeManager();
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
         if (informationBridge.getChosenEmployee() != null) {
             loadEmployeeDetails();
             cprFxtf.setDisable(true);
         }
     }
-
+    
     @FXML
     private void saveBttn(ActionEvent event) {
+        // Controls if there is a chosen employee
         if (informationBridge.getChosenEmployee() == null) {
+            //Controls if the required fields are filled
             if (requiredFields()) {
                 EmployeeManager employeeManager = new EmployeeManager();
                 List<String> choices = new ArrayList<>();
@@ -82,7 +88,7 @@ public class AdminNyBrugerController implements Initializable {
                 dialog.setTitle("Opret ny Beboer");
                 dialog.setHeaderText("Vælg Rolle: ");
                 dialog.setContentText("Vælg en rolle fra listen: ");
-
+                
                 Optional<String> result = dialog.showAndWait();
                 if (result.isPresent()) {
                     //Displays an alert if the user did not pick any Role
@@ -119,7 +125,7 @@ public class AdminNyBrugerController implements Initializable {
                         }
                     }
                 }
-
+                
             } else {
                 requiredFieldsLbl.setVisible(true);
             }
@@ -127,12 +133,14 @@ public class AdminNyBrugerController implements Initializable {
             EmployeeManager empManager = new EmployeeManager();
             Person person = new Person(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText()) {
             };
+            //Updates the new details of the Employee to the database
             empManager.updateEmployeDetails(person, brugernavnTxtf.getText(), kodeordTxtf.getText());
-            Stage stage = (Stage) saveBttn.getScene().getWindow();
-            stage.close();
         }
+        //Closes the stage
+        Stage stage = (Stage) saveBttn.getScene().getWindow();
+        stage.close();
     }
-
+    
     public boolean requiredFields() {
         //Controls that no fields are empty
         if (brugernavnTxtf.getText().length() != 0 && kodeordTxtf.getText().length() != 0
@@ -143,13 +151,24 @@ public class AdminNyBrugerController implements Initializable {
             return false;
         }
     }
-
+    
     private void loadEmployeeDetails() {
+        //Iterates through the Hashmap to find the username and password
+        for (Map.Entry<String, String> ent : employeeManager.getEmployeeLogin(informationBridge.getChosenEmployee()).entrySet()) {
+             if(ent.getKey().equals("Username")) {
+                 brugernavnTxtf.setText(ent.getValue());
+             }
+             else if(ent.getKey().equals("Password")) {
+                 kodeordTxtf.setText(ent.getValue());
+             }
+        }
+        //Fill the information into the textfields
         Person editUser = informationBridge.getChosenEmployee();
         fornavnTxtf.setText(editUser.getFirstName());
         efternavnTxtf.setText(editUser.getLastName());
         cprFxtf.setText(editUser.getCprNr());
         tlkTxtf.setText(editUser.getPhoneNr());
+        
     }
-
+    
 }

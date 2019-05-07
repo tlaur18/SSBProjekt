@@ -48,8 +48,6 @@ public class MainScreenController implements Initializable {
         //removes the admin buttons and disables them
         oversigtbttnid.setVisible(false);
         oversigtbttnid.setDisable(true);
-        nybrugerid.setVisible(false);
-        nybrugerid.setDisable(true);
         //Controls if the logged in employee is administrator.
         if(InformationBridge.getInstance().getLoggedInEmployee() instanceof Administrator){
         adminLogin();
@@ -96,18 +94,16 @@ public class MainScreenController implements Initializable {
     public void adminLogin() {
         //removes all the buttons in the left Menu
          //Loads all employees from the database and create new employees
+        EmployeeManager.getInstance().clearObservableList();
         EmployeeManager.getInstance().loadAllEmployess();
         vBoxMenu.getChildren().removeAll(vBoxMenu.getChildren());
         
         // Shows the admin button in the left menu
         oversigtbttnid.setDisable(false);
         oversigtbttnid.setVisible(true);
-        nybrugerid.setDisable(false);
-        nybrugerid.setVisible(true);
-        //Adds the buttons to the Vbox menu.
+        //Adds the button to the Vbox menu.
         vBoxMenu.getChildren().add(oversigtbttnid);
-        vBoxMenu.getChildren().add(nybrugerid);
-        
+        adadmin
     }
 
     @FXML

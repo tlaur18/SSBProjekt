@@ -1,3 +1,5 @@
+
+
 .menuText {
     -fx-text-fill: #212121;
     -fx-font-weight: bold;
@@ -82,3 +84,29 @@
     -fx-alignment: center-left;
     -fx-padding: 1;
 }
+.mainBody{
+    -fx-background-color: #F1F0F0;
+}
+
+.vbox-notification{
+    -fx-spacing: 10;
+    -fx-background-color: #E6E6E6;
+}
+
+
+.notification-currentUser{
+    -fx-background-color: #6880A3;
+    -fx-background-radius: 20px;
+}
+
+.notification-OtherUsers{
+    -fx-background-color: #BFBFBF;
+    -fx-background-radius: 10px;
+    
+}
+
+.notification-label{
+    -fx-text-fill: #FFFFFF;
+}
+
+

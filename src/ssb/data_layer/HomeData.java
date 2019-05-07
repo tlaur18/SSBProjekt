@@ -7,9 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import ssb.data_layer.contracts.HomesContract;
-import ssb.data_layer.contracts.PersonsContract;
 import ssb.data_layer.contracts.PersonsHomesLinkContract;
-import ssb.data_layer.contracts.ResidentsContract;
 
 public class HomeData {
 

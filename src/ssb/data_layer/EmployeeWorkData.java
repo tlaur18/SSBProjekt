@@ -36,21 +36,6 @@ class EmployeeWorkData {
         return columnData;
     }
 
-    void insertEmployeePerson(String employeeCpr, String firstName, String lastName, String phoneNumber) {
-        String sqlPersonInsertion = "INSERT INTO " + PersonsContract.TABLE_NAME + " VALUES "
-                + "(?, ?, ?, ?)";
-        try (Connection connection = db.connect();
-                PreparedStatement insertStatement = connection.prepareStatement(sqlPersonInsertion)) {
-            insertStatement.setString(1, employeeCpr);
-            insertStatement.setString(2, firstName);
-            insertStatement.setString(3, lastName);
-            insertStatement.setString(4, phoneNumber);
-            insertStatement.execute();
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-    }
-
     void insertEmployee(String employeeCPR, String employeeRole) {
         String sqlEmployeeInsertion = "INSERT INTO " + EmployeeContract.TABLE_NAME + " VALUES " + "(?, ?)";
 
@@ -84,47 +69,27 @@ class EmployeeWorkData {
         return allEmployeeHashmaps;
     }
 
-    void updateEmployee(String employeeCpr, String firstName, String lastName, String phoneNumber) {
-        String sqlUpdate = "UPDATE " + PersonsContract.TABLE_NAME
-                + " SET "
-                + PersonsContract.COLUMN_FIRST_NAME + " = ?, "
-                + PersonsContract.COLUMN_LAST_NAME + " = ?, "
-                + PersonsContract.COLUMN_PHONE + " = ?"
-                + " WHERE " + PersonsContract.COLUMN_CPR + " = ?";
-        try (Connection connection = db.connect();
-                PreparedStatement updateStatement = connection.prepareStatement(sqlUpdate)) {
-            updateStatement.setString(1, firstName);
-            updateStatement.setString(2, lastName);
-            updateStatement.setString(3, phoneNumber);
-            updateStatement.setString(4, employeeCpr);
-            System.out.println(updateStatement);
-            updateStatement.execute();
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-    }
-
-    void deleteEmployee(String employeeCPR) {
-        String sqlUpdate = "DELETE FROM " + EmployeeContract.TABLE_NAME
-                + " WHERE " + EmployeeContract.COLUMN_CPR + " = ?";
-        try (Connection connection = db.connect();
-                PreparedStatement updateStatement = connection.prepareStatement(sqlUpdate)) {
-            updateStatement.setString(1, employeeCPR);
-            updateStatement.execute();
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-    }
-    DEN HER COMPUTER ER HURTIG
-    void deletePerson(String personCPR) {
-        String sqlUpdate = "DELETE FROM " + PersonsContract.TABLE_NAME +
-                " WHERE " + PersonsContract.COLUMN_CPR + " = ?";
-        try(Connection connection = db.connect();
-                PreparedStatement updateStatement = connection.prepareStatement(sqlUpdate)) {
-            updateStatement.setString(1, personCPR);
-            updateStatement.execute();
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-    }
+//    void deleteEmployee(String employeeCPR) {
+//        String sqlUpdate = "DELETE FROM " + EmployeeContract.TABLE_NAME
+//                + " WHERE " + EmployeeContract.COLUMN_CPR + " = ?";
+//        try (Connection connection = db.connect();
+//                PreparedStatement updateStatement = connection.prepareStatement(sqlUpdate)) {
+//            updateStatement.setString(1, employeeCPR);
+//            updateStatement.execute();
+//        } catch (SQLException ex) {
+//            System.out.println(ex.getMessage());
+//        }
+//    }
+//    
+//        void deleteEmployee(String employeeCPR) {
+//        String sqlDelete = "Delete From " + LoginsContract.TABLE_NAME
+//                + " WHERE " + LoginsContract.COLUMN_EMPLOYEECPR + " = ?";
+//        try (Connection connection = db.connect();
+//                PreparedStatement updateStatement = connection.prepareStatement(sqlDelete)) {
+//            updateStatement.setString(1, employeeCPR);
+//            updateStatement.execute();
+//        } catch (SQLException ex) {
+//            System.out.println(ex.getMessage());
+//        }
+//    }
 }

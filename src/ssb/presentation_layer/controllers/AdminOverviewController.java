@@ -32,17 +32,11 @@ public class AdminOverviewController implements Initializable {
 
     @FXML
     private TableView<Person> oversigtTbl;
-    private EmployeeManager employeeManager = EmployeeManager.getInstance();
+    private final EmployeeManager employeeManager = EmployeeManager.getInstance();
     @FXML
     private TableColumn<Employee, String> tableColumnRolle;
     @FXML
-    private Button newUserBttn;
-    @FXML
-    private Button editUserBttn;
-    @FXML
     private Label chooseAUserError;
-    @FXML
-    private Button deleteUserBttn;
 
     /**
      * Initializes the controller class.

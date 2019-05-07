@@ -11,13 +11,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import ssb.domain_layer.Employee.Administrator;
 import ssb.domain_layer.EmployeeManager;
 import ssb.domain_layer.InformationBridge;
 
@@ -31,31 +29,11 @@ public class MainScreenController implements Initializable {
     private VBox vBoxMenu;
     @FXML
     private Button oversigtbttnid;
-    @FXML
-    private Button nybrugerid;
-    @FXML
-    private ImageView backBtn;
-    @FXML
-    private TextField searchCommandTxtField;
-    @FXML
-    private Button sagerFaneBtn;
-    @FXML
-    private ImageView backBtn;
-    @FXML
-    private TextField searchCommandTxtField;
-    @FXML
-    private Button sagerFaneBtn;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO - Notification screen loading
-
-        //removes the admin buttons and disables them
-        SKAL FLYTTES TIL FXML
-        oversigtbttnid.setVisible(false);
-        oversigtbttnid.setDisable(true);
         //Controls if the logged in employee is administrator.
-        if (InformationBridge.getInstance().getLoggedInEmployee() instanceof Administrator) {
+        if (InformationBridge.getInstance().getLoggedInEmployee().canUseAdminRights()) {
             adminLogin();
         } else {
             loadFXML("notifications");

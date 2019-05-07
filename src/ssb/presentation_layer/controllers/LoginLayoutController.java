@@ -32,12 +32,10 @@ public class LoginLayoutController implements Initializable, LoginCallBack {
     private PasswordField passwordTxtField;
     @FXML
     private Label ugyldigtLoginLabel;
-    @FXML
-    private Button logInBtn;
 
     private String enteredUsername;
     private String enteredPassword;
-    private EmployeeManager loginManager = EmployeeManager.getInstance();
+    private final EmployeeManager loginManager = EmployeeManager.getInstance();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -84,5 +82,10 @@ public class LoginLayoutController implements Initializable, LoginCallBack {
         if (result.isPresent()) {
             loginManager.fillHomeData(result.get());
         }
+    }
+
+    @Override
+    public void adminastratorLogin() {
+        changeStage();
     }
 }

@@ -2,16 +2,18 @@ package ssb.data_layer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import javafx.util.Pair;
+import ssb.domain_layer.Person;
 
 public class DatabaseManager {
 
     private static DatabaseManager instance = null;
-    private LogInData logInData = new LogInData();
-    private PersonData personData = new PersonData();
-    private EmployeeWorkData employeeWorkData = new EmployeeWorkData();
-    private ResidentData residentData = new ResidentData();
-    private NotificationData notificationData = new NotificationData();
-    private HomeData homeData = new HomeData();
+    private final LogInData logInData = new LogInData();
+    private final PersonData personData = new PersonData();
+    private final EmployeeWorkData employeeWorkData = new EmployeeWorkData();
+    private final ResidentData residentData = new ResidentData();
+    private final NotificationData notificationData = new NotificationData();
+    private final HomeData homeData = new HomeData();
 
     private DatabaseManager() {
     }
@@ -74,34 +76,34 @@ public class DatabaseManager {
         return homeData.getEmployeeHomes(employeeCPRString);
     }
 
-    public void insertEmployee(String employeecpr, String firstName, String lastName, String phoneNumber, String employeeRole, String employeeUsername, String employeePassword){
-        EmployeeWorkData employeeWorkData = new EmployeeWorkData();
-        employeeWorkData.insertEmployeePerson(employeecpr, firstName, lastName, phoneNumber);
+    public void insertEmployee(String employeecpr, String firstName, String lastName, String phoneNumber, String employeeRole, int homeID) {
+        personData.insertPerson(employeecpr, firstName, lastName, phoneNumber, homeID);
         employeeWorkData.insertEmployee(employeecpr, employeeRole);
-        LogInData loginData = new LogInData();
-        loginData.insertEmployeeLogin(employeecpr, employeeUsername, employeePassword);
     }
+
     public ArrayList<HashMap<String, String>> GetAllEmployees() {
-        EmployeeWorkData employeeWorkData = new EmployeeWorkData();
         return employeeWorkData.loadAllEmployees();
     }
+
     public void updateEmployeeData(String employeeCPR, String firstName, String lastName, String phoneNr) {
-        EmployeeWorkData employeeWorkData = new EmployeeWorkData();
-        employeeWorkData.updateEmployee(employeeCPR, firstName, lastName, phoneNr);
+        personData.updatePerson(employeeCPR, firstName, lastName, phoneNr);
     }
+
     public void updateEmployeeLogin(String userName, String passWord, String employeeCPR) {
-        LogInData loginData = new LogInData();
-        loginData.updateEmployeeLogin(userName, passWord, employeeCPR);
+        logInData.updateLogin(userName, passWord, employeeCPR);
     }
+
     public void deleteEmployee(String employeeCPR) {
-        LogInData loginData = new LogInData();
-        loginData.deleteEmployee(employeeCPR);
-        EmployeeWorkData employeeWorkData = new EmployeeWorkData();
-        employeeWorkData.deleteEmployee(employeeCPR);
-        employeeWorkData.deletePerson(employeeCPR);
+//        logInData.deleteEmployee(employeeCPR);
+//        employeeWorkData.deleteEmployee(employeeCPR);
+        personData.deletePerson(employeeCPR);
     }
-    public HashMap<String, String> getEmployeeLogin(Person person) {
-        LogInData loginData = new LogInData();
-        return loginData.getLoginData(person.getCprNr());
+
+    public Pair<String, String> getEmployeeLogin(Person person) {
+        return logInData.getLoginData(person.getCprNr());
+    }
+
+    public void insertEmployeeLogin(String cprNr, String username, String password) {
+        logInData.insertLogin(cprNr, username, password);
     }
 }

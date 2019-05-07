@@ -15,7 +15,7 @@ import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javax.naming.spi.DirStateFactory;
+import javafx.util.Pair;
 import ssb.domain_layer.Employee.Administrator;
 import ssb.domain_layer.Employee.Employee;
 import ssb.domain_layer.Employee.Sagsbehandler;
@@ -44,8 +44,8 @@ public class AdminNewUserController implements Initializable {
     private TextField tlkTxtf;
     @FXML
     private Label requiredFieldsLbl;
-    private InformationBridge informationBridge = InformationBridge.getInstance();
-    private EmployeeManager employeeManager = new EmployeeManager();
+    private final InformationBridge informationBridge = InformationBridge.getInstance();
+    private final EmployeeManager employeeManager = EmployeeManager.getInstance();
 
     /**
      * Initializes the controller class.
@@ -61,7 +61,6 @@ public class AdminNewUserController implements Initializable {
 
     @FXML
     private void saveBttn(ActionEvent event) {
-        EmployeeManager employeeManager = new EmployeeManager();
         // Controls if there is a chosen employee
         if (informationBridge.getChosenEmployee() == null) {
             //Controls if the required fields are filled
@@ -86,11 +85,10 @@ public class AdminNewUserController implements Initializable {
                 Stage stage = (Stage) saveBttn.getScene().getWindow();
                 stage.close();
             } else {
-                EmployeeManager empManager = new EmployeeManager();
                 Person person = new Person(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText()) {
                 };
                 //Updates the new details of the Employee to the database
-                empManager.updateEmployeeDetails(person, brugernavnTxtf.getText(), kodeordTxtf.getText());
+                employeeManager.updateEmployeeDetails(person, brugernavnTxtf.getText(), kodeordTxtf.getText());
                 //Closes the stage
                 Stage stage = (Stage) saveBttn.getScene().getWindow();
                 stage.close();
@@ -101,8 +99,8 @@ public class AdminNewUserController implements Initializable {
     public boolean requiredFields() {
         //Controls that no fields are empty
         if (brugernavnTxtf.getText().length() != 0 && kodeordTxtf.getText().length() != 0
-                && fornavnTxtf.getText().length() != 0 && efternavnTxtf.getText().length() != 0
-                && cprFxtf.getText().length() != 0 && tlkTxtf.getText().length() != 0) {
+            && fornavnTxtf.getText().length() != 0 && efternavnTxtf.getText().length() != 0
+            && cprFxtf.getText().length() != 0 && tlkTxtf.getText().length() != 0) {
             return true;
         } else {
             return false;
@@ -111,13 +109,9 @@ public class AdminNewUserController implements Initializable {
 
     private void loadEmployeeDetails() {
         //Iterates through the Hashmap to find the username and password
-        for (Map.Entry<String, String> ent : employeeManager.getEmployeeLogin(informationBridge.getChosenEmployee()).entrySet()) {
-            if (ent.getKey().equals("Username")) {
-                brugernavnTxtf.setText(ent.getValue());
-            } else if (ent.getKey().equals("Password")) {
-                kodeordTxtf.setText(ent.getValue());
-            }
-        }
+        Pair<String, String> userNamePasswordPair = employeeManager.getEmployeeLogin(informationBridge.getChosenEmployee());
+        brugernavnTxtf.setText(userNamePasswordPair.getKey());
+        kodeordTxtf.setText(userNamePasswordPair.getValue());
         //Fill the information into the textfields
         Person editUser = informationBridge.getChosenEmployee();
         fornavnTxtf.setText(editUser.getFirstName());
@@ -154,21 +148,22 @@ public class AdminNewUserController implements Initializable {
         }
 
     }
+
     private Optional<String> createDialog() {
         List<String> choices = new ArrayList<>();
 
-                //Initializes the drop down menu.
-                choices.add("SAGSBEHANDLER");
-                choices.add("SOCIALRÅDGIVER");
-                choices.add("SOCIALPÆDAGOG");
-                choices.add("ADMINISTRATOR");
-                choices.add("VIKAR");
-                ChoiceDialog<String> dialog = new ChoiceDialog<>("", choices);
-                dialog.setTitle("Opret ny Beboer");
-                dialog.setHeaderText("Vælg Rolle: ");
-                dialog.setContentText("Vælg en rolle fra listen: ");
+        //Initializes the drop down menu.
+        choices.add("SAGSBEHANDLER");
+        choices.add("SOCIALRÅDGIVER");
+        choices.add("SOCIALPÆDAGOG");
+        choices.add("ADMINISTRATOR");
+        choices.add("VIKAR");
+        ChoiceDialog<String> dialog = new ChoiceDialog<>("", choices);
+        dialog.setTitle("Opret ny Beboer");
+        dialog.setHeaderText("Vælg Rolle: ");
+        dialog.setContentText("Vælg en rolle fra listen: ");
 
-                Optional<String> result = dialog.showAndWait();
-                return result;
+        Optional<String> result = dialog.showAndWait();
+        return result;
     }
 }

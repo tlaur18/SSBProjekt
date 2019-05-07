@@ -3,8 +3,10 @@ package ssb.domain_layer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.util.Pair;
 import ssb.data_layer.DatabaseManager;
 import ssb.data_layer.contracts.EmployeeContract;
 import ssb.data_layer.contracts.HomesContract;
@@ -22,7 +24,7 @@ public class EmployeeManager {
     private final InformationBridge informationBridge = InformationBridge.getInstance();
     private List<Home> employeeHomes;
     private static EmployeeManager INSTANCE = null;
-    private ObservableList<Person> allEmployees = FXCollections.observableArrayList();
+    private final ObservableList<Person> allEmployees = FXCollections.observableArrayList();
     
     private EmployeeManager() {}
 
@@ -31,6 +33,10 @@ public class EmployeeManager {
         if (employeeCPRString != null) {
             HashMap<String, String> employeeData = db.getEmployeeDetails(employeeCPRString);
             informationBridge.setLoggedInEmployee(setEmployeeDetails(employeeData));
+            if (informationBridge.getLoggedInEmployee() instanceof Administrator) {
+                loginCallBack.adminastratorLogin();
+                return false;
+            }
             employeeHomes = assembleHomes(db.getHomes(employeeCPRString));
             if (employeeHomes.size() > 1) {
                 List<String> homeNames = new ArrayList<>();
@@ -135,7 +141,9 @@ public class EmployeeManager {
     }
 
     public void addEmployeeToDB(Employee employee, String username, String password) {
-        DatabaseManager.getInstance().insertEmployee(employee.getCprNr(), employee.getFirstName(), employee.getLastName(), employee.getPhoneNr(), employee.getEmployeeRole(), username, password);
+        // TODO - HER SKAL DER LAVES SÅDAN SÅ NÅR EN MEDARBEJDER BLIVER OPRETTET AT DER BLIVER VALGT ET TILKNYTTET BOSTED SOM SÅ SKAL SÆTTES MED I STEDET FOR VAMMELBY MED ID 1
+        db.insertEmployee(employee.getCprNr(), employee.getFirstName(), employee.getLastName(), employee.getPhoneNr(), employee.getEmployeeRole(), 1);
+        db.insertEmployeeLogin(employee.getCprNr(), username, password);
         addEmployeeToObservable(employee);
     }
 
@@ -162,15 +170,15 @@ public class EmployeeManager {
     }
 
     public void updateEmployeeDetails(Person person, String userName, String passWord) {
-        DatabaseManager.getInstance().updateEmployeeData(person.getCprNr(), person.getFirstName(), person.getLastName(), person.getPhoneNr());
-        DatabaseManager.getInstance().updateEmployeeLogin(userName, passWord, person.getCprNr());
+        db.updateEmployeeData(person.getCprNr(), person.getFirstName(), person.getLastName(), person.getPhoneNr());
+        db.updateEmployeeLogin(userName, passWord, person.getCprNr());
     }
 
     public void deleteEmployee(String employeeCPR) {
-        DatabaseManager.getInstance().deleteEmployee(employeeCPR);
+        db.deleteEmployee(employeeCPR);
     }
 
-    public HashMap<String, String> getEmployeeLogin(Person person) {
-        return DatabaseManager.getInstance().getEmployeeLogin(person);
+    public Pair<String, String> getEmployeeLogin(Person person) {
+        return db.getEmployeeLogin(person);
     }
 }

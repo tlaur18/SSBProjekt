@@ -4,9 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import ssb.data_layer.contracts.DocumentsContract;
 import ssb.data_layer.contracts.HomesNotificationsLinkContract;
 import ssb.data_layer.contracts.NotificationsContract;
 

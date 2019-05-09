@@ -83,7 +83,7 @@ public class LoginLayoutController implements Initializable {
                 ((Stage) successImage.getScene().getWindow()).close(); //close login stage
                 mainStage.show();
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("LoginLayoutController - changestage - message: " + e.getMessage());
             }
         });
     }
@@ -124,7 +124,7 @@ public class LoginLayoutController implements Initializable {
 
         @Override
         public void login() {
-            DocumentManager.getInstance().setDocumentsForEmployee();
+            DocumentManager.getInstance().setDocumentsForHome();
             changeStage();
         }
 

@@ -6,7 +6,7 @@ import ssb.data_layer.DatabaseManager;
 public class NotificationManager {
 
     private static NotificationManager INSTANCE = null;
-    private final DatabaseManager db = DatabaseManager.getInstance();
+    private final DatabaseManager database = DatabaseManager.getInstance();
     private ArrayList<Notification> notifications = new ArrayList<>();
 
     private NotificationManager() {
@@ -20,13 +20,13 @@ public class NotificationManager {
     }
 
     public void saveNewNotification(String message, String authorName, String creationDate, int homeId) {
-        int notificationId = db.insertNotification(message, authorName, creationDate, homeId);
+        int notificationId = database.insertNotification(message, authorName, creationDate, homeId);
         notifications.add(new Notification(notificationId, message, authorName, creationDate));
     }
 
     public void checkForNewNotifications(int homeID) {
         int listNotificationCount = notifications.size();
-        int dbNotificationCount = db.getNotificationCount(homeID);
+        int dbNotificationCount = database.getNotificationCount(homeID);
 
         if (listNotificationCount < dbNotificationCount) {
             ArrayList<ArrayList<String>> notificationData = loadNotifications(homeID, listNotificationCount);
@@ -42,7 +42,7 @@ public class NotificationManager {
     }
 
     private ArrayList<ArrayList<String>> loadNotifications(long homeID, int startIndex) {
-        return db.loadNotifications((int)homeID, startIndex);
+        return database.loadNotifications((int) homeID, startIndex);
     }
 
     public ArrayList<Notification> getNotifications() {

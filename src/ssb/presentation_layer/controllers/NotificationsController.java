@@ -5,12 +5,14 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.ColumnConstraints;
@@ -32,22 +34,31 @@ public class NotificationsController implements Initializable {
     @FXML
     private VBox notificationVbox;
 
-    Employee loggedInEmployee;
-    Home currentDepartment;
-    NotificationManager notificationManager;
+    private final Employee loggedInEmployee = InformationBridge.getInstance().getLoggedInEmployee();
+    private final Home currentHome = InformationBridge.getInstance().getCurrentHome();
+    private final NotificationManager notificationManager = NotificationManager.getInstance();
+    @FXML
+    private ProgressIndicator notificationLoadingIndicator;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        loggedInEmployee = InformationBridge.getInstance().getLoggedInEmployee();
-        currentDepartment = InformationBridge.getInstance().getCurrentHome();
-        notificationManager = NotificationManager.getInstance();
-
         scrollPane.setFitToHeight(true);
         scrollPane.setFitToWidth(true);
+        new Thread(new Task() {
+            @Override
+            protected Void call() throws Exception {
+                notificationLoadingIndicator.setVisible(true);
+                notificationManager.checkForNewNotifications(currentHome.getId());
+                return null;
+            }
 
-        notificationManager.checkForNewNotifications(currentDepartment.getId());
+            @Override
+            protected void succeeded() {
+                notificationLoadingIndicator.setVisible(false);
+                showNotifications();
+            }
 
-        showNotifications();
+        }).start();
     }
 
     @FXML
@@ -58,7 +69,7 @@ public class NotificationsController implements Initializable {
         String employeeLastName = loggedInEmployee.getLastName().substring(0, 1).toUpperCase() + loggedInEmployee.getLastName().substring(1);
         String employeeName = employeeFirstName + " " + employeeLastName;
         Date creationDate = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yy HH:mm");
         String dateString = dateFormat.format(creationDate);
 
         GridPane newNotification = assembleNotification(employeeName, message, dateString);
@@ -66,8 +77,13 @@ public class NotificationsController implements Initializable {
 
         //Makes the scrollPane go to the bottom
         scrollPane.vvalueProperty().bind(notificationVbox.heightProperty());
-
-        notificationManager.saveNewNotification(message, employeeName, dateString, currentDepartment.getId());
+        new Thread(new Task() {
+            @Override
+            protected Void call() throws Exception {
+                notificationManager.saveNewNotification(message, employeeName, dateString, currentHome.getId());
+                return null;
+            }
+        }).start();
     }
 
     private GridPane assembleNotification(String name, String message, String creationDate) {

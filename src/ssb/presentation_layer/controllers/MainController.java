@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -29,6 +30,8 @@ public class MainController implements Initializable {
     private VBox vBoxMenu;
     @FXML
     private Button oversigtbttnid;
+    @FXML
+    private ProgressIndicator centerLoaderIndicator;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

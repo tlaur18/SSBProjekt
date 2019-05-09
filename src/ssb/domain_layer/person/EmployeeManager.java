@@ -104,19 +104,18 @@ public class EmployeeManager {
     }
 
     public void fillHomeData(String homeName) {
-        new Thread(new Task() {
-            @Override
-            protected Object call() throws Exception {
-                for (Home home : employeeHomes) {
-                    if (home.getHomeName().equalsIgnoreCase(homeName)) {
-                        informationBridge.setCurrentHome(home);
-                        setHomeResidents(home);
-                        setResidentDocuments(home);
-                    }
-                }
-                return null;
+        for (Home home : employeeHomes) {
+            if (home.getHomeName().equalsIgnoreCase(homeName)) {
+                informationBridge.setCurrentHome(home);
+                new Thread(() -> {
+                    setHomeResidents(home);
+                }).start();
+                
+                new Thread(() -> {
+                    setResidentDocuments(home);
+                }).start();
             }
-        }).start();
+        }
 
     }
 

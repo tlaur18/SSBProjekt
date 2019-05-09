@@ -2,11 +2,8 @@ package ssb.data_layer;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 
 public class DatabaseConnection {
-
-    private static final String DATABASE_NAME = "ssbprojektdata.db";
 
     private static DatabaseConnection instance = null;
     private String url = "jdbc:postgresql://manny.db.elephantsql.com:5432/erpvuwlh";

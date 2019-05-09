@@ -1,4 +1,4 @@
-package ssb.domain_layer;
+package ssb.domain_layer.document;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

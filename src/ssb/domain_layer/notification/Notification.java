@@ -1,4 +1,4 @@
-package ssb.domain_layer;
+package ssb.domain_layer.notification;
 
 import java.util.Date;
 

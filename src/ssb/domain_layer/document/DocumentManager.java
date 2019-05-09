@@ -1,4 +1,4 @@
-package ssb.domain_layer;
+package ssb.domain_layer.document;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -7,6 +7,8 @@ import java.util.Base64;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import ssb.data_layer.DatabaseManager;
+import ssb.domain_layer.InformationBridge;
+import ssb.domain_layer.person.Resident;
 
 public final class DocumentManager {
 

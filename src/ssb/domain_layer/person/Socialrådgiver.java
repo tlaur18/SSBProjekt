@@ -1,4 +1,4 @@
-package ssb.domain_layer.Employee;
+package ssb.domain_layer.person;
 
 public class Socialrådgiver extends Employee {
     

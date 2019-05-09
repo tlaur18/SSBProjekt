@@ -21,12 +21,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import ssb.domain_layer.Document;
-import ssb.domain_layer.DocumentManager;
-import ssb.domain_layer.Employee.Employee;
+import ssb.domain_layer.document.Document;
+import ssb.domain_layer.document.DocumentManager;
+import ssb.domain_layer.person.Employee;
 import ssb.domain_layer.Home;
 import ssb.domain_layer.InformationBridge;
-import ssb.domain_layer.Resident;
+import ssb.domain_layer.person.Resident;
 
 public class SagerTabController implements Initializable {
 
@@ -40,10 +40,9 @@ public class SagerTabController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //Henter loggedInEmployee der lige er logget ind fra informationBridge
         loggedInEmployee = informationBridge.getLoggedInEmployee();
         currentHome = informationBridge.getCurrentHome();
-        // Forbinder tableView med observable list med dokumenterne
+        
         vumDocumentTableView.setItems(documentManager.getAllDocuments());
         
         // Columns width set to 20%
@@ -78,10 +77,10 @@ public class SagerTabController implements Initializable {
     private void loadDocumentController(Document document) {
         switch (document.getType()) {
             case HANDLEPLAN:
-                loadDocument("src/ssb/presentation_layer/fxml_documents/handleplan.fxml", "Handleplan");
+                loadDocument("src/ssb/presentation_layer/fxml_documents/vum_documents/handleplan.fxml", "Handleplan");
                 break;
             case SAGSÅBNING:
-                loadDocument("src/ssb/presentation_layer/fxml_documents/sagsåbning.fxml", "Sagsåbning");
+                loadDocument("src/ssb/presentation_layer/fxml_documents/vum_documents/sagsåbning.fxml", "Sagsåbning");
                 break;
         }
     }
@@ -170,10 +169,10 @@ public class SagerTabController implements Initializable {
             } else {
                 switch (result.get()) {
                     case "SAGSÅBNING":
-                        loadDocument("src/ssb/presentation_layer/fxml_documents/sagsåbning.fxml", "Sagsåbning");
+                        loadDocument("src/ssb/presentation_layer/fxml_documents/vum_documents/sagsåbning.fxml", "Sagsåbning");
                         break;
                     case "HANDLEPLAN":
-                        loadDocument("src/ssb/presentation_layer/fxml_documents/Handleplan.fxml", "Handleplan");
+                        loadDocument("src/ssb/presentation_layer/fxml_documents/vum_documents/handleplan.fxml", "Handleplan");
                 }
             }
         }

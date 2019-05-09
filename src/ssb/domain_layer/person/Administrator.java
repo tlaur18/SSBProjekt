@@ -1,5 +1,5 @@
 
-package ssb.domain_layer.Employee;
+package ssb.domain_layer.person;
 
 public class Administrator extends Employee {
     final String employeeRole = "admin"; 

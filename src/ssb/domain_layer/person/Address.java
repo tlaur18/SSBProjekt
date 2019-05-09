@@ -1,4 +1,4 @@
-package ssb.domain_layer;
+package ssb.domain_layer.person;
 
 public class Address {
     

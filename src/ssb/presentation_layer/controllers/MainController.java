@@ -16,10 +16,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import ssb.domain_layer.EmployeeManager;
+import ssb.domain_layer.person.EmployeeManager;
 import ssb.domain_layer.InformationBridge;
 
-public class MainScreenController implements Initializable {
+public class MainController implements Initializable {
 
     @FXML
     private ImageView homeBtn;
@@ -36,18 +36,18 @@ public class MainScreenController implements Initializable {
         if (InformationBridge.getInstance().getLoggedInEmployee().canUseAdminRights()) {
             adminLogin();
         } else {
-            loadFXML("notifications");
+            loadFXML("tabs/notifications");
         }
     }
 
     @FXML
     private void sagerOnAction(ActionEvent event) {
-        loadFXML("sagerTab");
+        loadFXML("tabs/sagerTab");
     }
 
     @FXML
     private void HandleplanOnAction(ActionEvent event) {
-        loadFXML("handleplantest");
+        loadFXML("tabs/handleplantest");
     }
 
     private void loadFXML(String documentName) {
@@ -79,7 +79,7 @@ public class MainScreenController implements Initializable {
 
     @FXML
     private void homeButtonHandler(MouseEvent event) {
-        loadFXML("notifications");
+        loadFXML("tabs/notifications");
     }
 
     public void adminLogin() {
@@ -98,6 +98,6 @@ public class MainScreenController implements Initializable {
 
     @FXML
     private void oversigtOnAction(ActionEvent event) {
-        loadFXML("adminOversigt");
+        loadFXML("admin/adminOversigt");
     }
 }

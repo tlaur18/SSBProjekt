@@ -1,4 +1,4 @@
-package ssb.domain_layer;
+package ssb.domain_layer.notification;
 
 import java.util.ArrayList;
 import ssb.data_layer.DatabaseManager;
@@ -49,7 +49,7 @@ public class NotificationManager {
         return notifications;
     }
 
-    void clearNotifications() {
+    public void clearNotifications() {
         this.notifications = new ArrayList<>();
     }
 }

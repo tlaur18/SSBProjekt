@@ -12,16 +12,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import ssb.domain_layer.DocumentManager;
-import ssb.domain_layer.EmployeeManager;
-import ssb.domain_layer.InformationBridge;
-import ssb.domain_layer.LoginCallBack;
+import ssb.domain_layer.document.DocumentManager;
+import ssb.domain_layer.person.EmployeeManager;
+import ssb.domain_layer.callbacks.LoginCallBack;
 
 
 public class LoginLayoutController implements Initializable, LoginCallBack {

@@ -1,4 +1,4 @@
-package ssb.domain_layer.Employee;
+package ssb.domain_layer.person;
 
 public class Sagsbehandler extends Employee {
     final String employeeRole = "sagsbehandler"; 

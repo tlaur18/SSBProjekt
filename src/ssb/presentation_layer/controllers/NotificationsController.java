@@ -18,10 +18,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import ssb.domain_layer.Home;
-import ssb.domain_layer.Employee.Employee;
+import ssb.domain_layer.person.Employee;
 import ssb.domain_layer.InformationBridge;
-import ssb.domain_layer.Notification;
-import ssb.domain_layer.NotificationManager;
+import ssb.domain_layer.notification.Notification;
+import ssb.domain_layer.notification.NotificationManager;
 
 public class NotificationsController implements Initializable {
 

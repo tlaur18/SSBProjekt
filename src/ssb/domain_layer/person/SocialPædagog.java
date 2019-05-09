@@ -1,10 +1,10 @@
-package ssb.domain_layer.Employee;
+package ssb.domain_layer.person;
 
-public class Vikar extends Employee {
-    
-    final String employeeRole = "vikar";
+public class SocialPædagog extends Employee {
 
-    public Vikar(String firstName, String lastName, String phoneNr, String cprNr) {
+    final String employeeRole = "socialpædagog";
+
+    public SocialPædagog(String firstName, String lastName, String phoneNr, String cprNr) {
         super(firstName, lastName, phoneNr, cprNr);
         setCanCreateNotification(true);
         setCanSeeNotifications(true);
@@ -14,4 +14,5 @@ public class Vikar extends Employee {
     public String getEmployeeRole() {
         return employeeRole;
     }
+
 }

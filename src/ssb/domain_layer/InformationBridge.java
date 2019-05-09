@@ -1,6 +1,11 @@
 package ssb.domain_layer;
 
-import ssb.domain_layer.Employee.Employee;
+import ssb.domain_layer.person.Resident;
+import ssb.domain_layer.person.Person;
+import ssb.domain_layer.document.DocumentManager;
+import ssb.domain_layer.document.Document;
+import ssb.domain_layer.notification.NotificationManager;
+import ssb.domain_layer.person.Employee;
 
 public class InformationBridge {
 

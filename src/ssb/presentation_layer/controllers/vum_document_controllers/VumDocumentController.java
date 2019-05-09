@@ -10,10 +10,10 @@ import javafx.scene.control.TextInputControl;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import ssb.domain_layer.Document;
-import ssb.domain_layer.DocumentManager;
+import ssb.domain_layer.document.Document;
+import ssb.domain_layer.document.DocumentManager;
 import ssb.domain_layer.InformationBridge;
-import ssb.domain_layer.Resident;
+import ssb.domain_layer.person.Resident;
 
 public abstract class VumDocumentController {
 

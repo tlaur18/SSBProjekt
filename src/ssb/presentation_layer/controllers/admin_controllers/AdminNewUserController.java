@@ -16,15 +16,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-import ssb.domain_layer.Employee.Administrator;
-import ssb.domain_layer.Employee.Employee;
-import ssb.domain_layer.Employee.Sagsbehandler;
-import ssb.domain_layer.Employee.SocialPædagog;
-import ssb.domain_layer.Employee.Socialrådgiver;
-import ssb.domain_layer.Employee.Vikar;
-import ssb.domain_layer.EmployeeManager;
+import ssb.domain_layer.person.Administrator;
+import ssb.domain_layer.person.Employee;
+import ssb.domain_layer.person.Sagsbehandler;
+import ssb.domain_layer.person.SocialPædagog;
+import ssb.domain_layer.person.Socialrådgiver;
+import ssb.domain_layer.person.Vikar;
+import ssb.domain_layer.person.EmployeeManager;
 import ssb.domain_layer.InformationBridge;
-import ssb.domain_layer.Person;
+import ssb.domain_layer.person.Person;
 
 public class AdminNewUserController implements Initializable {
 

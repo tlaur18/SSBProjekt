@@ -1,5 +1,7 @@
-package ssb.domain_layer;
+package ssb.domain_layer.person;
 
+import ssb.domain_layer.person.Person;
+import ssb.domain_layer.document.Document;
 import java.util.ArrayList;
 import java.util.List;
 

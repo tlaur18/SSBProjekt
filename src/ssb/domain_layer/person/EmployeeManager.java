@@ -1,5 +1,6 @@
-package ssb.domain_layer;
+package ssb.domain_layer.person;
 
+import ssb.domain_layer.document.DocumentManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,12 +12,15 @@ import ssb.data_layer.DatabaseManager;
 import ssb.data_layer.contracts.EmployeeContract;
 import ssb.data_layer.contracts.HomesContract;
 import ssb.data_layer.contracts.PersonsContract;
-import ssb.domain_layer.Employee.Administrator;
-import ssb.domain_layer.Employee.Employee;
-import ssb.domain_layer.Employee.Sagsbehandler;
-import ssb.domain_layer.Employee.SocialPædagog;
-import ssb.domain_layer.Employee.Socialrådgiver;
-import ssb.domain_layer.Employee.Vikar;
+import ssb.domain_layer.Home;
+import ssb.domain_layer.InformationBridge;
+import ssb.domain_layer.callbacks.LoginCallBack;
+import ssb.domain_layer.person.Administrator;
+import ssb.domain_layer.person.Employee;
+import ssb.domain_layer.person.Sagsbehandler;
+import ssb.domain_layer.person.SocialPædagog;
+import ssb.domain_layer.person.Socialrådgiver;
+import ssb.domain_layer.person.Vikar;
 
 public class EmployeeManager {
 

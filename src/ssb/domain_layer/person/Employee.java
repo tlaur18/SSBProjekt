@@ -1,6 +1,4 @@
-package ssb.domain_layer.Employee;
-
-import ssb.domain_layer.Person;
+package ssb.domain_layer.person;
 
 public abstract class Employee extends Person {
 

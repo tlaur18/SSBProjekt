@@ -1,8 +1,9 @@
 package ssb.domain_layer;
 
+import ssb.domain_layer.person.Resident;
 import java.util.ArrayList;
 import java.util.List;
-import ssb.domain_layer.Employee.Employee;
+import ssb.domain_layer.person.Employee;
 
 public class Home {
 

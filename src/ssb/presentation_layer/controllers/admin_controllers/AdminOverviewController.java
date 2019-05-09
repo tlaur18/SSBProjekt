@@ -23,10 +23,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import ssb.domain_layer.Employee.Employee;
-import ssb.domain_layer.EmployeeManager;
+import ssb.domain_layer.person.Employee;
+import ssb.domain_layer.person.EmployeeManager;
 import ssb.domain_layer.InformationBridge;
-import ssb.domain_layer.Person;
+import ssb.domain_layer.person.Person;
 
 public class AdminOverviewController implements Initializable {
 

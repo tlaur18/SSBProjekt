@@ -1,5 +1,6 @@
 package ssb.domain_layer;
 
+import ssb.domain_layer.person.Resident;
 import java.util.Date;
 
 public class Process {

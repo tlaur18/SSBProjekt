@@ -8,7 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
-import ssb.domain_layer.Document;
+import ssb.domain_layer.document.Document;
 
 public class SagsåbningController extends VumDocumentController implements Initializable {
 

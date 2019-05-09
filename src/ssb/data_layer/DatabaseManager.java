@@ -3,7 +3,7 @@ package ssb.data_layer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javafx.util.Pair;
-import ssb.domain_layer.Person;
+import ssb.domain_layer.person.Person;
 
 public class DatabaseManager {
 

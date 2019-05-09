@@ -48,6 +48,7 @@ public class LoginLayoutController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         homeChoice.getItems().add("Vammelby");
         homeChoice.getItems().add("Dejligby");
+        homeChoice.setValue("Vammelby");
     }
 
     @FXML

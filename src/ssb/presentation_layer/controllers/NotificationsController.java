@@ -5,26 +5,25 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import ssb.domain_layer.Department;
 import ssb.domain_layer.Employee.Employee;
 import ssb.domain_layer.InformationBridge;
@@ -52,6 +51,8 @@ public class NotificationsController implements Initializable {
 
         scrollPane.setFitToHeight(true);
         scrollPane.setFitToWidth(true);
+
+        notificationVbox.setPadding(new Insets(10));
 
         notificationManager.checkForNewNotifications(currentDepartment.getId());
 
@@ -86,32 +87,36 @@ public class NotificationsController implements Initializable {
 
         gridPane.addColumn(1);
         gridPane.addRow(1);
-        gridPane.setPadding(new Insets(10, 10, 10, 10));
+        gridPane.setPadding(new Insets(10));
 
         ColumnConstraints column1 = new ColumnConstraints();
+//        column1.setFillWidth(true);
         column1.setHgrow(Priority.ALWAYS);
         gridPane.getColumnConstraints().add(column1);
         ColumnConstraints column2 = new ColumnConstraints();
         column2.setMaxWidth(110);
         column2.setMinWidth(110);
         gridPane.getColumnConstraints().add(column2);
+        RowConstraints row1 = new RowConstraints();
+        gridPane.getRowConstraints().add(row1);
+        RowConstraints row2 = new RowConstraints();
+        gridPane.getRowConstraints().add(row2);
 
         Label nameLabel = new Label(name);
         nameLabel.setPadding(new Insets(5, 5, 5, 5));
         gridPane.add(nameLabel, 0, 0);
 
-        Label messageLabel = new Label(message);
-        messageLabel.setPadding(new Insets(5, 5, 5, 5));
-        messageLabel.setWrapText(true);
-        gridPane.add(messageLabel, 0, 1);
+        Text messageText = new Text(message);
+        gridPane.add(messageText, 0, 1);
+        messageText.setWrappingWidth(525);
+        addTextListener(gridPane, messageText, row2);
 
         Label dateLabel = new Label(creationDate);
         dateLabel.setPadding(new Insets(5, 5, 5, 5));
         gridPane.add(dateLabel, 1, 0);
         GridPane.setHalignment(dateLabel, HPos.RIGHT);
-        
-        //css assembling
 
+        //css assembling
         notificationVbox.getStyleClass().add("vbox-notification");
         if (employeeName.equals(name)) {
             gridPane.getStyleClass().add("notification-currentUser");
@@ -119,12 +124,12 @@ public class NotificationsController implements Initializable {
                 if (node instanceof Label) {
                     node.getStyleClass().add("notification-label");
                 }
-                messageLabel.setFont(new Font(14));
+                messageText.setFont(new Font(14));
             }
         } else {
             gridPane.getStyleClass().add("notification-OtherUsers");
         }
-
+        
         return gridPane;
     }
 
@@ -137,4 +142,22 @@ public class NotificationsController implements Initializable {
             scrollPane.vvalueProperty().bind(notificationVbox.heightProperty());
         }
     }
+
+    private void addTextListener(final GridPane gridPane, final Text text, final RowConstraints row) {
+        notificationVbox.widthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                scrollPane.setFitToHeight(true);
+                text.setWrappingWidth(notificationVbox.widthProperty().doubleValue() - 180);
+                setGridRowHeight(row, text.getLayoutBounds().getHeight());
+            }
+        });
+    }
+
+    private void setGridRowHeight(RowConstraints row, double height) {
+        row.setMinHeight(height);
+        row.setPrefHeight(height);
+        row.setMaxHeight(height);
+    }
 }
+    

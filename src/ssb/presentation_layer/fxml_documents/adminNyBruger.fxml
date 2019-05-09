@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
@@ -9,7 +10,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="305.0" prefWidth="488.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ssb.presentation_layer.controllers.AdminNewUserController">
+<GridPane alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="305.0" prefWidth="488.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ssb.presentation_layer.controllers.AdminNewUserController">
   <columnConstraints>
       <ColumnConstraints hgrow="NEVER" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="22.0" prefWidth="400.0" />
     <ColumnConstraints hgrow="NEVER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" percentWidth="27.0" prefWidth="234.0" />
@@ -88,5 +89,11 @@
       </TextField>
       <Label styleClass="menuTitleText" stylesheets="@../../ressources/css_files/main.css" text="Opret Ny Bruger" GridPane.columnSpan="4" GridPane.halignment="CENTER" />
       <Label fx:id="requiredFieldsLbl" text="Alle felter med * skal være udfyldt" textFill="#c60101" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+      <ChoiceBox fx:id="homeDialog" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4" />
+      <Label styleClass="menuButtonsBlack" stylesheets="@../../ressources/css_files/main.css" text="Vælg bosted*" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+         <padding>
+            <Insets right="10.0" />
+         </padding>
+      </Label>
    </children>
 </GridPane>

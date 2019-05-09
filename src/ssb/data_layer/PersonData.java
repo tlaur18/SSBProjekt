@@ -51,7 +51,7 @@ public class PersonData {
         }
     }
 
-    void updatePerson(String employeeCpr, String firstName, String lastName, String phoneNumber) {
+    void updatePerson(String employeeCpr, String firstName, String lastName, String phoneNumber, int homeID) {
         String sqlUpdate = "UPDATE " + PersonsContract.TABLE_NAME
             + " SET "
             + PersonsContract.COLUMN_FIRST_NAME + " = ?, "
@@ -64,6 +64,23 @@ public class PersonData {
             updateStatement.setString(2, lastName);
             updateStatement.setString(3, phoneNumber);
             updateStatement.setString(4, employeeCpr);
+            System.out.println(updateStatement);
+            updateStatement.execute();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        updatePersonHomeLink(employeeCpr, homeID);
+    }
+
+    private void updatePersonHomeLink(String employeeCpr, int homeID) {
+         String sqlUpdate = "UPDATE " + PersonsHomesLinkContract.TABLE_NAME
+            + " SET " 
+            + PersonsHomesLinkContract.COLUMN_HOMES_ID + " = ?"
+            + " WHERE " + PersonsHomesLinkContract.COLUMN_PERSON_CPR + " = ?";
+        try (Connection connection = db.connect();
+            PreparedStatement updateStatement = connection.prepareStatement(sqlUpdate)) {
+            updateStatement.setString(1, Integer.toString(homeID));
+            updateStatement.setString(2, employeeCpr);
             System.out.println(updateStatement);
             updateStatement.execute();
         } catch (SQLException ex) {

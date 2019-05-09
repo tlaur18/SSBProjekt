@@ -38,6 +38,7 @@ public class EmployeeManager {
                 return false;
             }
             employeeHomes = assembleHomes(db.getHomes(employeeCPRString));
+            System.out.println(db.getHomes(employeeCPRString));
             if (employeeHomes.size() > 1) {
                 List<String> homeNames = new ArrayList<>();
                 for (Home home : employeeHomes) {
@@ -120,6 +121,9 @@ public class EmployeeManager {
     public void addResidentToHome(int homeId, Resident resident) {
         db.insertResident(resident.getCprNr(), resident.getFirstName(), resident.getLastName(), resident.getPhoneNr(), homeId);
     }
+    public void addEmployeeToHome(int homeId, Employee employee) {
+        
+    }
 
     private List<Home> assembleHomes(ArrayList<HashMap<String, String>> homes) {
         List<Home> employeeHomes = new ArrayList<>();
@@ -140,9 +144,8 @@ public class EmployeeManager {
         }
     }
 
-    public void addEmployeeToDB(Employee employee, String username, String password) {
-        // TODO - HER SKAL DER LAVES SÅDAN SÅ NÅR EN MEDARBEJDER BLIVER OPRETTET AT DER BLIVER VALGT ET TILKNYTTET BOSTED SOM SÅ SKAL SÆTTES MED I STEDET FOR VAMMELBY MED ID 1
-        db.insertEmployee(employee.getCprNr(), employee.getFirstName(), employee.getLastName(), employee.getPhoneNr(), employee.getEmployeeRole(), 1);
+    public void addEmployeeToDB(Employee employee, String username, String password, int homeID) {
+        db.insertEmployee(employee.getCprNr(), employee.getFirstName(), employee.getLastName(), employee.getPhoneNr(), employee.getEmployeeRole(), homeID);
         db.insertEmployeeLogin(employee.getCprNr(), username, password);
         addEmployeeToObservable(employee);
     }
@@ -169,8 +172,8 @@ public class EmployeeManager {
         allEmployees.clear();
     }
 
-    public void updateEmployeeDetails(Person person, String userName, String passWord) {
-        db.updateEmployeeData(person.getCprNr(), person.getFirstName(), person.getLastName(), person.getPhoneNr());
+    public void updateEmployeeDetails(Person person, String userName, String passWord, int homeID) {
+        db.updateEmployeeData(person.getCprNr(), person.getFirstName(), person.getLastName(), person.getPhoneNr(), homeID);
         db.updateEmployeeLogin(userName, passWord, person.getCprNr());
     }
 

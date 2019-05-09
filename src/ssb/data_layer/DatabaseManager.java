@@ -85,8 +85,8 @@ public class DatabaseManager {
         return employeeWorkData.loadAllEmployees();
     }
 
-    public void updateEmployeeData(String employeeCPR, String firstName, String lastName, String phoneNr) {
-        personData.updatePerson(employeeCPR, firstName, lastName, phoneNr);
+    public void updateEmployeeData(String employeeCPR, String firstName, String lastName, String phoneNr, int homeID) {
+        personData.updatePerson(employeeCPR, firstName, lastName, phoneNr, homeID);
     }
 
     public void updateEmployeeLogin(String userName, String passWord, String employeeCPR) {

@@ -3,7 +3,6 @@ package ssb.presentation_layer.controllers;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -11,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -46,16 +46,19 @@ public class AdminNewUserController implements Initializable {
     private Label requiredFieldsLbl;
     private final InformationBridge informationBridge = InformationBridge.getInstance();
     private final EmployeeManager employeeManager = EmployeeManager.getInstance();
+    @FXML
+    private ChoiceBox<String> homeDialog;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        setHomeDialog();
         if (informationBridge.getChosenEmployee() != null) {
             loadEmployeeDetails();
             cprFxtf.setDisable(true);
+
         }
     }
 
@@ -64,6 +67,7 @@ public class AdminNewUserController implements Initializable {
         // Controls if there is a chosen employee
         if (informationBridge.getChosenEmployee() == null) {
             //Controls if the required fields are filled
+            System.out.println(homeDialog.getSelectionModel().getSelectedItem());
             if (requiredFields()) {
                 Optional<String> result = createDialog();
                 if (result.isPresent()) {
@@ -78,29 +82,30 @@ public class AdminNewUserController implements Initializable {
                     } else {
                         createNewUser(result.get());
                     }
-                } else {
-                    requiredFieldsLbl.setVisible(true);
                 }
                 //Closes the stageaadmin
                 Stage stage = (Stage) saveBttn.getScene().getWindow();
                 stage.close();
             } else {
-                Person person = new Person(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText()) {
-                };
-                //Updates the new details of the Employee to the database
-                employeeManager.updateEmployeeDetails(person, brugernavnTxtf.getText(), kodeordTxtf.getText());
-                //Closes the stage
-                Stage stage = (Stage) saveBttn.getScene().getWindow();
-                stage.close();
+                requiredFieldsLbl.setVisible(true);
             }
+        } else {
+            Person person = new Person(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText()) {
+            };
+            //Updates the new details of the Employee to the database
+            employeeManager.updateEmployeeDetails(person, brugernavnTxtf.getText(), kodeordTxtf.getText(), getHomeID());
+            //Closes the stage
+            Stage stage = (Stage) saveBttn.getScene().getWindow();
+            stage.close();
         }
     }
 
     public boolean requiredFields() {
         //Controls that no fields are empty
         if (brugernavnTxtf.getText().length() != 0 && kodeordTxtf.getText().length() != 0
-            && fornavnTxtf.getText().length() != 0 && efternavnTxtf.getText().length() != 0
-            && cprFxtf.getText().length() != 0 && tlkTxtf.getText().length() != 0) {
+                && fornavnTxtf.getText().length() != 0 && efternavnTxtf.getText().length() != 0
+                && cprFxtf.getText().length() != 0 && tlkTxtf.getText().length() != 0
+                && homeDialog.getSelectionModel().getSelectedItem() != null) {
             return true;
         } else {
             return false;
@@ -127,23 +132,23 @@ public class AdminNewUserController implements Initializable {
         switch (result) {
             case "SAGSBEHANDLER":
                 Employee sagsbehandler = new Sagsbehandler(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText());
-                EmployeeManager.getInstance().addEmployeeToDB(sagsbehandler, brugernavnTxtf.getText(), kodeordTxtf.getText());
+                EmployeeManager.getInstance().addEmployeeToDB(sagsbehandler, brugernavnTxtf.getText(), kodeordTxtf.getText(), getHomeID());
                 break;
             case "SOCIALRÅDGIVER":
                 Employee socialraadgiver = new Socialrådgiver(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText());
-                EmployeeManager.getInstance().addEmployeeToDB(socialraadgiver, brugernavnTxtf.getText(), kodeordTxtf.getText());
+                EmployeeManager.getInstance().addEmployeeToDB(socialraadgiver, brugernavnTxtf.getText(), kodeordTxtf.getText(), getHomeID());
                 break;
             case "SOCIALPÆDAGOG":
                 Employee socialpaedagog = new SocialPædagog(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText());
-                EmployeeManager.getInstance().addEmployeeToDB(socialpaedagog, brugernavnTxtf.getText(), kodeordTxtf.getText());
+                EmployeeManager.getInstance().addEmployeeToDB(socialpaedagog, brugernavnTxtf.getText(), kodeordTxtf.getText(), getHomeID());
                 break;
             case "ADMINISTRATOR":
                 Employee administrator = new Administrator(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText());
-                EmployeeManager.getInstance().addEmployeeToDB(administrator, brugernavnTxtf.getText(), kodeordTxtf.getText());
+                EmployeeManager.getInstance().addEmployeeToDB(administrator, brugernavnTxtf.getText(), kodeordTxtf.getText(), getHomeID());
                 break;
             case "VIKAR":
                 Employee vikar = new Vikar(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText());
-                EmployeeManager.getInstance().addEmployeeToDB(vikar, brugernavnTxtf.getText(), kodeordTxtf.getText());
+                EmployeeManager.getInstance().addEmployeeToDB(vikar, brugernavnTxtf.getText(), kodeordTxtf.getText(), getHomeID());
                 break;
         }
 
@@ -165,5 +170,27 @@ public class AdminNewUserController implements Initializable {
 
         Optional<String> result = dialog.showAndWait();
         return result;
+    }
+
+    public void setHomeDialog() {
+        //Adds the homes to the dialog
+        homeDialog.getItems().add("Vammelby");
+        homeDialog.getItems().add("Dejligby");
+    }
+
+    public int getHomeID() {
+        //switch case to find the selected home
+        int homeID = 0;
+        switch (homeDialog.getSelectionModel().getSelectedItem()) {
+            case "Vammelby":
+                homeID = 1;
+                break;
+            case "Dejligby":
+                homeID = 2;
+                break;
+            default:
+                homeID = 1;
+        }
+        return homeID;
     }
 }

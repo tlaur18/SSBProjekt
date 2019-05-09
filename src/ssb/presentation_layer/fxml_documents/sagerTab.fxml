@@ -48,7 +48,7 @@
             <Insets top="24.0" />
          </GridPane.margin>
       </VBox>
-      <TableView id="tableView" fx:id="vumDocumentTableView" focusTraversable="false" onMouseClicked="#openDocumentAction" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+      <TableView id="tableView" fx:id="vumDocumentTableView" focusTraversable="false" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
          <columns>
             <TableColumn id="tableColumn" editable="false" minWidth="-Infinity" prefWidth="102.0" resizable="false" text="Dokument navn">
                

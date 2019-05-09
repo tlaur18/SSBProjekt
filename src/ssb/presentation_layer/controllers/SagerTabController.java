@@ -16,9 +16,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import ssb.domain_layer.Document;
 import ssb.domain_layer.DocumentManager;
 import ssb.domain_layer.Employee.Employee;
@@ -48,16 +51,27 @@ public class SagerTabController implements Initializable {
             TableColumn<Document, ?> column1 = (TableColumn<Document, ?>) column;
             column1.prefWidthProperty().bind(vumDocumentTableView.widthProperty().divide(5));
         }
+        openDocumentListener();
     }
 
-    // Get the selected document from the tableview and opens it, if it´s clicked twice.
-    @FXML
-    public void openDocumentAction(MouseEvent event) {
-        Document selectedDocument = vumDocumentTableView.getSelectionModel().getSelectedItem();
-        if (selectedDocument != null && event.getClickCount() == 2) {
-            InformationBridge.getInstance().setChosenDocument(selectedDocument);
-            loadDocumentController(selectedDocument);
-        }
+    // Double click to open the document
+    private void openDocumentListener() {
+        vumDocumentTableView.setRowFactory(new Callback<TableView<Document>, TableRow<Document>>() {
+            @Override
+            public TableRow<Document> call(TableView<Document> tv) {
+                TableRow<Document> row = new TableRow<>();
+                row.setOnMouseClicked(event -> {
+                    if (!row.isEmpty() && event.getButton() == MouseButton.PRIMARY
+                        && event.getClickCount() == 2) {
+
+                        Document clickedRow = row.getItem();
+                        InformationBridge.getInstance().setChosenDocument(clickedRow);
+                        loadDocumentController(clickedRow);
+                    }
+                });
+                return row;
+            }
+        });
     }
 
     // Selects the right FXML to load, based on the document type.

@@ -1,4 +1,4 @@
-package ssb.presentation_layer.controllers;
+package ssb.presentation_layer.controllers.vum_document_controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -10,12 +10,10 @@ import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 import ssb.domain_layer.Document;
 
-public class SagsåbningController extends VumDocumentController implements Initializable {
+public class HandleplanController extends VumDocumentController implements Initializable {
 
     @FXML
     private Button saveButton;
-    @FXML
-    private Button cancelButton;
     @FXML
     private TabPane tabPane;
 
@@ -29,19 +27,19 @@ public class SagsåbningController extends VumDocumentController implements Init
     }
 
     @FXML
-    private void cancelButtonOnAction(ActionEvent event) {
-        ((Stage) cancelButton.getScene().getWindow()).close();
-    }
-
-    @FXML
-    private void saveButtonOnAction(ActionEvent event) {
+    private void saveBtnHandler(ActionEvent event) {
         saveInfo();
         if (chosenDocument != null) {
             saveExistingDocument();
         } else {
-            saveNewDocument(Document.type.SAGSÅBNING);
+            saveNewDocument(Document.type.HANDLEPLAN);
         }
         Stage stage = (Stage) saveButton.getScene().getWindow();
         stage.close();
+    }
+
+    @FXML
+    private void cancelBtnHandler(ActionEvent event) {
+        ((Stage) saveButton.getScene().getWindow()).close();
     }
 }

@@ -19,7 +19,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import ssb.domain_layer.Document;
@@ -35,7 +34,7 @@ public class SagerTabController implements Initializable {
     private TableView<Document> vumDocumentTableView;
 
     private final DocumentManager documentManager = DocumentManager.getInstance();
-    private InformationBridge informationBridge = InformationBridge.getInstance();
+    private final InformationBridge informationBridge = InformationBridge.getInstance();
     private Employee loggedInEmployee;
     private Home currentHome;
 
@@ -46,7 +45,8 @@ public class SagerTabController implements Initializable {
         currentHome = informationBridge.getCurrentHome();
         // Forbinder tableView med observable list med dokumenterne
         vumDocumentTableView.setItems(documentManager.getAllDocuments());
-        // Sætter kolonner til at fylde 20% af bredden
+        
+        // Columns width set to 20%
         for (Object column : vumDocumentTableView.getColumns().toArray()) {
             TableColumn<Document, ?> column1 = (TableColumn<Document, ?>) column;
             column1.prefWidthProperty().bind(vumDocumentTableView.widthProperty().divide(5));
@@ -89,7 +89,7 @@ public class SagerTabController implements Initializable {
     @FXML
     private void createVUMOnAction(ActionEvent event) {
         List<Resident> choices = new ArrayList<>();
-        //Sikrer at dokumentcontrollerne ikke begynder at loade dokumenter.
+        // Ensures that document controller doesn't start loading documents.
         InformationBridge.getInstance().setChosenDocument(null);
 
         Resident newRes = new Resident("Opret Ny", "Beboer", "123567890", "1234567890");

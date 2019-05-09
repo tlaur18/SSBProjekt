@@ -1,5 +1,5 @@
 
-package ssb.presentation_layer.controllers;
+package ssb.presentation_layer.controllers.admin_controllers;
 
 import java.io.File;
 import java.io.IOException;

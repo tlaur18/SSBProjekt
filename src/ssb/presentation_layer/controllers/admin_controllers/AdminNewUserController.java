@@ -1,4 +1,4 @@
-package ssb.presentation_layer.controllers;
+package ssb.presentation_layer.controllers.admin_controllers;
 
 import java.net.URL;
 import java.util.ArrayList;

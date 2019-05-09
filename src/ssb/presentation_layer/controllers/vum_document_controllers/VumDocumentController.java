@@ -1,4 +1,4 @@
-package ssb.presentation_layer.controllers;
+package ssb.presentation_layer.controllers.vum_document_controllers;
 
 import java.util.HashMap;
 import javafx.scene.Node;

@@ -40,7 +40,7 @@
          <content>
             <VBox fx:id="notificationVbox" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                <children>
-                  <ProgressIndicator fx:id="notificationLoadingIndicator" />
+                  <ProgressIndicator fx:id="notificationLoadingIndicator" style="-fx-progress-color: #607D8B;" />
                </children></VBox>
          </content>
       </ScrollPane>

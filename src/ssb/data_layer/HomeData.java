@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import ssb.data_layer.contracts.HomesContract;
 import ssb.data_layer.contracts.PersonsHomesLinkContract;
+import ssb.domain_layer.callbacks.LoginDataCallBack;
 
 public class HomeData {
 
@@ -36,7 +37,6 @@ public class HomeData {
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        
         return columnData;
     }
 

@@ -35,7 +35,7 @@ class EmployeeWorkData {
 
         return columnData;
     }
-
+    
     void insertEmployee(String employeeCPR, String employeeRole) {
         String sqlEmployeeInsertion = "INSERT INTO " + EmployeeContract.TABLE_NAME + " VALUES " + "(?, ?)";
 
@@ -57,9 +57,15 @@ class EmployeeWorkData {
         try (Connection connection = db.connect();
                 PreparedStatement statement = connection.prepareStatement(sql)) {
 
-            ResultSet rs = statement.executeQuery();
-            while (rs.next()) {
-                allEmployeeHashmaps.add(getEmployeeData(rs.getString(EmployeeContract.COLUMN_CPR)));
+            ResultSet result = statement.executeQuery();
+            while (result.next()) {
+                HashMap<String, String> columnData = new HashMap();
+                columnData.put(EmployeeContract.COLUMN_CPR, result.getString(EmployeeContract.COLUMN_CPR));
+                columnData.put(EmployeeContract.COLUMN_ROLE, result.getString(EmployeeContract.COLUMN_ROLE));
+                columnData.put(PersonsContract.COLUMN_FIRST_NAME, result.getString(PersonsContract.COLUMN_FIRST_NAME));
+                columnData.put(PersonsContract.COLUMN_LAST_NAME, result.getString(PersonsContract.COLUMN_LAST_NAME));
+                columnData.put(PersonsContract.COLUMN_PHONE, result.getString(PersonsContract.COLUMN_PHONE));
+                allEmployeeHashmaps.add(columnData);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());

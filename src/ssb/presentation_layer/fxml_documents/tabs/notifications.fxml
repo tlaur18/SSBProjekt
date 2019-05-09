@@ -26,7 +26,7 @@
                <graphic>
                   <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../ressources/images/slaa%20op.png" />
+                        <Image url="@../../../ressources/images/slaa%20op.png" />
                      </image>
                   </ImageView>
                </graphic>

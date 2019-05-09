@@ -4,8 +4,11 @@ import ssb.domain_layer.document.DocumentManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.util.Pair;
 import ssb.data_layer.DatabaseManager;
 import ssb.data_layer.contracts.EmployeeContract;
@@ -17,36 +20,80 @@ import ssb.domain_layer.callbacks.LoginCallBack;
 
 public class EmployeeManager {
 
-    private final DatabaseManager db = DatabaseManager.getInstance();
+    private final DatabaseManager database = DatabaseManager.getInstance();
     private final InformationBridge informationBridge = InformationBridge.getInstance();
     private List<Home> employeeHomes;
     private static EmployeeManager INSTANCE = null;
     private final ObservableList<Person> allEmployees = FXCollections.observableArrayList();
-    
-    private EmployeeManager() {}
+    private LoginCallBack loginCallBack;
+    private Thread employeeDetailsThread;
+    private Thread employeeHomesThread;
 
-    public boolean checkUserLogIn(String userNameInput, String passwordInput, LoginCallBack loginCallBack) {
-        String employeeCPRString = db.checkUserLogin(userNameInput, passwordInput);
-        if (employeeCPRString != null) {
-            HashMap<String, String> employeeData = db.getEmployeeDetails(employeeCPRString);
-            informationBridge.setLoggedInEmployee(setEmployeeDetails(employeeData));
-            if (informationBridge.getLoggedInEmployee() instanceof Administrator) {
-                loginCallBack.adminastratorLogin();
-                return false;
-            }
-            employeeHomes = assembleHomes(db.getHomes(employeeCPRString));
-            if (employeeHomes.size() > 1) {
-                List<String> homeNames = new ArrayList<>();
-                for (Home home : employeeHomes) {
-                    homeNames.add(home.getHomeName());
+    private EmployeeManager() {
+    }
+
+    public boolean checkValidInput(String userNameInput, String passwordInput, LoginCallBack loginCallBack) {
+        this.loginCallBack = loginCallBack;
+        String employeeCPRString = database.checkUserLogin(userNameInput, passwordInput);
+        if (employeeCPRString == null) {
+            loginCallBack.wrongInput();
+            return false;
+        } else {
+            // Two threads proved to be quicker than one thread
+            employeeDetailsThread = new Thread(new Task() {
+                @Override
+                protected HashMap<String, String> call() throws Exception {
+                    return database.getEmployeeDetails(employeeCPRString);
                 }
-                loginCallBack.handleMultipleHomes(homeNames);
-            } else {
-                fillHomeData(employeeHomes.get(0).getHomeName());
-            }
-            return true;
+
+                @Override
+                protected void succeeded() {
+                    HashMap<String, String> employeeDetails = (HashMap<String, String>) getValue();
+                    informationBridge.setLoggedInEmployee(setEmployeeDetails(employeeDetails));
+                    if (informationBridge.getLoggedInEmployee() instanceof Administrator) {
+                        loginCallBack.adminLogin();
+                    }
+                }
+
+            });
+            employeeDetailsThread.start();
+            employeeHomesThread = new Thread(new Task() {
+                @Override
+                protected ArrayList<HashMap<String, String>> call() throws Exception {
+                    return database.getHomes(employeeCPRString);
+                }
+
+                @Override
+                protected void succeeded() {
+                    homeDataResult((ArrayList<HashMap<String, String>>) getValue());
+                }
+
+            });
+            employeeHomesThread.start();
         }
-        return false;
+        return true;
+    }
+
+    public void homeDataResult(ArrayList<HashMap<String, String>> homes) {
+        if (homes.isEmpty()) {
+            return;
+        }
+        employeeHomes = assembleHomes(homes);
+        if (employeeHomes.size() > 1) {
+            List<String> homeNames = new ArrayList<>();
+            for (Home home : employeeHomes) {
+                homeNames.add(home.getHomeName());
+            }
+            loginCallBack.handleMultipleHomes(homeNames);
+        } else {
+            fillHomeData(employeeHomes.get(0).getHomeName());
+            try {
+                employeeDetailsThread.join();
+                loginCallBack.login();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(EmployeeManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     public static EmployeeManager getInstance() {
@@ -57,13 +104,20 @@ public class EmployeeManager {
     }
 
     public void fillHomeData(String homeName) {
-        for (Home home : employeeHomes) {
-            if (home.getHomeName().equalsIgnoreCase(homeName)) {
-                informationBridge.setCurrentHome(home);
-                setHomeResidents(home);
-                setResidentDocuments(home);
+        new Thread(new Task() {
+            @Override
+            protected Object call() throws Exception {
+                for (Home home : employeeHomes) {
+                    if (home.getHomeName().equalsIgnoreCase(homeName)) {
+                        informationBridge.setCurrentHome(home);
+                        setHomeResidents(home);
+                        setResidentDocuments(home);
+                    }
+                }
+                return null;
             }
-        }
+        }).start();
+
     }
 
     private Employee setEmployeeDetails(HashMap<String, String> employeeHashMap) {
@@ -108,30 +162,30 @@ public class EmployeeManager {
 
     private void setResidentDocuments(Home home) {
         for (Resident resident : home.getResidents()) {
-            for (String serializableString : db.getResidentDocuments(resident.getCprNr())) {
+            for (String serializableString : database.getResidentDocuments(resident.getCprNr())) {
                 resident.addDocument(DocumentManager.getInstance().decodeDocument(serializableString));
             }
         }
     }
 
     public void addResidentToHome(int homeId, Resident resident) {
-        db.insertResident(resident.getCprNr(), resident.getFirstName(), resident.getLastName(), resident.getPhoneNr(), homeId);
+        database.insertResident(resident.getCprNr(), resident.getFirstName(), resident.getLastName(), resident.getPhoneNr(), homeId);
     }
 
     private List<Home> assembleHomes(ArrayList<HashMap<String, String>> homes) {
-        List<Home> employeeHomes = new ArrayList<>();
+        List<Home> allEmployeeHomes = new ArrayList<>();
 
         for (HashMap<String, String> homeData : homes) {
             String homeName = homeData.get(HomesContract.COLUMN_NAME);
             int homeId = Integer.parseInt(homeData.get(HomesContract.COLUMN_ID));
-            employeeHomes.add(new Home(homeName, homeId));
+            allEmployeeHomes.add(new Home(homeName, homeId));
         }
 
-        return employeeHomes;
+        return allEmployeeHomes;
     }
 
     private void setHomeResidents(Home home) {
-        List<HashMap<String, String>> residentsData = db.getHomeResidents(home.getId());
+        List<HashMap<String, String>> residentsData = database.getHomeResidents(home.getId());
         for (HashMap<String, String> hashMap : residentsData) {
             home.addResident(makeResidentObject(hashMap));
         }
@@ -139,14 +193,14 @@ public class EmployeeManager {
 
     public void addEmployeeToDB(Employee employee, String username, String password) {
         // TODO - HER SKAL DER LAVES SÅDAN SÅ NÅR EN MEDARBEJDER BLIVER OPRETTET AT DER BLIVER VALGT ET TILKNYTTET BOSTED SOM SÅ SKAL SÆTTES MED I STEDET FOR VAMMELBY MED ID 1
-        db.insertEmployee(employee.getCprNr(), employee.getFirstName(), employee.getLastName(), employee.getPhoneNr(), employee.getEmployeeRole(), 1);
-        db.insertEmployeeLogin(employee.getCprNr(), username, password);
+        database.insertEmployee(employee.getCprNr(), employee.getFirstName(), employee.getLastName(), employee.getPhoneNr(), employee.getEmployeeRole(), 1);
+        database.insertEmployeeLogin(employee.getCprNr(), username, password);
         addEmployeeToObservable(employee);
     }
 
     public void loadAllEmployess() {
 
-        for (HashMap<String, String> map : db.GetAllEmployees()) {
+        for (HashMap<String, String> map : database.GetAllEmployees()) {
             setEmployeeDetails(map);
         }
     }
@@ -162,20 +216,21 @@ public class EmployeeManager {
     public void deleteEmployeeFromObservable(Person person) {
         allEmployees.remove(person);
     }
+
     public void clearObservableList() {
         allEmployees.clear();
     }
 
     public void updateEmployeeDetails(Person person, String userName, String passWord) {
-        db.updateEmployeeData(person.getCprNr(), person.getFirstName(), person.getLastName(), person.getPhoneNr());
-        db.updateEmployeeLogin(userName, passWord, person.getCprNr());
+        database.updateEmployeeData(person.getCprNr(), person.getFirstName(), person.getLastName(), person.getPhoneNr());
+        database.updateEmployeeLogin(userName, passWord, person.getCprNr());
     }
 
     public void deleteEmployee(String employeeCPR) {
-        db.deleteEmployee(employeeCPR);
+        database.deleteEmployee(employeeCPR);
     }
 
     public Pair<String, String> getEmployeeLogin(Person person) {
-        return db.getEmployeeLogin(person);
+        return database.getEmployeeLogin(person);
     }
 }

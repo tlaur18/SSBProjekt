@@ -1,3 +1,25 @@
-.mainFxmlClass {
+#background {
+    -fx-background-color: #455A64;
+}
 
+#loginButton {
+    -fx-background-color: #607D8B;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+}
+
+.Button:hover {
+    -fx-background-color: #455A64;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+.button:pressed {
+    -fx-scale-x: 0.985;
+}
+
+#progressIndicator {
+    -fx-progress-color: #607D8B
 }

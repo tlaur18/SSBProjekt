@@ -68,28 +68,4 @@ class EmployeeWorkData {
         }
         return allEmployeeHashmaps;
     }
-
-//    void deleteEmployee(String employeeCPR) {
-//        String sqlUpdate = "DELETE FROM " + EmployeeContract.TABLE_NAME
-//                + " WHERE " + EmployeeContract.COLUMN_CPR + " = ?";
-//        try (Connection connection = db.connect();
-//                PreparedStatement updateStatement = connection.prepareStatement(sqlUpdate)) {
-//            updateStatement.setString(1, employeeCPR);
-//            updateStatement.execute();
-//        } catch (SQLException ex) {
-//            System.out.println(ex.getMessage());
-//        }
-//    }
-//    
-//        void deleteEmployee(String employeeCPR) {
-//        String sqlDelete = "Delete From " + LoginsContract.TABLE_NAME
-//                + " WHERE " + LoginsContract.COLUMN_EMPLOYEECPR + " = ?";
-//        try (Connection connection = db.connect();
-//                PreparedStatement updateStatement = connection.prepareStatement(sqlDelete)) {
-//            updateStatement.setString(1, employeeCPR);
-//            updateStatement.execute();
-//        } catch (SQLException ex) {
-//            System.out.println(ex.getMessage());
-//        }
-//    }
 }

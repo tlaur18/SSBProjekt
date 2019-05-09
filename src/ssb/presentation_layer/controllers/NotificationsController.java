@@ -5,6 +5,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -55,7 +56,9 @@ public class NotificationsController implements Initializable {
             @Override
             protected void succeeded() {
                 notificationLoadingIndicator.setVisible(false);
-                showNotifications();
+                Platform.runLater(() -> {
+                    showNotifications();
+                });
             }
 
         }).start();

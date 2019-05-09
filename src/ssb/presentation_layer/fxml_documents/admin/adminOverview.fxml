@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../../ressources/css_files/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ssb.presentation_layer.controllers.admin_controllers.AdminOverviewController">
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    </rowConstraints>
+    <children>
+        <Label styleClass="menuTitleText" text="Bruger Oversigt" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+        <TableView fx:id="oversigtTbl" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="2">
+            <placeholder>
+                <Label text="" />
+            </placeholder>
+            <columns>
+                <TableColumn fx:id="tableColumnFornavn" prefWidth="95.0" text="Fornavn">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="firstName" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="tableColumnEftrnavn" prefWidth="98.0" text="Efternavn">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="lastName" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="tableColumnCPR" prefWidth="190.0" text="CPR Nummer">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="phoneNr" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="tableColumnTelefon" prefWidth="151.0" text="Telefon">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="cprNr" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="tableColumnRolle" prefWidth="89.0" text="Rolle" />
+            </columns>
+            <GridPane.margin>
+                <Insets left="4.0" right="4.0" />
+            </GridPane.margin>
+        </TableView>
+      <HBox alignment="CENTER_LEFT" spacing="8.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+         <children>
+                <Button fx:id="newUserBttn" alignment="CENTER" contentDisplay="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#newUserBttn" styleClass="menuText" text="Ny bruger">
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+               <HBox.margin>
+                  <Insets left="4.0" />
+               </HBox.margin>
+                </Button>
+                <Button fx:id="editUserBttn" alignment="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#editUserBttn" styleClass="menuText" text="Rediger bruger">
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                </Button>
+                <Button fx:id="deleteUserBttn" alignment="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#deleteUserBttn" styleClass="menuText" text="Slet bruger">
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                </Button>
+            <Label fx:id="chooseAUserError" alignment="CENTER" contentDisplay="CENTER" text="Vælg en bruger til redigering" textFill="RED" visible="false">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="32.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+    </children>
+</GridPane>

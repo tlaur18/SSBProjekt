@@ -2,6 +2,7 @@ package ssb.domain_layer.person;
 
 import ssb.domain_layer.document.DocumentManager;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -54,7 +55,6 @@ public class EmployeeManager {
                         loginCallBack.adminLogin();
                     }
                 }
-
             });
             employeeDetailsThread.start();
             employeeHomesThread = new Thread(new Task() {
@@ -109,14 +109,10 @@ public class EmployeeManager {
                 informationBridge.setCurrentHome(home);
                 new Thread(() -> {
                     setHomeResidents(home);
-                }).start();
-                
-                new Thread(() -> {
                     setResidentDocuments(home);
                 }).start();
             }
         }
-
     }
 
     private Employee setEmployeeDetails(HashMap<String, String> employeeHashMap) {
@@ -165,6 +161,7 @@ public class EmployeeManager {
                 resident.addDocument(DocumentManager.getInstance().decodeDocument(serializableString));
             }
         }
+        DocumentManager.getInstance().setDocumentsForHome();
     }
 
     public void addResidentToHome(int homeId, Resident resident) {
@@ -194,11 +191,9 @@ public class EmployeeManager {
         // TODO - HER SKAL DER LAVES SÅDAN SÅ NÅR EN MEDARBEJDER BLIVER OPRETTET AT DER BLIVER VALGT ET TILKNYTTET BOSTED SOM SÅ SKAL SÆTTES MED I STEDET FOR VAMMELBY MED ID 1
         database.insertEmployee(employee.getCprNr(), employee.getFirstName(), employee.getLastName(), employee.getPhoneNr(), employee.getEmployeeRole(), 1);
         database.insertEmployeeLogin(employee.getCprNr(), username, password);
-        addEmployeeToObservable(employee);
     }
 
     public void loadAllEmployess() {
-
         for (HashMap<String, String> map : database.GetAllEmployees()) {
             setEmployeeDetails(map);
         }
@@ -212,11 +207,7 @@ public class EmployeeManager {
         allEmployees.add(person);
     }
 
-    public void deleteEmployeeFromObservable(Person person) {
-        allEmployees.remove(person);
-    }
-
-    public void clearObservableList() {
+    public void clearEmployeesList() {
         allEmployees.clear();
     }
 
@@ -225,8 +216,12 @@ public class EmployeeManager {
         database.updateEmployeeLogin(userName, passWord, person.getCprNr());
     }
 
-    public void deleteEmployee(String employeeCPR) {
-        database.deleteEmployee(employeeCPR);
+    public void deleteEmployee(Person person) {
+        allEmployees.remove(person);        
+    }
+    
+    public void deleteEmployeeFromDb(Person person) {
+        database.deleteEmployee(person.getCprNr());
     }
 
     public Pair<String, String> getEmployeeLogin(Person person) {

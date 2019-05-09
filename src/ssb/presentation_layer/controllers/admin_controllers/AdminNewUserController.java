@@ -3,7 +3,6 @@ package ssb.presentation_layer.controllers.admin_controllers;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -47,14 +46,14 @@ public class AdminNewUserController implements Initializable {
     private final InformationBridge informationBridge = InformationBridge.getInstance();
     private final EmployeeManager employeeManager = EmployeeManager.getInstance();
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
         if (informationBridge.getChosenEmployee() != null) {
-            loadEmployeeDetails();
+            // TODO - thread instead and then a progress indicator
+            new Thread(() -> {
+                loadEmployeeDetails();
+            }).start();
             cprFxtf.setDisable(true);
         }
     }
@@ -88,7 +87,9 @@ public class AdminNewUserController implements Initializable {
                 Person person = new Person(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText()) {
                 };
                 //Updates the new details of the Employee to the database
-                employeeManager.updateEmployeeDetails(person, brugernavnTxtf.getText(), kodeordTxtf.getText());
+                new Thread(() -> {
+                    employeeManager.updateEmployeeDetails(person, brugernavnTxtf.getText(), kodeordTxtf.getText());
+                }).start();
                 //Closes the stage
                 Stage stage = (Stage) saveBttn.getScene().getWindow();
                 stage.close();
@@ -122,36 +123,40 @@ public class AdminNewUserController implements Initializable {
     }
 
     public void createNewUser(String result) {
-
         //Find the chosen Role, and creates a new employee and adds it to the Database
         switch (result) {
             case "SAGSBEHANDLER":
                 Employee sagsbehandler = new Sagsbehandler(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText());
-                EmployeeManager.getInstance().addEmployeeToDB(sagsbehandler, brugernavnTxtf.getText(), kodeordTxtf.getText());
+                addUserToDatabase(sagsbehandler);
                 break;
             case "SOCIALRÅDGIVER":
                 Employee socialraadgiver = new Socialrådgiver(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText());
-                EmployeeManager.getInstance().addEmployeeToDB(socialraadgiver, brugernavnTxtf.getText(), kodeordTxtf.getText());
+                addUserToDatabase(socialraadgiver);
                 break;
             case "SOCIALPÆDAGOG":
                 Employee socialpaedagog = new SocialPædagog(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText());
-                EmployeeManager.getInstance().addEmployeeToDB(socialpaedagog, brugernavnTxtf.getText(), kodeordTxtf.getText());
+                addUserToDatabase(socialpaedagog);
                 break;
             case "ADMINISTRATOR":
                 Employee administrator = new Administrator(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText());
-                EmployeeManager.getInstance().addEmployeeToDB(administrator, brugernavnTxtf.getText(), kodeordTxtf.getText());
+                addUserToDatabase(administrator);
                 break;
             case "VIKAR":
                 Employee vikar = new Vikar(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText());
-                EmployeeManager.getInstance().addEmployeeToDB(vikar, brugernavnTxtf.getText(), kodeordTxtf.getText());
+                addUserToDatabase(vikar);
                 break;
         }
+    }
 
+    private void addUserToDatabase(Employee employee) {
+        employeeManager.addEmployeeToObservable(employee);
+        new Thread(() -> {
+            employeeManager.addEmployeeToDB(employee, brugernavnTxtf.getText(), kodeordTxtf.getText());
+        }).start();
     }
 
     private Optional<String> createDialog() {
         List<String> choices = new ArrayList<>();
-
         //Initializes the drop down menu.
         choices.add("SAGSBEHANDLER");
         choices.add("SOCIALRÅDGIVER");

@@ -20,7 +20,6 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import ssb.domain_layer.document.DocumentManager;
 import ssb.domain_layer.person.EmployeeManager;
 import ssb.domain_layer.callbacks.LoginCallBack;
 
@@ -78,7 +77,7 @@ public class LoginLayoutController implements Initializable {
                 Parent root = (Parent) loader.load();
                 Stage mainStage = new Stage();
                 mainStage.setMinHeight(450);
-                mainStage.setMinWidth(800);
+                mainStage.setMinWidth(820);
                 mainStage.setScene(new Scene(root));
                 ((Stage) successImage.getScene().getWindow()).close(); //close login stage
                 mainStage.show();
@@ -124,7 +123,6 @@ public class LoginLayoutController implements Initializable {
 
         @Override
         public void login() {
-            DocumentManager.getInstance().setDocumentsForHome();
             changeStage();
         }
 

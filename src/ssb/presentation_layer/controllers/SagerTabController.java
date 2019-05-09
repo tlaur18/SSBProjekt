@@ -20,7 +20,6 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import ssb.domain_layer.document.Document;
 import ssb.domain_layer.document.DocumentManager;
 import ssb.domain_layer.person.Employee;
@@ -42,9 +41,8 @@ public class SagerTabController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         loggedInEmployee = informationBridge.getLoggedInEmployee();
         currentHome = informationBridge.getCurrentHome();
-        
         vumDocumentTableView.setItems(documentManager.getAllDocuments());
-        
+
         // Columns width set to 20%
         for (Object column : vumDocumentTableView.getColumns().toArray()) {
             TableColumn<Document, ?> column1 = (TableColumn<Document, ?>) column;
@@ -55,21 +53,18 @@ public class SagerTabController implements Initializable {
 
     // Double click to open the document
     private void openDocumentListener() {
-        vumDocumentTableView.setRowFactory(new Callback<TableView<Document>, TableRow<Document>>() {
-            @Override
-            public TableRow<Document> call(TableView<Document> tv) {
-                TableRow<Document> row = new TableRow<>();
-                row.setOnMouseClicked(event -> {
-                    if (!row.isEmpty() && event.getButton() == MouseButton.PRIMARY
-                        && event.getClickCount() == 2) {
-
-                        Document clickedRow = row.getItem();
-                        InformationBridge.getInstance().setChosenDocument(clickedRow);
-                        loadDocumentController(clickedRow);
-                    }
-                });
-                return row;
-            }
+        vumDocumentTableView.setRowFactory((TableView<Document> tv) -> {
+            TableRow<Document> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (!row.isEmpty() && event.getButton() == MouseButton.PRIMARY
+                    && event.getClickCount() == 2) {
+                    
+                    Document clickedRow = row.getItem();
+                    InformationBridge.getInstance().setChosenDocument(clickedRow);
+                    loadDocumentController(clickedRow);
+                }
+            });
+            return row;
         });
     }
 

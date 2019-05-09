@@ -28,7 +28,9 @@ public abstract class VumDocumentController {
         Document doc = new Document(type);
         doc.setSelectedCheckboxes(checkBoxes);
         doc.setTextAreas(textAreas);
-        documentManager.addDocument(doc, chosenResident);
+        new Thread(() -> {
+            documentManager.addDocument(doc, chosenResident);
+        }).start();
     }
 
     // adds the checkboxes and textAreas to the existing document
@@ -36,7 +38,9 @@ public abstract class VumDocumentController {
         Document document = InformationBridge.getInstance().getChosenDocument();
         document.setSelectedCheckboxes(checkBoxes);
         document.setTextAreas(textAreas);
-        documentManager.updateDocument(document);
+        new Thread(() -> {
+            documentManager.updateDocument(document);
+        }).start();
     }
 
     // Saves all the Checkboxes and textAreas to their hashmaps

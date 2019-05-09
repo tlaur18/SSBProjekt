@@ -11,13 +11,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import ssb.domain_layer.person.EmployeeManager;
 import ssb.domain_layer.InformationBridge;
 
 public class MainController implements Initializable {
@@ -30,8 +28,6 @@ public class MainController implements Initializable {
     private VBox vBoxMenu;
     @FXML
     private Button oversigtbttnid;
-    @FXML
-    private ProgressIndicator centerLoaderIndicator;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -86,10 +82,9 @@ public class MainController implements Initializable {
     }
 
     public void adminLogin() {
+        loadFXML("admin/adminOverview");
         //removes all the buttons in the left Menu
-        //Loads all employees from the database and create new employees
-        EmployeeManager.getInstance().clearObservableList();
-        EmployeeManager.getInstance().loadAllEmployess();
+        //Loads all employees from the database and creates new employees
         vBoxMenu.getChildren().removeAll(vBoxMenu.getChildren());
 
         // Shows the admin button in the left menu
@@ -101,6 +96,6 @@ public class MainController implements Initializable {
 
     @FXML
     private void oversigtOnAction(ActionEvent event) {
-        loadFXML("admin/adminOversigt");
+        loadFXML("admin/adminOverview");
     }
 }

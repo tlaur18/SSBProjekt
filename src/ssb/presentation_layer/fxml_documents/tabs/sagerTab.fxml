@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -12,70 +13,73 @@
 <?import javafx.scene.layout.VBox?>
 
 <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ssb.presentation_layer.controllers.SagerTabController">
-  <columnConstraints>
-    <ColumnConstraints hgrow="NEVER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="180.0" />
-    <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" />
-  </columnConstraints>
-  <rowConstraints>
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-  </rowConstraints>
-   <children>
-      <VBox alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" prefHeight="114.0" prefWidth="174.0">
-         <children>
-            <TextField fx:id="searchResidentTxtField" promptText="Søg efter en beboer" VBox.vgrow="ALWAYS">
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <VBox.margin>
-                  <Insets bottom="8.0" left="8.0" right="8.0" />
-               </VBox.margin>
-            </TextField>
-            <TextField fx:id="searchDocNameTxtField" promptText="Søg efter dokument navn" VBox.vgrow="ALWAYS">
-               <VBox.margin>
-                  <Insets bottom="8.0" left="8.0" right="8.0" />
-               </VBox.margin>
-            </TextField>
-            <Button fx:id="createVUMDocBtn" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#createVUMOnAction" styleClass="createVUMDocument" text="Opret VUM-dokument" textAlignment="CENTER" VBox.vgrow="ALWAYS">
-               <VBox.margin>
-                  <Insets bottom="8.0" left="8.0" right="8.0" />
-               </VBox.margin>
-            </Button>
-         </children>
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-         <GridPane.margin>
-            <Insets top="24.0" />
-         </GridPane.margin>
-      </VBox>
-      <TableView id="tableView" fx:id="vumDocumentTableView" focusTraversable="false" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
-         <columns>
-            <TableColumn id="tableColumn" editable="false" minWidth="-Infinity" prefWidth="102.0" resizable="false" text="Dokument navn">
-                <cellValueFactory>
-                  <PropertyValueFactory property="documentName" />
-               </cellValueFactory>
-            </TableColumn>
-            <TableColumn id="tableColumn" fx:id="beboerColumn" editable="false" minWidth="-Infinity" prefWidth="50.0" resizable="false" text="Beboer">
-               <cellValueFactory>
-                  <PropertyValueFactory property="residentName" />
-               </cellValueFactory>
-            </TableColumn>
-            <TableColumn id="tableColumn" editable="false" minWidth="-Infinity" prefWidth="100.0" resizable="false" text="Dokument Type">
-               <cellValueFactory>
-                  <PropertyValueFactory property="type" />
-               </cellValueFactory>
-            </TableColumn>
-            <TableColumn id="tableColumn" editable="false" minWidth="-Infinity" prefWidth="110.0" resizable="false" text="Redigerings Dato">
-               <cellValueFactory>
-                  <PropertyValueFactory property="editDate" />
-               </cellValueFactory>
-            </TableColumn>
-            <TableColumn id="tableColumn" editable="false" minWidth="-1.0" prefWidth="100.0" resizable="false" text="Oprettelses Dato">
-               <cellValueFactory>
-                  <PropertyValueFactory property="creationDate" />
-               </cellValueFactory>
-            </TableColumn>
-         </columns>
-      </TableView>
-   </children>
+    <columnConstraints>
+        <ColumnConstraints hgrow="NEVER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="180.0" />
+        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    </rowConstraints>
+    <children>
+        <VBox alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" prefHeight="114.0" prefWidth="174.0">
+            <children>
+                <TextField fx:id="searchResidentTxtField" promptText="Søg efter en beboer" VBox.vgrow="ALWAYS">
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <VBox.margin>
+                        <Insets bottom="8.0" left="8.0" right="8.0" />
+                    </VBox.margin>
+                </TextField>
+                <TextField fx:id="searchDocNameTxtField" promptText="Søg efter dokument navn" VBox.vgrow="ALWAYS">
+                    <VBox.margin>
+                        <Insets bottom="8.0" left="8.0" right="8.0" />
+                    </VBox.margin>
+                </TextField>
+                <Button fx:id="createVUMDocBtn" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#createVUMOnAction" styleClass="createVUMDocument" text="Opret VUM-dokument" textAlignment="CENTER" VBox.vgrow="ALWAYS">
+                    <VBox.margin>
+                        <Insets bottom="8.0" left="8.0" right="8.0" />
+                    </VBox.margin>
+                </Button>
+            </children>
+            <opaqueInsets>
+                <Insets />
+            </opaqueInsets>
+            <GridPane.margin>
+                <Insets top="24.0" />
+            </GridPane.margin>
+        </VBox>
+        <TableView id="tableView" fx:id="vumDocumentTableView" focusTraversable="false" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+            <placeholder>
+                <Label text="" />
+            </placeholder>
+            <columns>
+                <TableColumn id="tableColumn" editable="false" minWidth="-Infinity" prefWidth="102.0" resizable="false" text="Dokument navn">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="documentName" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn id="tableColumn" fx:id="beboerColumn" editable="false" minWidth="-Infinity" prefWidth="50.0" resizable="false" text="Beboer">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="residentName" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn id="tableColumn" editable="false" minWidth="-Infinity" prefWidth="100.0" resizable="false" text="Dokument Type">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="type" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn id="tableColumn" editable="false" minWidth="-Infinity" prefWidth="110.0" resizable="false" text="Redigerings Dato">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="editDate" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn id="tableColumn" editable="false" minWidth="-1.0" prefWidth="100.0" resizable="false" text="Oprettelses Dato">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="creationDate" />
+                    </cellValueFactory>
+                </TableColumn>
+            </columns>
+        </TableView>
+    </children>
 </GridPane>

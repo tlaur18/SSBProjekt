@@ -61,22 +61,25 @@ public class NotificationsController implements Initializable {
 
     @FXML
     private void sendNotificationHandler(ActionEvent event) {
-        String message = notificationTextArea.getText();
-        notificationTextArea.clear();
-        String employeeFirstName = loggedInEmployee.getFirstName().substring(0, 1).toUpperCase() + loggedInEmployee.getFirstName().substring(1);
-        String employeeLastName = loggedInEmployee.getLastName().substring(0, 1).toUpperCase() + loggedInEmployee.getLastName().substring(1);
-        String employeeName = employeeFirstName + " " + employeeLastName;
-        Date creationDate = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm");
-        String dateString = dateFormat.format(creationDate);
-
-        GridPane newNotification = assembleNotification(employeeName, message, dateString);
-        notificationVbox.getChildren().add(newNotification);
-
-        //Makes the scrollPane go to the bottom
-        scrollPane.vvalueProperty().bind(notificationVbox.heightProperty());
-
-        notificationManager.saveNewNotification(message, employeeName, dateString, currentDepartment.getId());
+        if (notificationTextArea.getText().isEmpty()) {
+            return;
+        }
+            String message = notificationTextArea.getText();
+            notificationTextArea.clear();
+            String employeeFirstName = loggedInEmployee.getFirstName().substring(0, 1).toUpperCase() + loggedInEmployee.getFirstName().substring(1);
+            String employeeLastName = loggedInEmployee.getLastName().substring(0, 1).toUpperCase() + loggedInEmployee.getLastName().substring(1);
+            String employeeName = employeeFirstName + " " + employeeLastName;
+            Date creationDate = new Date();
+            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+            String dateString = dateFormat.format(creationDate);
+            
+            GridPane newNotification = assembleNotification(employeeName, message, dateString);
+            notificationVbox.getChildren().add(newNotification);
+            
+            //Makes the scrollPane go to the bottom
+            scrollPane.vvalueProperty().bind(notificationVbox.heightProperty());
+            
+            notificationManager.saveNewNotification(message, employeeName, dateString, currentDepartment.getId());
     }
 
     private GridPane assembleNotification(String name, String message, String creationDate) {
@@ -90,7 +93,6 @@ public class NotificationsController implements Initializable {
         gridPane.setPadding(new Insets(10));
 
         ColumnConstraints column1 = new ColumnConstraints();
-//        column1.setFillWidth(true);
         column1.setHgrow(Priority.ALWAYS);
         gridPane.getColumnConstraints().add(column1);
         ColumnConstraints column2 = new ColumnConstraints();
@@ -103,34 +105,37 @@ public class NotificationsController implements Initializable {
         gridPane.getRowConstraints().add(row2);
 
         Label nameLabel = new Label(name);
-        nameLabel.setPadding(new Insets(5, 5, 5, 5));
         gridPane.add(nameLabel, 0, 0);
 
         Text messageText = new Text(message);
-        gridPane.add(messageText, 0, 1);
+        gridPane.add(messageText, 0, 1, 2, 1);
         messageText.setWrappingWidth(525);
         addTextListener(gridPane, messageText, row2);
+        
+        
 
         Label dateLabel = new Label(creationDate);
-        dateLabel.setPadding(new Insets(5, 5, 5, 5));
         gridPane.add(dateLabel, 1, 0);
         GridPane.setHalignment(dateLabel, HPos.RIGHT);
 
+        cssAssembling(employeeName, name, gridPane);
+
+        return gridPane;
+    }
+
+    private void cssAssembling(String employeeName, String name, GridPane gridPane) {
         //css assembling
         notificationVbox.getStyleClass().add("vbox-notification");
         if (employeeName.equals(name)) {
             gridPane.getStyleClass().add("notification-currentUser");
             for (Node node : gridPane.getChildren()) {
-                if (node instanceof Label) {
+                if (node instanceof Label || node instanceof Text) {
                     node.getStyleClass().add("notification-label");
                 }
-                messageText.setFont(new Font(14));
             }
         } else {
             gridPane.getStyleClass().add("notification-OtherUsers");
         }
-        
-        return gridPane;
     }
 
     private void showNotifications() {
@@ -148,16 +153,14 @@ public class NotificationsController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 scrollPane.setFitToHeight(true);
-                text.setWrappingWidth(notificationVbox.widthProperty().doubleValue() - 180);
-                setGridRowHeight(row, text.getLayoutBounds().getHeight());
+                text.setWrappingWidth(notificationVbox.widthProperty().doubleValue() - 50);
+                double height = text.getLayoutBounds().getHeight();
+                row.setMinHeight(height);
+                row.setPrefHeight(height);
+                row.setMaxHeight(height);
             }
         });
     }
-
-    private void setGridRowHeight(RowConstraints row, double height) {
-        row.setMinHeight(height);
-        row.setPrefHeight(height);
-        row.setMaxHeight(height);
-    }
-}
     
+    
+}

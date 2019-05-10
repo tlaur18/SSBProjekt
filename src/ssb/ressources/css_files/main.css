@@ -107,6 +107,7 @@
 
 .notification-label{
     -fx-text-fill: #FFFFFF;
+    -fx-fill: white;
 }
 
 

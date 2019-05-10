@@ -20,7 +20,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import ssb.domain_layer.person.Employee;
-import ssb.domain_layer.EmployeeManager;
+import ssb.domain_layer.person.EmployeeManager;
 import ssb.domain_layer.InformationBridge;
 import ssb.domain_layer.person.Person;
 

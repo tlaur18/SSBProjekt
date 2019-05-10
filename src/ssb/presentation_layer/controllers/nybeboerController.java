@@ -13,7 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import ssb.domain_layer.EmployeeManager;
+import ssb.domain_layer.person.EmployeeManager;
 import ssb.domain_layer.Home;
 import ssb.domain_layer.person.Resident;
 import ssb.domain_layer.InformationBridge;

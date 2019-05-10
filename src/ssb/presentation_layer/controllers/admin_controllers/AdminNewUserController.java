@@ -1,4 +1,4 @@
-package ssb.presentation_layer.controllers;
+package ssb.presentation_layer.controllers.admin_controllers;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -21,7 +22,7 @@ import ssb.domain_layer.person.Sagsbehandler;
 import ssb.domain_layer.person.SocialPædagog;
 import ssb.domain_layer.person.Socialrådgiver;
 import ssb.domain_layer.person.Vikar;
-import ssb.domain_layer.EmployeeManager;
+import ssb.domain_layer.person.EmployeeManager;
 import ssb.domain_layer.InformationBridge;
 import ssb.domain_layer.person.Person;
 
@@ -45,16 +46,19 @@ public class AdminNewUserController implements Initializable {
     private Label requiredFieldsLbl;
     private final InformationBridge informationBridge = InformationBridge.getInstance();
     private final EmployeeManager employeeManager = EmployeeManager.getInstance();
+    @FXML
+    private ChoiceBox<String> homeDialog;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        setHomeDialog();
         if (informationBridge.getChosenEmployee() != null) {
             // TODO - thread instead and then a progress indicator
             new Thread(() -> {
                 loadEmployeeDetails();
             }).start();
             cprFxtf.setDisable(true);
+
         }
     }
 
@@ -63,6 +67,7 @@ public class AdminNewUserController implements Initializable {
         // Controls if there is a chosen employee
         if (informationBridge.getChosenEmployee() == null) {
             //Controls if the required fields are filled
+            System.out.println(homeDialog.getSelectionModel().getSelectedItem());
             if (requiredFields()) {
                 Optional<String> result = createDialog();
                 if (result.isPresent()) {
@@ -77,31 +82,32 @@ public class AdminNewUserController implements Initializable {
                     } else {
                         createNewUser(result.get());
                     }
-                } else {
-                    requiredFieldsLbl.setVisible(true);
                 }
                 //Closes the stageaadmin
                 Stage stage = (Stage) saveBttn.getScene().getWindow();
                 stage.close();
             } else {
-                Person person = new Person(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText()) {
-                };
-                //Updates the new details of the Employee to the database
-                new Thread(() -> {
-                    employeeManager.updateEmployeeDetails(person, brugernavnTxtf.getText(), kodeordTxtf.getText());
-                }).start();
-                //Closes the stage
-                Stage stage = (Stage) saveBttn.getScene().getWindow();
-                stage.close();
+                requiredFieldsLbl.setVisible(true);
             }
+        } else {
+            Person person = new Person(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText()) {
+            };
+            // Updates the new details of the Employee to the database
+            new Thread(() -> {
+                employeeManager.updateEmployeeDetails(person, brugernavnTxtf.getText(), kodeordTxtf.getText(), getHomeID());
+            }).start();
+            //Closes the stage
+            Stage stage = (Stage) saveBttn.getScene().getWindow();
+            stage.close();
         }
     }
 
     public boolean requiredFields() {
         //Controls that no fields are empty
         if (brugernavnTxtf.getText().length() != 0 && kodeordTxtf.getText().length() != 0
-            && fornavnTxtf.getText().length() != 0 && efternavnTxtf.getText().length() != 0
-            && cprFxtf.getText().length() != 0 && tlkTxtf.getText().length() != 0) {
+                && fornavnTxtf.getText().length() != 0 && efternavnTxtf.getText().length() != 0
+                && cprFxtf.getText().length() != 0 && tlkTxtf.getText().length() != 0
+                && homeDialog.getSelectionModel().getSelectedItem() != null) {
             return true;
         } else {
             return false;
@@ -151,7 +157,7 @@ public class AdminNewUserController implements Initializable {
     private void addUserToDatabase(Employee employee) {
         employeeManager.addEmployeeToObservable(employee);
         new Thread(() -> {
-            employeeManager.addEmployeeToDB(employee, brugernavnTxtf.getText(), kodeordTxtf.getText());
+            employeeManager.addEmployeeToDB(employee, brugernavnTxtf.getText(), kodeordTxtf.getText(), getHomeID());
         }).start();
     }
 
@@ -170,5 +176,27 @@ public class AdminNewUserController implements Initializable {
 
         Optional<String> result = dialog.showAndWait();
         return result;
+    }
+
+    public void setHomeDialog() {
+        //Adds the homes to the dialog
+        homeDialog.getItems().add("Vammelby");
+        homeDialog.getItems().add("Dejligby");
+    }
+
+    public int getHomeID() {
+        //switch case to find the selected home
+        int homeID = 0;
+        switch (homeDialog.getSelectionModel().getSelectedItem()) {
+            case "Vammelby":
+                homeID = 1;
+                break;
+            case "Dejligby":
+                homeID = 2;
+                break;
+            default:
+                homeID = 1;
+        }
+        return homeID;
     }
 }

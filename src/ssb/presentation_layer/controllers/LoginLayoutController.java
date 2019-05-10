@@ -20,7 +20,7 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import ssb.domain_layer.person.EmployeeManager;
+import ssb.domain_layer.EmployeeManager;
 import ssb.domain_layer.callbacks.LoginCallBack;
 
 public class LoginLayoutController implements Initializable {

@@ -1,4 +1,4 @@
-package ssb.domain_layer.person;
+package ssb.domain_layer;
 
 import ssb.domain_layer.document.DocumentManager;
 import java.util.ArrayList;
@@ -18,6 +18,14 @@ import ssb.data_layer.contracts.PersonsContract;
 import ssb.domain_layer.Home;
 import ssb.domain_layer.InformationBridge;
 import ssb.domain_layer.callbacks.LoginCallBack;
+import ssb.domain_layer.person.Administrator;
+import ssb.domain_layer.person.Employee;
+import ssb.domain_layer.person.Person;
+import ssb.domain_layer.person.Resident;
+import ssb.domain_layer.person.Sagsbehandler;
+import ssb.domain_layer.person.SocialPædagog;
+import ssb.domain_layer.person.Socialrådgiver;
+import ssb.domain_layer.person.Vikar;
 
 public class EmployeeManager {
 

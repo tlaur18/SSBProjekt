@@ -1,4 +1,4 @@
-package ssb.presentation_layer.controllers.admin_controllers;
+package ssb.presentation_layer.controllers;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import ssb.domain_layer.person.Sagsbehandler;
 import ssb.domain_layer.person.SocialPædagog;
 import ssb.domain_layer.person.Socialrådgiver;
 import ssb.domain_layer.person.Vikar;
-import ssb.domain_layer.person.EmployeeManager;
+import ssb.domain_layer.EmployeeManager;
 import ssb.domain_layer.InformationBridge;
 import ssb.domain_layer.person.Person;
 

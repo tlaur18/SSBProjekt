@@ -1,8 +1,25 @@
+
+
 .menuText {
     -fx-text-fill: #212121;
     -fx-font-weight: bold;
     -fx-font-size: 14px;
     -fx-background-color: #CFD8DC;
+    -fx-prompt-text-fill: #757575;
+}
+
+.menuTextError {
+    -fx-text-fill: #fc1414;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-background-color: transparent;
+    -fx-prompt-text-fill: #fc1414;
+}
+
+.menuTitleText {
+    -fx-text-fill: #212121;
+    -fx-font-weight: bold;
+    -fx-font-size: 32px;
     -fx-prompt-text-fill: #757575;
 }
 
@@ -31,6 +48,26 @@
 }
 
 .orderingButtons {
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+    -fx-text-alignment: left;
+    -fx-text-fill: #212121;
+    ;
+}
+
+.creationButtons {
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: #cecece;
+    -fx-text-alignment: left;
+    -fx-text-fill: #212121;
+    ;
+}
+
+.creationToolbar {
     -fx-border-color: transparent;
     -fx-border-width: 0;
     -fx-background-radius: 0;
@@ -81,4 +118,32 @@
     -fx-text-fill: #212121;
     -fx-alignment: center-left;
     -fx-padding: 1;
+    
 }
+.mainBody{
+    -fx-background-color: #F1F0F0;
+}
+
+.vbox-notification{
+    -fx-spacing: 10;
+    -fx-background-color: #E6E6E6;
+}
+
+
+.notification-currentUser{
+    -fx-background-color: #6880A3;
+    -fx-background-radius: 20px;
+}
+
+.notification-OtherUsers{
+    -fx-background-color: #BFBFBF;
+    -fx-background-radius: 20px;
+    
+}
+
+.notification-label{
+    -fx-text-fill: #FFFFFF;
+    -fx-fill: white;
+}
+
+

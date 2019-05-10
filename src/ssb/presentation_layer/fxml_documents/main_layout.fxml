@@ -11,12 +11,12 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.181" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ssb.presentation_layer.controllers.MainScreenController">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ssb.presentation_layer.controllers.MainController">
     <stylesheets>
         <URL value="@../../ressources/css_files/main.css" />
     </stylesheets>
     <left>
-        <VBox id="leftToolBar" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="200.0" prefWidth="104.0" BorderPane.alignment="CENTER">
+        <VBox id="leftToolBar" fx:id="vBoxMenu" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="200.0" prefWidth="104.0" BorderPane.alignment="CENTER">
             <children>
                 <Button fx:id="sagerFaneBtn" alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" mnemonicParsing="false" onAction="#sagerOnAction" prefHeight="30.0" prefWidth="96.0" styleClass="menuButtons" text="Sager" VBox.vgrow="ALWAYS">
                     <VBox.margin>
@@ -53,6 +53,11 @@
                         <Insets bottom="150.0" top="8.0" />
                     </VBox.margin>
                 </Button>
+                <Button fx:id="oversigtbttnid" disable="true" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" mnemonicParsing="false" onAction="#oversigtOnAction" prefHeight="30.0" prefWidth="96.0" styleClass="menuButtons" text="Oversigt" visible="false" VBox.vgrow="ALWAYS">
+                    <VBox.margin>
+                        <Insets bottom="8.0" top="8.0" />
+                    </VBox.margin>
+                </Button>
             </children>
             <BorderPane.margin>
                 <Insets />
@@ -62,7 +67,7 @@
     <top>
         <HBox id="topToolBar" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="32.0" BorderPane.alignment="CENTER">
             <children>
-                <ImageView fx:id="homeBtn" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                <ImageView fx:id="homeBtn" fitHeight="32.0" fitWidth="32.0" onMouseClicked="#homeButtonHandler" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
                     <image>
                         <Image url="@../../ressources/images/home.png" />
                     </image>

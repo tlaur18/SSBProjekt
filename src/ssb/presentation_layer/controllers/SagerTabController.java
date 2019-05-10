@@ -16,14 +16,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
-import ssb.domain_layer.Document;
-import ssb.domain_layer.DocumentManager;
-import ssb.domain_layer.Employee.Employee;
+import ssb.domain_layer.document.Document;
+import ssb.domain_layer.document.DocumentManager;
+import ssb.domain_layer.person.Employee;
+import ssb.domain_layer.Home;
 import ssb.domain_layer.InformationBridge;
-import ssb.domain_layer.Resident;
+import ssb.domain_layer.person.Resident;
 
 public class SagerTabController implements Initializable {
 
@@ -31,41 +33,49 @@ public class SagerTabController implements Initializable {
     private TableView<Document> vumDocumentTableView;
 
     private final DocumentManager documentManager = DocumentManager.getInstance();
-    private InformationBridge informationBridge;
+    private final InformationBridge informationBridge = InformationBridge.getInstance();
     private Employee loggedInEmployee;
+    private Home currentHome;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        informationBridge = InformationBridge.getInstance();
-        //Henter loggedInEmployee der lige er logget ind fra informationBridge
         loggedInEmployee = informationBridge.getLoggedInEmployee();
-        // Forbinder tableView med observable list med dokumenterne
+        currentHome = informationBridge.getCurrentHome();
         vumDocumentTableView.setItems(documentManager.getAllDocuments());
-        // Sætter kolonner til at fylde 20% af bredden
+
+        // Columns width set to 20%
         for (Object column : vumDocumentTableView.getColumns().toArray()) {
             TableColumn<Document, ?> column1 = (TableColumn<Document, ?>) column;
             column1.prefWidthProperty().bind(vumDocumentTableView.widthProperty().divide(5));
         }
+        openDocumentListener();
     }
 
-    // Get the selected document from the tableview and opens it, if it´s clicked twice.
-    @FXML
-    public void openDocumentAction(MouseEvent event) {
-        Document selectedDocument = vumDocumentTableView.getSelectionModel().getSelectedItem();
-        if (selectedDocument != null && event.getClickCount() == 2) {
-            InformationBridge.getInstance().setChosenDocument(selectedDocument);
-            loadDocumentController(selectedDocument);
-        }
+    // Double click to open the document
+    private void openDocumentListener() {
+        vumDocumentTableView.setRowFactory((TableView<Document> tv) -> {
+            TableRow<Document> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (!row.isEmpty() && event.getButton() == MouseButton.PRIMARY
+                    && event.getClickCount() == 2) {
+                    
+                    Document clickedRow = row.getItem();
+                    InformationBridge.getInstance().setChosenDocument(clickedRow);
+                    loadDocumentController(clickedRow);
+                }
+            });
+            return row;
+        });
     }
 
     // Selects the right FXML to load, based on the document type.
     private void loadDocumentController(Document document) {
         switch (document.getType()) {
             case HANDLEPLAN:
-                loadDocument("src/ssb/presentation_layer/fxml_documents/handleplan.fxml", "Handleplan");
+                loadDocument("src/ssb/presentation_layer/fxml_documents/vum_documents/handleplan.fxml", "Handleplan");
                 break;
             case SAGSÅBNING:
-                loadDocument("src/ssb/presentation_layer/fxml_documents/sagsåbning.fxml", "Sagsåbning");
+                loadDocument("src/ssb/presentation_layer/fxml_documents/vum_documents/sagsåbning.fxml", "Sagsåbning");
                 break;
         }
     }
@@ -73,7 +83,7 @@ public class SagerTabController implements Initializable {
     @FXML
     private void createVUMOnAction(ActionEvent event) {
         List<Resident> choices = new ArrayList<>();
-        //Sikrer at dokumentcontrollerne ikke begynder at loade dokumenter.
+        // Ensures that document controller doesn't start loading documents.
         InformationBridge.getInstance().setChosenDocument(null);
 
         Resident newRes = new Resident("Opret Ny", "Beboer", "123567890", "1234567890");
@@ -83,7 +93,7 @@ public class SagerTabController implements Initializable {
         }
 
         //Loads the Employee's Residents
-        for (Resident res : loggedInEmployee.getResidents()) {
+        for (Resident res : currentHome.getResidents()) {
             choices.add(res);
         }
 
@@ -154,10 +164,10 @@ public class SagerTabController implements Initializable {
             } else {
                 switch (result.get()) {
                     case "SAGSÅBNING":
-                        loadDocument("src/ssb/presentation_layer/fxml_documents/sagsåbning.fxml", "Sagsåbning");
+                        loadDocument("src/ssb/presentation_layer/fxml_documents/vum_documents/sagsåbning.fxml", "Sagsåbning");
                         break;
                     case "HANDLEPLAN":
-                        loadDocument("src/ssb/presentation_layer/fxml_documents/Handleplan.fxml", "Handleplan");
+                        loadDocument("src/ssb/presentation_layer/fxml_documents/vum_documents/handleplan.fxml", "Handleplan");
                 }
             }
         }

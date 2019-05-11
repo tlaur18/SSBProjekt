@@ -57,10 +57,10 @@ public class SagerTabController implements Initializable {
         
         // Adds listeners to the search TextFields to invoke methods when text is typed
         searchResidentTxtField.textProperty().addListener((observable, oldValue, newValue) -> {
-            vumDocumentTableView.setItems(documentManager.getSearchSubList(newValue, searchDocNameTxtField.getText()));
+            documentSearch(newValue, searchDocNameTxtField.getText());
         });
         searchDocNameTxtField.textProperty().addListener((observable, oldValue, newValue) -> {
-            vumDocumentTableView.setItems(documentManager.getSearchSubList(searchResidentTxtField.getText(), newValue));
+            documentSearch(searchResidentTxtField.getText(), newValue);
         });
     }
 
@@ -200,5 +200,13 @@ public class SagerTabController implements Initializable {
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
+    }
+
+    private void documentSearch(String keyWordResidentName, String keyWordDocumentName) {
+        if (keyWordResidentName.isEmpty() && keyWordDocumentName.isEmpty()) {
+            vumDocumentTableView.setItems(documentManager.getAllDocuments());
+            return;
+        }
+        vumDocumentTableView.setItems(documentManager.getSearchSubList(keyWordResidentName, keyWordDocumentName));
     }
 }

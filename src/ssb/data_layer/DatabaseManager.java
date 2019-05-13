@@ -106,4 +106,7 @@ public class DatabaseManager {
     public void insertEmployeeLogin(String cprNr, String username, String password) {
         logInData.insertLogin(cprNr, username, password);
     }
+    public void insertPersonHomeLink(String employeeCPR, int homeID){
+        personData.insertPersonHomeLink(employeeCPR, homeID);
+    }
 }

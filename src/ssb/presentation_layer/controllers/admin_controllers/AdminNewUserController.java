@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -46,6 +48,7 @@ public class AdminNewUserController implements Initializable {
     private Label requiredFieldsLbl;
     private final InformationBridge informationBridge = InformationBridge.getInstance();
     private final EmployeeManager employeeManager = EmployeeManager.getInstance();
+    private final ObservableList<Person> employeeHomes = FXCollections.observableArrayList();
     @FXML
     private ChoiceBox<String> homeDialog;
 

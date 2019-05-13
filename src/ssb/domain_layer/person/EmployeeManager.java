@@ -177,8 +177,8 @@ public class EmployeeManager {
     public void addResidentToHome(int homeId, Resident resident) {
         database.insertResident(resident.getCprNr(), resident.getFirstName(), resident.getLastName(), resident.getPhoneNr(), homeId);
     }
-    public void addEmployeeToHome(int homeId, Employee employee) {
-        
+    public void addEmployeeToHome(int homeID, Employee employee) {
+        database.insertPersonHomeLink(employee.getCprNr(), homeID);
     }
 
     private List<Home> assembleHomes(ArrayList<HashMap<String, String>> homes) {

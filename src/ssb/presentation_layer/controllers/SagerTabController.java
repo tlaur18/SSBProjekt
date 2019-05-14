@@ -39,6 +39,8 @@ public class SagerTabController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        // TODO - Sagsbehandlere skal kun kunne oprette ny beboere med en ny sag hvor en resident bliver lavet med alle oplysninger
+        
         loggedInEmployee = informationBridge.getLoggedInEmployee();
         currentHome = informationBridge.getCurrentHome();
         vumDocumentTableView.setItems(documentManager.getAllDocuments());
@@ -58,7 +60,6 @@ public class SagerTabController implements Initializable {
             row.setOnMouseClicked(event -> {
                 if (!row.isEmpty() && event.getButton() == MouseButton.PRIMARY
                     && event.getClickCount() == 2) {
-                    
                     Document clickedRow = row.getItem();
                     InformationBridge.getInstance().setChosenDocument(clickedRow);
                     loadDocumentController(clickedRow);
@@ -92,7 +93,7 @@ public class SagerTabController implements Initializable {
             choices.add(newRes);
         }
 
-        //Loads the Employee's Residents
+        //Loads the home's Residents
         for (Resident res : currentHome.getResidents()) {
             choices.add(res);
         }

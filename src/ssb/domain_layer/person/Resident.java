@@ -1,6 +1,5 @@
 package ssb.domain_layer.person;
 
-import ssb.domain_layer.person.Person;
 import ssb.domain_layer.document.Document;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +9,7 @@ public class Resident extends Person {
     private String streetName;
     private String cityName;
     private String postCode;
+    private String email;
     private final List<Document> documents;
 
     public Resident(String firstName, String lastName, String phoneNr, String cprNr) {
@@ -36,6 +36,27 @@ public class Resident extends Person {
     public void setPostCode(String postCode) {
         this.postCode = postCode;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getStreetName() {
+        return streetName;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public String getPostCode() {
+        return postCode;
+    }
+    
     @Override
     public String toString() {
         return getFirstName() + " " + getLastName();

@@ -59,6 +59,7 @@ public class nybeboerController implements Initializable {
             newRes.setCityName(byTxtf.getText());
             newRes.setPostCode(postnrTxtf.getText());
             newRes.setStreetName(vejnavnTxtf.getText());
+            newRes.setEmail(mailTxtF.getText());
             Home currentHome = InformationBridge.getInstance().getCurrentHome();
             EmployeeManager employeeManager = EmployeeManager.getInstance();
             employeeManager.addResidentToHome(currentHome.getId(), newRes);

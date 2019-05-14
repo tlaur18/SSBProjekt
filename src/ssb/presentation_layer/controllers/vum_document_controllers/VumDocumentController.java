@@ -2,13 +2,11 @@ package ssb.presentation_layer.controllers.vum_document_controllers;
 
 import java.util.HashMap;
 import javafx.scene.Node;
-import javafx.scene.control.Accordion;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextInputControl;
-import javafx.scene.control.TitledPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import ssb.domain_layer.document.Document;
@@ -107,19 +105,28 @@ public abstract class VumDocumentController {
         }
     }
 
-    protected Node findChildInTab(String childID, Tab tab) {
+    /**
+     *
+     * @param <T>
+     * @param childID
+     * @param tab
+     * @param type
+     * @return
+     */
+    protected <T extends Node> T findChildInTab(String childID, Tab tab, Class<T> type) {
         GridPane contentOfTab = (GridPane) ((ScrollPane) tab.getContent()).getContent();
         for (Node child : contentOfTab.getChildren()) {
             if (child.getId() == null) {
                 continue;
             }
+            Node foundNode;
             if (child instanceof Pane) {
-                Node foundNode = searchPane((Pane) child, childID);
-                if (foundNode != null) {
-                    return foundNode;
-                }
+                foundNode = searchPane((Pane) child, childID);
             } else {
-                return searchForChild(child, childID);
+                foundNode = searchForChild(child, childID);
+            }
+            if (foundNode != null) {
+                return type.cast(foundNode);
             }
         }
         return null;

@@ -175,13 +175,13 @@ public class SagerTabController implements Initializable {
 
     private void loadDocument(String fileURL, String vumDocumentTitle) {
         try {
-            URL urlHandleplan = new File(fileURL).toURL();
-            FXMLLoader loaderHandleplan = new FXMLLoader(urlHandleplan);
+            URL url = new File(fileURL).toURL();
+            FXMLLoader loaderHandleplan = new FXMLLoader(url);
             Parent rootHandleplan = (Parent) loaderHandleplan.load();
             Stage stageHandleplan = new Stage();
             stageHandleplan.setMinHeight(425);
             stageHandleplan.setMinWidth(650);
-            stageHandleplan.setScene(new Scene(FXMLLoader.load(urlHandleplan)));
+            stageHandleplan.setScene(new Scene(FXMLLoader.load(url)));
             stageHandleplan.setTitle(vumDocumentTitle);
             stageHandleplan.show();
         } catch (IOException ex) {

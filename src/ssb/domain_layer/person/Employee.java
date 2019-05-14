@@ -1,5 +1,8 @@
 package ssb.domain_layer.person;
 
+import java.util.logging.Logger;
+import ssb.domain_layer.logger.LoggerManager;
+
 public abstract class Employee extends Person {
 
     private boolean canAccessCreateDocBtn;
@@ -11,6 +14,7 @@ public abstract class Employee extends Person {
     private boolean canCreateNotification;
     private boolean canSeeNotifications;
     private boolean canUseAdminRights;
+    private final static Logger LOGGER = Logger.getLogger( Logger.GLOBAL_LOGGER_NAME ); 
 
     public Employee(String firstName, String lastName, String phoneNr, String cprNr) {
         super(firstName, lastName, phoneNr, cprNr);
@@ -87,6 +91,7 @@ public abstract class Employee extends Person {
         return this.canUseAdminRights;
     }
     public abstract String getEmployeeRole();
+    
     
     @Override
     public String toString() {

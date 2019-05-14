@@ -2,7 +2,6 @@ package ssb.domain_layer.person;
 
 import ssb.domain_layer.document.DocumentManager;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -16,18 +15,9 @@ import ssb.data_layer.contracts.EmployeeContract;
 import ssb.data_layer.contracts.HomesContract;
 import ssb.data_layer.contracts.PersonsContract;
 import ssb.domain_layer.Home;
-import ssb.domain_layer.Home;
-import ssb.domain_layer.InformationBridge;
 import ssb.domain_layer.InformationBridge;
 import ssb.domain_layer.callbacks.LoginCallBack;
-import ssb.domain_layer.person.Administrator;
-import ssb.domain_layer.person.Employee;
-import ssb.domain_layer.person.Person;
-import ssb.domain_layer.person.Resident;
-import ssb.domain_layer.person.Sagsbehandler;
-import ssb.domain_layer.person.SocialPædagog;
-import ssb.domain_layer.person.Socialrådgiver;
-import ssb.domain_layer.person.Vikar;
+import ssb.domain_layer.logger.LoggerManager;
 
 public class EmployeeManager {
 
@@ -39,6 +29,7 @@ public class EmployeeManager {
     private LoginCallBack loginCallBack;
     private Thread employeeDetailsThread;
     private Thread employeeHomesThread;
+    private static final Logger LOGGER = Logger.getLogger(LoggerManager.class.getName());
 
     private EmployeeManager() {
     }
@@ -61,6 +52,7 @@ public class EmployeeManager {
                 protected void succeeded() {
                     HashMap<String, String> employeeDetails = (HashMap<String, String>) getValue();
                     informationBridge.setLoggedInEmployee(setEmployeeDetails(employeeDetails));
+                    LOGGER.log(Level.INFO, "{0} Has logged in!", informationBridge.getLoggedInEmployee().getFirstName());
                     if (informationBridge.getLoggedInEmployee() instanceof Administrator) {
                         loginCallBack.adminLogin();
                     }
@@ -203,6 +195,7 @@ public class EmployeeManager {
     public void addEmployeeToDB(Employee employee, String username, String password, int homeID) {
         database.insertEmployee(employee.getCprNr(), employee.getFirstName(), employee.getLastName(), employee.getPhoneNr(), employee.getEmployeeRole(), homeID);
         database.insertEmployeeLogin(employee.getCprNr(), username, password);
+        LOGGER.log(Level.INFO, "{0}Has added: {1} To the Database", new Object[]{informationBridge.getLoggedInEmployee().getFirstName(), employee.getFirstName()});
     }
 
     public void loadAllEmployess() {

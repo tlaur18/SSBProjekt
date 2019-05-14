@@ -72,7 +72,7 @@ public class SagerTabController implements Initializable {
     private void loadDocumentController(Document document) {
         switch (document.getType()) {
             case HANDLEPLAN:
-                loadDocument("src/ssb/presentation_layer/fxml_documents/vum_documents/handleplan.fxml", "Handleplan");
+                loadDocument("src/ssb/presentation_layer/fxml_documents/vum_documents/handleplan/handleplan.fxml", "Handleplan");
                 break;
             case SAGSÅBNING:
                 loadDocument("src/ssb/presentation_layer/fxml_documents/vum_documents/sagsåbning.fxml", "Sagsåbning");

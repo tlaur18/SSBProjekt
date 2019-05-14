@@ -227,8 +227,9 @@ public class AdminNewUserController implements Initializable {
 
     @FXML
     private void addHomeBttn(ActionEvent event) {
+        if(!employeeHomes.contains(homeDialog.getSelectionModel().getSelectedItem())){
         employeeHomes.add(homeDialog.getSelectionModel().getSelectedItem());
-
+        }
     }
 
     private void loadHomes() {

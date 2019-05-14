@@ -82,4 +82,8 @@ public class Home {
 
         employees.removeAll(toRemove);
     }
+    @Override
+    public String toString() {
+        return this.homeName;
+    }
 }

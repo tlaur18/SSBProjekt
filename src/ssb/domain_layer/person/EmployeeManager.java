@@ -177,6 +177,7 @@ public class EmployeeManager {
     public void addResidentToHome(int homeId, Resident resident) {
         database.insertResident(resident.getCprNr(), resident.getFirstName(), resident.getLastName(), resident.getPhoneNr(), homeId);
     }
+
     public void addEmployeeToHome(int homeID, Employee employee) {
         database.insertPersonHomeLink(employee.getCprNr(), homeID);
     }
@@ -200,13 +201,20 @@ public class EmployeeManager {
         }
     }
 
-    public void addEmployeeToDB(Employee employee, String username, String password, int homeID) {
-        database.insertEmployee(employee.getCprNr(), employee.getFirstName(), employee.getLastName(), employee.getPhoneNr(), employee.getEmployeeRole(), homeID);
+    public void addEmployeeToDB(Employee employee, String username, String password, List<Home> homes) {
+        database.insertEmployee(employee.getCprNr(), employee.getFirstName(), employee.getLastName(), employee.getPhoneNr(), employee.getEmployeeRole());
+        System.out.println("done 1");
+        for (Home home : homes) {
+            System.out.println(home.getHomeName() + " " + home.getId());
+            database.insertPersonHomeLink(employee.getCprNr(), home.getId());
+            System.out.println("done 2");
+        }
         database.insertEmployeeLogin(employee.getCprNr(), username, password);
+        System.out.println("done 3");
     }
 
     public void loadAllEmployess() {
-        for (HashMap<String, String> map : database.GetAllEmployees()) {
+        for (HashMap<String, String> map : database.getAllEmployees()) {
             setEmployeeDetails(map);
         }
     }
@@ -223,20 +231,36 @@ public class EmployeeManager {
         allEmployees.clear();
     }
 
-    public void updateEmployeeDetails(Person person, String userName, String passWord, int homeID) {
-        database.updateEmployeeData(person.getCprNr(), person.getFirstName(), person.getLastName(), person.getPhoneNr(), homeID);
+    public void updateEmployeeDetails(Person person, String userName, String passWord, List<Home> homes) {
+        database.updateEmployeeData(person.getCprNr(), person.getFirstName(), person.getLastName(), person.getPhoneNr());
         database.updateEmployeeLogin(userName, passWord, person.getCprNr());
+        for (Home home : homes) {
+            database.insertPersonHomeLink(person.getCprNr(), home.getId());
+        }
+    }
+    public void deletePersonHomeLink(Person person, List<Home> deletedHomes) {
+        for(Home home : deletedHomes) {
+            database.deletePersonHomeLink(person.getCprNr(), home.getId());
+        }
     }
 
     public void deleteEmployee(Person person) {
-        allEmployees.remove(person);        
+        allEmployees.remove(person);
     }
-    
+
     public void deleteEmployeeFromDb(Person person) {
         database.deleteEmployee(person.getCprNr());
     }
 
     public Pair<String, String> getEmployeeLogin(Person person) {
         return database.getEmployeeLogin(person);
+    }
+
+    public List<Home> getAllEmployeeHomes(String employeeCPRString) {
+        return assembleHomes(database.getallEmployeeHomes(employeeCPRString));
+    }
+
+    public List<Home> getAllHomes() {
+        return assembleHomes(database.getAllHomes());
     }
 }

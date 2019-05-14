@@ -15,9 +15,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+import ssb.domain_layer.Home;
 import ssb.domain_layer.person.Administrator;
 import ssb.domain_layer.person.Employee;
 import ssb.domain_layer.person.Sagsbehandler;
@@ -46,19 +48,30 @@ public class AdminNewUserController implements Initializable {
     private TextField tlkTxtf;
     @FXML
     private Label requiredFieldsLbl;
+    @FXML
+    private ChoiceBox<Home> homeDialog;
+    @FXML
+    private ListView<Home> homeList;
+    @FXML
+    private Button addHomebttn;
+    @FXML
+    private Button removeHomeBttn;
     private final InformationBridge informationBridge = InformationBridge.getInstance();
     private final EmployeeManager employeeManager = EmployeeManager.getInstance();
-    private final ObservableList<Person> employeeHomes = FXCollections.observableArrayList();
-    @FXML
-    private ChoiceBox<String> homeDialog;
+    private final ObservableList<Home> employeeHomes = FXCollections.observableArrayList();
+    private final ArrayList<Home> deletedHomes = new ArrayList<>();
+
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setHomeDialog();
+
+        homeList.setItems(employeeHomes);
         if (informationBridge.getChosenEmployee() != null) {
             // TODO - thread instead and then a progress indicator
             new Thread(() -> {
                 loadEmployeeDetails();
+                loadHomes();
             }).start();
             cprFxtf.setDisable(true);
 
@@ -93,11 +106,10 @@ public class AdminNewUserController implements Initializable {
                 requiredFieldsLbl.setVisible(true);
             }
         } else {
-            Person person = new Person(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText()) {
-            };
             // Updates the new details of the Employee to the database
             new Thread(() -> {
-                employeeManager.updateEmployeeDetails(person, brugernavnTxtf.getText(), kodeordTxtf.getText(), getHomeID());
+                 employeeManager.updateEmployeeDetails(informationBridge.getChosenEmployee(), brugernavnTxtf.getText(), kodeordTxtf.getText(), employeeHomes);
+                 employeeManager.deletePersonHomeLink(informationBridge.getChosenEmployee(), deletedHomes);
             }).start();
             //Closes the stage
             Stage stage = (Stage) saveBttn.getScene().getWindow();
@@ -131,36 +143,45 @@ public class AdminNewUserController implements Initializable {
 
     }
 
-    public void createNewUser(String result) {
+    public Employee createNewUser(String result) {
+        Employee newEmployee = null;
         //Find the chosen Role, and creates a new employee and adds it to the Database
         switch (result) {
             case "SAGSBEHANDLER":
                 Employee sagsbehandler = new Sagsbehandler(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText());
                 addUserToDatabase(sagsbehandler);
+                newEmployee = sagsbehandler;
                 break;
             case "SOCIALRÅDGIVER":
                 Employee socialraadgiver = new Socialrådgiver(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText());
                 addUserToDatabase(socialraadgiver);
+                newEmployee = socialraadgiver;
                 break;
             case "SOCIALPÆDAGOG":
                 Employee socialpaedagog = new SocialPædagog(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText());
                 addUserToDatabase(socialpaedagog);
+                newEmployee = socialpaedagog;
                 break;
             case "ADMINISTRATOR":
                 Employee administrator = new Administrator(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText());
                 addUserToDatabase(administrator);
+                newEmployee = administrator;
                 break;
             case "VIKAR":
                 Employee vikar = new Vikar(fornavnTxtf.getText(), efternavnTxtf.getText(), tlkTxtf.getText(), cprFxtf.getText());
                 addUserToDatabase(vikar);
+                newEmployee = vikar;
                 break;
         }
+        return newEmployee;
     }
 
     private void addUserToDatabase(Employee employee) {
         employeeManager.addEmployeeToObservable(employee);
         new Thread(() -> {
-            employeeManager.addEmployeeToDB(employee, brugernavnTxtf.getText(), kodeordTxtf.getText(), getHomeID());
+            if (employeeHomes.size() == 1) {
+                employeeManager.addEmployeeToDB(employee, brugernavnTxtf.getText(), kodeordTxtf.getText(), employeeHomes);
+            }
         }).start();
     }
 
@@ -183,14 +204,15 @@ public class AdminNewUserController implements Initializable {
 
     public void setHomeDialog() {
         //Adds the homes to the dialog
-        homeDialog.getItems().add("Vammelby");
-        homeDialog.getItems().add("Dejligby");
+        for (Home home : employeeManager.getAllHomes()) {
+            homeDialog.getItems().add(home);
+        }
     }
 
-    public int getHomeID() {
+    public int getHomeID(String homeName) {
         //switch case to find the selected home
         int homeID = 0;
-        switch (homeDialog.getSelectionModel().getSelectedItem()) {
+        switch (homeName) {
             case "Vammelby":
                 homeID = 1;
                 break;
@@ -201,5 +223,23 @@ public class AdminNewUserController implements Initializable {
                 homeID = 1;
         }
         return homeID;
+    }
+
+    @FXML
+    private void addHomeBttn(ActionEvent event) {
+        employeeHomes.add(homeDialog.getSelectionModel().getSelectedItem());
+
+    }
+
+    private void loadHomes() {
+        for (Home home : employeeManager.getAllEmployeeHomes(informationBridge.getChosenEmployee().getCprNr())) {
+            employeeHomes.add(home);
+        }
+    }
+
+    @FXML
+    private void removeHomeBttn(ActionEvent event) {
+        deletedHomes.add(homeList.getSelectionModel().getSelectedItem());
+        employeeHomes.remove(homeList.getSelectionModel().getSelectedItem());
     }
 }

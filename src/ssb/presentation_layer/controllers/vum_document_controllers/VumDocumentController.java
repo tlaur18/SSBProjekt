@@ -4,6 +4,7 @@ import java.util.HashMap;
 import javafx.scene.Node;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextInputControl;
@@ -76,14 +77,13 @@ public abstract class VumDocumentController {
     }
 
     protected void loadTabPaneChildren(TabPane tabPane) {
-        // TODO - make recursive and also fix bug in sagsåbning tab værge and repræsentation (there is an anchorpane for no reason)
         for (Tab tabChild : tabPane.getTabs()) {
-            GridPane tabContents = (GridPane) tabChild.getContent();
-            for (Node gridChild : tabContents.getChildren()) {
+            GridPane scrollPaneContent = (GridPane) ((ScrollPane) tabChild.getContent()).getContent();
+            for (Node gridChild : scrollPaneContent.getChildren()) {
                 if (gridChild instanceof Pane) {
                     loadFieldsFromPane((Pane) gridChild);
                 } else {
-                    saveRelevantChildren(gridChild);
+                    setRelevantChildren(gridChild);
                 }
             }
         }
@@ -91,20 +91,11 @@ public abstract class VumDocumentController {
 
     private void loadFieldsFromPane(Pane pane) {
         for (Node gridChild : pane.getChildrenUnmodifiable()) {
-            if (gridChild instanceof Accordion) {
-                for (TitledPane titledPane : ((Accordion) gridChild).getPanes()) {
-                    GridPane titledPaneContents = (GridPane) titledPane.getContent();
-                    for (Node node : titledPaneContents.getChildren()) {
-                        saveRelevantChildren(node);
-                    }
-                }
-            } else {
-                saveRelevantChildren(gridChild);
-            }
+            setRelevantChildren(gridChild);
         }
     }
 
-    private void saveRelevantChildren(Node node) {
+    private void setRelevantChildren(Node node) {
         if (node instanceof CheckBox) {
             checkBoxes.put((CheckBox) node, Boolean.FALSE);
         } else if (node instanceof TextInputControl) {

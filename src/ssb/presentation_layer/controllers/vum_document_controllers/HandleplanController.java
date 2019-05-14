@@ -20,7 +20,6 @@ public class HandleplanController extends VumDocumentController implements Initi
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         loadTabPaneChildren(tabPane);
-
         if (chosenDocument != null) {
             loadDocumentContent(chosenDocument);
         }

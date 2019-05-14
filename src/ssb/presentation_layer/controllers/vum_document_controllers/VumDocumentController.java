@@ -59,7 +59,6 @@ public abstract class VumDocumentController {
     protected void loadDocumentContent(Document doc) {
         HashMap<String, Boolean> checkBoxesFromDoc = doc.getSelectedCheckboxes();
         HashMap<String, String> textAreasFromDoc = doc.getTextAreas();
-
         for (CheckBox checkBox : checkBoxes.keySet()) {
             for (String IDFromDoc : checkBoxesFromDoc.keySet()) {
                 if (checkBox.getId().equals(IDFromDoc)) {
@@ -67,6 +66,7 @@ public abstract class VumDocumentController {
                 }
             }
         }
+
         for (TextInputControl textArea : textAreas.keySet()) {
             for (String IDFromDoc : textAreasFromDoc.keySet()) {
                 if (textArea.getId().equals(IDFromDoc)) {
@@ -91,7 +91,11 @@ public abstract class VumDocumentController {
 
     private void loadFieldsFromPane(Pane pane) {
         for (Node gridChild : pane.getChildrenUnmodifiable()) {
-            setRelevantChildren(gridChild);
+            if (gridChild instanceof Pane) {
+                loadFieldsFromPane((Pane) gridChild);
+            } else {
+                setRelevantChildren(gridChild);
+            }
         }
     }
 
@@ -100,6 +104,43 @@ public abstract class VumDocumentController {
             checkBoxes.put((CheckBox) node, Boolean.FALSE);
         } else if (node instanceof TextInputControl) {
             textAreas.put((TextInputControl) node, "");
+        }
+    }
+
+    protected Node findChildInTab(String childID, Tab tab) {
+        GridPane contentOfTab = (GridPane) ((ScrollPane) tab.getContent()).getContent();
+        for (Node child : contentOfTab.getChildren()) {
+            if (child.getId() == null) {
+                continue;
+            }
+            if (child instanceof Pane) {
+                Node foundNode = searchPane((Pane) child, childID);
+                if (foundNode != null) {
+                    return foundNode;
+                }
+            } else {
+                return searchForChild(child, childID);
+            }
+        }
+        return null;
+    }
+
+    private Node searchPane(Pane paneChild, String idSearch) {
+        for (Node child : paneChild.getChildren()) {
+            if (child instanceof Pane) {
+                searchPane((Pane) child, idSearch); // recursive system
+            } else {
+                return searchForChild(child, idSearch); // checks if the child is the one we're looking for
+            }
+        }
+        return null;
+    }
+
+    private Node searchForChild(Node child, String idSearch) {
+        if (child.getId().equalsIgnoreCase(idSearch)) {
+            return child;
+        } else {
+            return null;
         }
     }
 }

@@ -167,7 +167,7 @@ public class SagerTabController implements Initializable {
                         loadDocument("src/ssb/presentation_layer/fxml_documents/vum_documents/sagsåbning.fxml", "Sagsåbning");
                         break;
                     case "HANDLEPLAN":
-                        loadDocument("src/ssb/presentation_layer/fxml_documents/vum_documents/handleplan.fxml", "Handleplan");
+                        loadDocument("src/ssb/presentation_layer/fxml_documents/vum_documents/handleplan/handleplan.fxml", "Handleplan");
                 }
             }
         }
@@ -185,6 +185,7 @@ public class SagerTabController implements Initializable {
             stageHandleplan.setTitle(vumDocumentTitle);
             stageHandleplan.show();
         } catch (IOException ex) {
+            ex.printStackTrace();
             System.out.println(ex.getMessage());
         }
     }

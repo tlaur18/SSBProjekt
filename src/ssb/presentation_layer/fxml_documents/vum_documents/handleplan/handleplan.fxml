@@ -17,7 +17,11 @@
     </Tab>
       <Tab text="Formål og indsats">
          <content>
-            <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" />
+            <ScrollPane fitToWidth="true">
+                <content>
+                    <fx:include source="handleplan_content_2.fxml" />
+                </content>
+            </ScrollPane>
          </content>
       </Tab>
   </tabs>

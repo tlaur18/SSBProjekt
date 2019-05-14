@@ -1,0 +1,550 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1300.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="30.0" prefWidth="100.0" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints minHeight="10.0" prefHeight="70.0" vgrow="NEVER" />
+    <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="NEVER" />
+      <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="NEVER" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+      <RowConstraints minHeight="10.0" prefHeight="300.0" vgrow="NEVER" />
+  </rowConstraints>
+   <children>
+      <Separator prefWidth="200.0" GridPane.columnSpan="2" GridPane.valignment="BOTTOM" />
+      <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.valignment="CENTER">
+         <children>
+            <Label text="Hvad drejer henvendelsen sig om?" wrapText="true" />
+            <Label text="[beskrivelse af problemstillingen og behov for hjælp]" wrapText="true">
+               <font>
+                  <Font size="10.0" />
+               </font></Label>
+         </children>
+      </VBox>
+      <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+         <GridPane.margin>
+            <Insets bottom="1.5" />
+         </GridPane.margin></TextArea>
+      <Label text="Er det klart hvad borgeren søger om? " GridPane.rowIndex="1" />
+      <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <children>
+            <CheckBox mnemonicParsing="false" text="Ja">
+               <VBox.margin>
+                  <Insets left="2.0" top="1.0" />
+               </VBox.margin></CheckBox>
+            <CheckBox mnemonicParsing="false" text="Nej" textOverrun="CLIP" wrapText="true">
+               <VBox.margin>
+                  <Insets left="2.0" top="1.0" />
+               </VBox.margin></CheckBox>
+         </children>
+      </VBox>
+      <Label text="Hvis ja, angiv ydelse [afkrydsning af ydelser/§]" wrapText="true" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+      <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="3">
+         <children>
+            <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <CheckBox mnemonicParsing="false" text="Aktivitets- og samværsydelse (§ 104)">
+                     <VBox.margin>
+                        <Insets left="2.0" top="5.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Befordring ">
+                     <VBox.margin>
+                        <Insets left="2.0" top="5.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Befordring til og fra et tilbud (§ 105)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Befordring til og fra et tilbud (Hjælpemiddelbekendtgørelsen § 25)" wrapText="true">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Befordring til og fra et tilbud (Lov om specialundervisning til voksne § 5)" wrapText="true">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Befordring til og fra et tilbud (Lov om ungdomsuddannelse for unge med særlige behov, § 10)" wrapText="true">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Befordring til og fra et tilbud (SUL § 170)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Befordring til og fra et tilbud (SUL § 172)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Individuel befordring (§ 117) ">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Behandling">
+                     <VBox.margin>
+                        <Insets left="2.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Misbrugsbehandling (§ 101)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Misbrugsbehandling (SUL § 141)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Terapi (§ 102)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Psykologisk behandling (§ 102)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Speciallæge behandling (§ 102)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Beskyttet beskæftigelsesydelse (§ 103)">
+                     <VBox.margin>
+                        <Insets left="2.0" top="5.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Dagaflastning (§ 84)">
+                     <VBox.margin>
+                        <Insets left="2.0" top="5.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Kontantydelse">
+                     <VBox.margin>
+                        <Insets left="2.0" top="5.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Arbejdsvederlag (§ 105)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Dækning af merudgift (§ 100)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Kontrolordning">
+                     <VBox.margin>
+                        <Insets left="2.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Fastholdelse (§ 126) ">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Fastholdelse (§ 127) ">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Fastholdelse (§ 128) ">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Kontrol med færden (§ 125) ">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Ophold">
+                     <VBox.margin>
+                        <Insets left="2.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Døgnaflastning (§ 84)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Længevarende ophold (§ 108)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Midlertidigt ophold (§ 80)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Midlertidigt ophold (§ 107)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Midlertidigt ophold (§ 109)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Midlertidigt ophold (§ 110)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+               </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </VBox>
+            <VBox prefHeight="300.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <CheckBox mnemonicParsing="false" text="Personlig hjælp og pleje (§ 83)">
+                     <VBox.margin>
+                        <Insets left="2.0" top="5.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Personlig hjælp og pleje (§ 95)">
+                     <VBox.margin>
+                        <Insets left="2.0" top="5.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Praktisk hjælp (§ 83)">
+                     <VBox.margin>
+                        <Insets left="2.0" top="5.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Praktisk hjælp (§ 95)">
+                     <VBox.margin>
+                        <Insets left="2.0" top="5.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Socialpædagogisk støtte">
+                     <VBox.margin>
+                        <Insets left="2.0" top="5.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Støtte til administration (§ 85)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Støtte til indkøb og kost (§ 85)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Støtte til kontakt og samvær (§ 85)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Støtte til medicinhåndtering (§ 85)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Støtte til personlig pleje (§ 85)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Støtte til praktiske opgaver i hjemmet (§ 85)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Støtte til uddannelse og beskæftigelse (§ 85)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Støtte til varetagelse af forældrerollen (§ 85)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Støttepersonordning">
+                     <VBox.margin>
+                        <Insets left="2.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Afløsning (§ 84) ">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Afløsning (§ 95) ">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Borgerstyret personlig assistance (§ 96)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Kontaktperson for døvblinde (§ 98)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Ledsageordning (§ 97)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Pasning af pårørende (§ 118)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Pasning af pårørende (§ 119)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Støtteredskab">
+                     <VBox.margin>
+                        <Insets left="2.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Hjælpemiddel (§ 112)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Støtte til bil (§ 114)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Støtte til boligindretning (§ 116)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Forbrugsgoder (§ 113)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Træning">
+                     <VBox.margin>
+                        <Insets left="2.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Genoptræning (§ 85)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Genoptræning (§ 86)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Genoptræning (§ 102)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Vedligeholdelsestræning (§ 85)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Vedligeholdelsestræning (§ 86)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Vedligeholdelsestræning (§ 102)">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Undervisning">
+                     <VBox.margin>
+                        <Insets left="2.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Kompenserende specialundervisning (Lov om specialundervisning til voksne § 1)" wrapText="true">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Ungdomsuddannelse for unge med særlige behov (Lov om ungdomsuddannelse for unge med særlige behov, § 2)" wrapText="true">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <Separator prefWidth="200.0" />
+                  <Label text="Ikke visiterede ydelser" />
+                  <CheckBox mnemonicParsing="false" text="Rådgivning (§ 10)">
+                     <VBox.margin>
+                        <Insets left="2.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Støtte- og kontaktperson (§ 99)">
+                     <VBox.margin>
+                        <Insets left="2.0" top="5.0" />
+                     </VBox.margin>
+                  </CheckBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <Separator prefWidth="200.0" valignment="BOTTOM" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
+      <Label text="Hvis ja, angiv tilbud [afkrydsning af tilbud]" GridPane.rowIndex="4" />
+      <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="5">
+         <children>
+            <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label text="Ambulant tilbud til voksne">
+                     <VBox.margin>
+                        <Insets left="2.0" top="1.0" />
+                     </VBox.margin>
+                  </Label>
+                  <CheckBox mnemonicParsing="false" text="Ambulant behandlingstilbud til voksne">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <Label text="Dagtilbud til voksne">
+                     <VBox.margin>
+                        <Insets left="2.0" top="1.0" />
+                     </VBox.margin>
+                  </Label>
+                  <CheckBox mnemonicParsing="false" text="Aktivitets- og samværstilbud">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Beskyttet beskæftigelsestilbud">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Dagbehandlingstilbud til voksne">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Uddannelsestilbud">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label text="Botilbud til voksne">
+                     <VBox.margin>
+                        <Insets left="2.0" top="1.0" />
+                     </VBox.margin>
+                  </Label>
+                  <CheckBox mnemonicParsing="false" text="Almen plejebolig">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Almen ældrebolig/handicapvenlig bolig">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Bofællesskab">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Døgnbehandlingstilbud til voksne">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Forsorgshjem/herberg">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Krisecenter">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <Label text="Længerevarende botilbud til voksne ">
+                     <VBox.margin>
+                        <Insets left="35.0" top="1.0" />
+                     </VBox.margin>
+                  </Label>
+                  <CheckBox mnemonicParsing="false" text="Sikret botilbud">
+                     <VBox.margin>
+                        <Insets left="65.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Andet længerevarende botilbud til voksne">
+                     <VBox.margin>
+                        <Insets left="65.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Midlertidigt botilbud">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Plejehjem">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Rehabiliteringstilbud">
+                     <VBox.margin>
+                        <Insets left="30.0" top="1.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Udgående tilbud til voksne">
+                     <VBox.margin>
+                        <Insets left="2.0" top="5.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox mnemonicParsing="false" text="Tilbud med myndighedsbeføjelse">
+                     <VBox.margin>
+                        <Insets left="2.0" top="5.0" />
+                     </VBox.margin>
+                  </CheckBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <Separator prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="4" GridPane.valignment="TOP" />
+   </children>
+</GridPane>

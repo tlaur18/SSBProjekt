@@ -46,15 +46,15 @@ public class Resident extends Person {
     }
 
     public String getStreetName() {
-        return streetName;
+        return "Campusvej";
     }
 
     public String getCityName() {
-        return cityName;
+        return "Odense";
     }
 
     public String getPostCode() {
-        return postCode;
+        return "5230";
     }
     
     @Override

@@ -115,29 +115,29 @@ public abstract class VumDocumentController {
      */
     protected <T extends Node> T findChildInTab(String childID, Tab tab, Class<T> type) {
         GridPane contentOfTab = (GridPane) ((ScrollPane) tab.getContent()).getContent();
-        for (Node child : contentOfTab.getChildren()) {
-            if (child.getId() == null) {
-                continue;
-            }
-            Node foundNode;
-            if (child instanceof Pane) {
-                foundNode = searchPane((Pane) child, childID);
-            } else {
-                foundNode = searchForChild(child, childID);
-            }
-            if (foundNode != null) {
-                return type.cast(foundNode);
-            }
+        Node foundNode = searchPane(contentOfTab, childID);
+        if (foundNode != null) {
+            return type.cast(foundNode);
+        } else {
+            return null;
         }
-        return null;
     }
 
     private Node searchPane(Pane paneChild, String idSearch) {
         for (Node child : paneChild.getChildren()) {
             if (child instanceof Pane) {
-                searchPane((Pane) child, idSearch); // recursive system
+                Node foundNode = searchPane((Pane) child, idSearch); // recursive system
+                if (foundNode != null) { // searchpane has found the correct child
+                    return foundNode;
+                }
             } else {
-                return searchForChild(child, idSearch); // checks if the child is the one we're looking for
+                if (child.getId() == null) { // children without ID's is not searchable
+                    continue;
+                }
+                Node foundNode = searchForChild(child, idSearch); // checks if the child is the one we're looking for
+                if (foundNode != null) {
+                    return foundNode;
+                }
             }
         }
         return null;

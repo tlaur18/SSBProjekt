@@ -46,8 +46,8 @@
                   <Insets left="30.0" />
                </GridPane.margin>
             </Label>
-            <TextField fx:id="sogTxTF" GridPane.columnIndex="2" />
-            <Button fx:id="sogBttn" alignment="CENTER" mnemonicParsing="false" onAction="#sogBtnHandler" text="Søg" GridPane.columnIndex="3">
+            <TextField fx:id="searchTxtF" GridPane.columnIndex="2" />
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#searchBtnHandler" text="Søg" GridPane.columnIndex="3">
                <GridPane.margin>
                   <Insets left="20.0" />
                </GridPane.margin>
@@ -63,19 +63,19 @@
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
-            <TextField fx:id="fornavnTxtF" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="firstNameTxtF" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label text="Efternavn *" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>
             </Label>
-            <TextField fx:id="efternavnTxtF1" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="lastNameTxtF" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <Label text="Telefonnummer *" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="20.0" />
                </GridPane.margin>
             </Label>
-            <TextField fx:id="telefonTxtF" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <TextField fx:id="phoneTxtF" GridPane.columnIndex="3" GridPane.rowIndex="2" />
             <Label text="Mail *" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="20.0" />
@@ -95,19 +95,19 @@
                   <Insets left="20.0" />
                </GridPane.margin>
             </Label>
-            <TextField fx:id="vejnavnTxtf" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+            <TextField fx:id="streetTxtF" GridPane.columnIndex="3" GridPane.rowIndex="5" />
             <Label text="Postnr:" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="6" GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets left="20.0" />
                </GridPane.margin>
             </Label>
-            <TextField fx:id="postnrTxtf" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+            <TextField fx:id="zipTxtF" GridPane.columnIndex="3" GridPane.rowIndex="6" />
             <Label text="By:" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="7" GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets left="20.0" />
                </GridPane.margin>
             </Label>
-            <TextField fx:id="byTxtf" GridPane.columnIndex="3" GridPane.rowIndex="7" />
+            <TextField fx:id="cityTxtF" GridPane.columnIndex="3" GridPane.rowIndex="7" />
             <Button fx:id="saveButton" alignment="CENTER" mnemonicParsing="false" onAction="#saveBtnHandler" text="Gem" GridPane.halignment="CENTER" GridPane.rowIndex="8" GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

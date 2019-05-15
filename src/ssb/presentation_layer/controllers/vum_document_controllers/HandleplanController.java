@@ -1,7 +1,6 @@
 package ssb.presentation_layer.controllers.vum_document_controllers;
 
 import java.net.URL;
-import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,8 +8,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputControl;
 import javafx.stage.Stage;
+import ssb.domain_layer.InformationBridge;
 import ssb.domain_layer.document.Document;
 
 public class HandleplanController extends VumDocumentController implements Initializable {
@@ -37,6 +36,7 @@ public class HandleplanController extends VumDocumentController implements Initi
         } else {
             saveNewDocument(Document.type.HANDLEPLAN);
         }
+        InformationBridge.getInstance().putChosenResident(null);
         Stage stage = (Stage) saveButton.getScene().getWindow();
         stage.close();
     }

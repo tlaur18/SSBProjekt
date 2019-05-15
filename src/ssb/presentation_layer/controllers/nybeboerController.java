@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import ssb.domain_layer.CPRRegisterManager;
 import ssb.domain_layer.person.EmployeeManager;
 import ssb.domain_layer.Home;
 import ssb.domain_layer.person.Resident;
@@ -42,6 +44,8 @@ public class nybeboerController implements Initializable {
     private TextField efternavnTxtF1;
     @FXML
     private Label requiredFieldsLbl;
+    
+    private CPRRegisterManager cprRegisterManager = CPRRegisterManager.getInstance();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -95,7 +99,11 @@ public class nybeboerController implements Initializable {
 
     @FXML
     private void sogBtnHandler(ActionEvent event) {
-        sogTxTF.setText("mangler stadig....");
+        String cprToSearch = sogTxTF.getText();
+        
+        HashMap<String, String> personData = cprRegisterManager.searchCPRRegister(cprToSearch);
+        
+        System.out.println(personData);
     }
 
 }

@@ -1,4 +1,4 @@
-package ssb.presentation_layer.controllers.vum_document_controllers;
+package ssb.presentation_layer.controllers.vum_document_controllers.handleplan;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -9,9 +9,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import ssb.domain_layer.InformationBridge;
 import ssb.domain_layer.document.Document;
+import ssb.presentation_layer.controllers.vum_document_controllers.VumDocumentController;
 
 public class HandleplanController extends VumDocumentController implements Initializable {
 
@@ -22,7 +24,7 @@ public class HandleplanController extends VumDocumentController implements Initi
     private TextField addresseTxtF;
     private TextField telefonTxtF;
     private TextField mailTxtF;
-    private Label addressValidatorLabel;
+    private HandleplanValidation validation;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -34,6 +36,7 @@ public class HandleplanController extends VumDocumentController implements Initi
         telefonTxtF = findChildInTab("telefonTxtF", tabPane.getTabs().get(0), TextField.class);
         mailTxtF = findChildInTab("mailTxtF", tabPane.getTabs().get(0), TextField.class);
         fillOutKnownFields();
+        validation = new HandleplanValidation(tabPane);
         setValidationListeners();
     }
 
@@ -50,7 +53,7 @@ public class HandleplanController extends VumDocumentController implements Initi
             Stage stage = (Stage) saveButton.getScene().getWindow();
             stage.close();
         } else {
-            // TODO - alert dialog med udfyld alle røde felter
+            validation.setErrors();
         }
     }
 
@@ -78,50 +81,14 @@ public class HandleplanController extends VumDocumentController implements Initi
     }
 
     private boolean validateFields() {
-        return false;
+        return (validation.addressIsValid(addresseTxtF.getText()) &&
+            validation.phoneNumberIsValid(telefonTxtF.getText()) && 
+            validation.mailIsValid(mailTxtF.getText()));
     }
 
     private void setValidationListeners() {
-        addressValidatorLabel = findChildInTab("addressValidatorLabel", tabPane.getTabs().get(0), Label.class);
-        System.out.println(addressValidatorLabel);
-        addresseTxtF.focusedProperty().addListener((arg0, oldValue, newValue) -> {
-            if (!newValue) { //when focus lost
-                if (!addressIsValid()) {
-                    System.out.println("Focus lost?");
-                    addressValidatorLabel.setVisible(true);
-                } else {
-                    addressValidatorLabel.setVisible(false);
-                }
-            }
-
-        });
-    }
-
-    private boolean addressIsValid() {
-        String addressTxt = addresseTxtF.getText();
-        if (addressTxt != null) {
-            String[] addressElements = addressTxt.split(" ");
-            if (addressElements.length >= 4) { // Skal følge formen [roadname] [houseNumber] [zip code] [city]
-                for (Character charas : addressElements[0].toCharArray()) { // roadname check
-                    if (Character.isDigit(charas)) {
-                        return false;
-                    }
-                }
-                try {
-                    Double.parseDouble(addressElements[1]); // houseNumber check
-                    Integer.parseInt(addressElements[2]); // zip code check
-                } catch (NumberFormatException e) {
-                    return false;
-                }
-                for (Character charas : addressElements[3].toCharArray()) { // city check
-                    if (Character.isDigit(charas)) {
-                        return false;
-                    }
-                }
-            } else {
-                return false;
-            }
-        }
-        return true;
+        validation.setAddressValidation("addressValidatorLabel", "addressValidateErrorImage", addresseTxtF);
+        validation.setPhoneNumberValidation("phoneNumberValidatorLabel", "phoneNumberValidatorErrorImage", telefonTxtF);
+        validation.setMailValidation("mailValidatorLabel", "mailValidatorErrorImage", mailTxtF);
     }
 }

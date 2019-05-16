@@ -113,7 +113,7 @@ public abstract class VumDocumentController {
      * @param type
      * @return
      */
-    protected <T extends Node> T findChildInTab(String childID, Tab tab, Class<T> type) {
+    public static <T extends Node> T findChildInTab(String childID, Tab tab, Class<T> type) {
         GridPane contentOfTab = (GridPane) ((ScrollPane) tab.getContent()).getContent();
         Node foundNode = searchPane(contentOfTab, childID);
         if (foundNode != null) {
@@ -123,7 +123,7 @@ public abstract class VumDocumentController {
         }
     }
 
-    private Node searchPane(Pane paneChild, String idSearch) {
+    private static Node searchPane(Pane paneChild, String idSearch) {
         for (Node child : paneChild.getChildren()) {
             if (child instanceof Pane) {
                 Node foundNode = searchPane((Pane) child, idSearch); // recursive system
@@ -143,7 +143,7 @@ public abstract class VumDocumentController {
         return null;
     }
 
-    private Node searchForChild(Node child, String idSearch) {
+    private static Node searchForChild(Node child, String idSearch) {
         if (child.getId().equalsIgnoreCase(idSearch)) {
             return child;
         } else {

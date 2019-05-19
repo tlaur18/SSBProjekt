@@ -17,7 +17,8 @@ import ssb.data_layer.contracts.PersonsContract;
 import ssb.domain_layer.Home;
 import ssb.domain_layer.InformationBridge;
 import ssb.domain_layer.callbacks.LoginCallBack;
-import ssb.domain_layer.logger.LoggerManager;
+import ssb.domain_layer.logger.AdminLoggerManager;
+import ssb.domain_layer.logger.EmployeeLoggerManager;
 
 public class EmployeeManager {
 
@@ -29,7 +30,8 @@ public class EmployeeManager {
     private LoginCallBack loginCallBack;
     private Thread employeeDetailsThread;
     private Thread employeeHomesThread;
-    private static final Logger LOGGER = Logger.getLogger(LoggerManager.class.getName());
+    private static final Logger EMPLOYEE_LOGGER = Logger.getLogger(EmployeeLoggerManager.class.getName());
+    private static final Logger ADMIN_LOGGER = Logger.getLogger(AdminLoggerManager.class.getName());
 
     private EmployeeManager() {
     }
@@ -52,7 +54,7 @@ public class EmployeeManager {
                 protected void succeeded() {
                     HashMap<String, String> employeeDetails = (HashMap<String, String>) getValue();
                     informationBridge.setLoggedInEmployee(setEmployeeDetails(employeeDetails));
-                    LOGGER.log(Level.INFO, "{0} Has logged in!", informationBridge.getLoggedInEmployee().getFirstName());
+                    EMPLOYEE_LOGGER.log(Level.INFO, "{0} Has logged in!", informationBridge.getLoggedInEmployee().getFirstName());
                     if (informationBridge.getLoggedInEmployee() instanceof Administrator) {
                         loginCallBack.adminLogin();
                     }
@@ -168,6 +170,7 @@ public class EmployeeManager {
 
     public void addResidentToHome(int homeId, Resident resident) {
         database.insertResident(resident.getCprNr(), resident.getFirstName(), resident.getLastName(), resident.getPhoneNr(), homeId);
+        EMPLOYEE_LOGGER.log(Level.INFO, "{0} has added resident: {1} {2} to home {3}", new Object[]{informationBridge.getLoggedInEmployee().getFirstName(), resident.getFirstName(), resident.getLastName(), homeId});
     }
     public void addEmployeeToHome(int homeId, Employee employee) {
         
@@ -195,7 +198,7 @@ public class EmployeeManager {
     public void addEmployeeToDB(Employee employee, String username, String password, int homeID) {
         database.insertEmployee(employee.getCprNr(), employee.getFirstName(), employee.getLastName(), employee.getPhoneNr(), employee.getEmployeeRole(), homeID);
         database.insertEmployeeLogin(employee.getCprNr(), username, password);
-        LOGGER.log(Level.INFO, "{0}Has added: {1} To the Database", new Object[]{informationBridge.getLoggedInEmployee().getFirstName(), employee.getFirstName()});
+        EMPLOYEE_LOGGER.log(Level.INFO, "{0}Has added: {1} To the Database", new Object[]{informationBridge.getLoggedInEmployee().getFirstName(), employee.getFirstName()});
     }
 
     public void loadAllEmployess() {
@@ -219,6 +222,7 @@ public class EmployeeManager {
     public void updateEmployeeDetails(Person person, String userName, String passWord, int homeID) {
         database.updateEmployeeData(person.getCprNr(), person.getFirstName(), person.getLastName(), person.getPhoneNr(), homeID);
         database.updateEmployeeLogin(userName, passWord, person.getCprNr());
+        ADMIN_LOGGER.log(Level.SEVERE, "{0} has updated the details of: {1} {2} ", new Object[]{informationBridge.getLoggedInEmployee().getFirstName(), person.getFirstName(), person.getLastName()});
     }
 
     public void deleteEmployee(Person person) {
@@ -227,6 +231,7 @@ public class EmployeeManager {
     
     public void deleteEmployeeFromDb(Person person) {
         database.deleteEmployee(person.getCprNr());
+        ADMIN_LOGGER.log(Level.SEVERE, "{0} has deleted the employee: {1} {2} From the database!", new Object[]{informationBridge.getLoggedInEmployee().getFirstName(), person.getFirstName(), person.getLastName()});
     }
 
     public Pair<String, String> getEmployeeLogin(Person person) {

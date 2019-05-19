@@ -6,15 +6,19 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import ssb.domain_layer.logger.LoggerManager;
+import ssb.domain_layer.logger.AdminLoggerManager;
+import ssb.domain_layer.logger.EmployeeLoggerManager;
 
 public class SSB extends Application {
-    private final static Logger logr = Logger.getLogger( LoggerManager.class.getName() );   
+    private final static Logger employeeLogr = Logger.getLogger(EmployeeLoggerManager.class.getName() );   
+    private final static Logger adminLogr = Logger.getLogger(AdminLoggerManager.class.getName());
     @Override
     public void start(Stage stage) throws Exception {
-        LoggerManager.setupLogger();
+        EmployeeLoggerManager.setupLogger();
+        AdminLoggerManager.setupLogger();
         
-        logr.warning("Logger Startet");
+        employeeLogr.warning("Employee logger Startet");
+        adminLogr.warning("Admin logger startet");
         stage.setTitle("Log ind");
         Parent root = FXMLLoader.load(getClass().getResource("fxml_documents/login_layout.fxml"));
         

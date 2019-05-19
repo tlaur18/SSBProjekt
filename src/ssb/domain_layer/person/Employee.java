@@ -1,7 +1,7 @@
 package ssb.domain_layer.person;
 
 import java.util.logging.Logger;
-import ssb.domain_layer.logger.LoggerManager;
+import ssb.domain_layer.logger.EmployeeLoggerManager;
 
 public abstract class Employee extends Person {
 

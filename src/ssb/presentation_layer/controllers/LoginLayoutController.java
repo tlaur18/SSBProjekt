@@ -22,7 +22,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import ssb.domain_layer.person.EmployeeManager;
 import ssb.domain_layer.callbacks.LoginCallBack;
-import ssb.domain_layer.logger.LoggerManager;
+import ssb.domain_layer.logger.EmployeeLoggerManager;
 
 public class LoginLayoutController implements Initializable {
 

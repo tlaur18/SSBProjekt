@@ -67,7 +67,7 @@ public class nybeboerController implements Initializable {
             Stage stage = (Stage) saveButton.getScene().getWindow();
             stage.close();
             try {
-                URL controllerUrl = new File("src/ssb/presentation_layer/fxml_documents/sagerTab.fxml").toURL();
+                URL controllerUrl = new File("src/ssb/presentation_layer/fxml_documents/tabs/sagerTab.fxml").toURL();
                 FXMLLoader loader = new FXMLLoader(controllerUrl);
                 loader.load();
                 SagerTabController sagerTabController = loader.getController();

@@ -14,8 +14,8 @@ public class SSB extends Application {
     private final static Logger adminLogr = Logger.getLogger(AdminLoggerManager.class.getName());
     @Override
     public void start(Stage stage) throws Exception {
-        EmployeeLoggerManager.setupLogger();
-        AdminLoggerManager.setupLogger();
+        
+        
         
         employeeLogr.warning("Employee logger Startet");
         adminLogr.warning("Admin logger startet");

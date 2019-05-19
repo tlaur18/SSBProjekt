@@ -56,8 +56,9 @@ public class EmployeeManager {
                     informationBridge.setLoggedInEmployee(setEmployeeDetails(employeeDetails));
                     EMPLOYEE_LOGGER.log(Level.INFO, "{0} Has logged in!", informationBridge.getLoggedInEmployee().getFirstName());
                     if (informationBridge.getLoggedInEmployee() instanceof Administrator) {
+                        AdminLoggerManager.setupLogger();
                         loginCallBack.adminLogin();
-                    }
+                    }else EmployeeLoggerManager.setupLogger();
                 }
             });
             employeeDetailsThread.start();

@@ -1,0 +1,14 @@
+maj 19, 2019 10:58:30 PM ssb.presentation_layer.SSB start
+WARNING: Admin logger startet
+maj 19, 2019 11:06:45 PM ssb.presentation_layer.SSB start
+WARNING: Admin logger startet
+maj 19, 2019 11:10:11 PM ssb.presentation_layer.SSB start
+WARNING: Admin logger startet
+maj 19, 2019 11:15:27 PM ssb.presentation_layer.SSB start
+WARNING: Admin logger startet
+maj 19, 2019 11:20:43 PM ssb.domain_layer.person.EmployeeManager deleteEmployeeFromDb
+SEVERE: morten has deleted the employee: adminLog adminLog From the database!
+maj 19, 2019 11:22:18 PM ssb.domain_layer.person.EmployeeManager updateEmployeeDetails
+SEVERE: morten has updated the details of: test test 
+maj 19, 2019 11:22:23 PM ssb.domain_layer.person.EmployeeManager deleteEmployeeFromDb
+SEVERE: morten has deleted the employee: test test From the database!

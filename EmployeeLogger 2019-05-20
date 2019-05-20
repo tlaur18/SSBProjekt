@@ -1,0 +1,14 @@
+maj 20, 2019 9:45:38 AM ssb.domain_layer.person.EmployeeManager$1 succeeded
+WARNING: Employee logger Startet
+maj 20, 2019 9:46:17 AM ssb.domain_layer.document.DocumentManager addDocument
+INFO: thomas has added a new document for resident: Olenoget Mester
+maj 20, 2019 9:46:25 AM ssb.domain_layer.document.DocumentManager updateDocument
+INFO: thomas has updated OleHAN Test for the resident Olenoget
+maj 20, 2019 9:46:40 AM ssb.domain_layer.person.EmployeeManager$1 succeeded
+INFO: morten Has logged in!
+maj 20, 2019 9:49:41 AM ssb.domain_layer.person.EmployeeManager$1 succeeded
+WARNING: Employee logger Startet
+maj 20, 2019 9:49:50 AM ssb.domain_layer.person.EmployeeManager$1 succeeded
+INFO: morten Has logged in!
+maj 20, 2019 10:18:09 AM ssb.domain_layer.person.EmployeeManager$1 succeeded
+WARNING: Employee logger Startet

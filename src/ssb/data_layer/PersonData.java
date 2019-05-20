@@ -68,7 +68,6 @@ public class PersonData {
             updateStatement.setString(2, lastName);
             updateStatement.setString(3, phoneNumber);
             updateStatement.setString(4, employeeCpr);
-            System.out.println(updateStatement);
             updateStatement.execute();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());

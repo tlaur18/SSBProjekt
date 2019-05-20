@@ -61,7 +61,6 @@ public class AdminNewUserController implements Initializable {
     private final ObservableList<Home> employeeHomes = FXCollections.observableArrayList();
     private final ArrayList<Home> deletedHomes = new ArrayList<>();
 
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setHomeDialog();
@@ -83,7 +82,6 @@ public class AdminNewUserController implements Initializable {
         // Controls if there is a chosen employee
         if (informationBridge.getChosenEmployee() == null) {
             //Controls if the required fields are filled
-            System.out.println(homeDialog.getSelectionModel().getSelectedItem());
             if (requiredFields()) {
                 Optional<String> result = createDialog();
                 if (result.isPresent()) {
@@ -108,8 +106,12 @@ public class AdminNewUserController implements Initializable {
         } else {
             // Updates the new details of the Employee to the database
             new Thread(() -> {
-                 employeeManager.updateEmployeeDetails(informationBridge.getChosenEmployee(), brugernavnTxtf.getText(), kodeordTxtf.getText(), employeeHomes);
-                 employeeManager.deletePersonHomeLink(informationBridge.getChosenEmployee(), deletedHomes);
+                Person updatedPerson = informationBridge.getChosenEmployee();
+                updatedPerson.setFirstName(fornavnTxtf.getText());
+                updatedPerson.setLastName(efternavnTxtf.getText());
+                updatedPerson.setPhoneNr(tlkTxtf.getText());
+                employeeManager.updateEmployeeDetails(updatedPerson, brugernavnTxtf.getText(), kodeordTxtf.getText(), employeeHomes);
+                employeeManager.deletePersonHomeLink(updatedPerson, deletedHomes);
             }).start();
             //Closes the stage
             Stage stage = (Stage) saveBttn.getScene().getWindow();
@@ -227,8 +229,8 @@ public class AdminNewUserController implements Initializable {
 
     @FXML
     private void addHomeBttn(ActionEvent event) {
-        if(!employeeHomes.contains(homeDialog.getSelectionModel().getSelectedItem())){
-        employeeHomes.add(homeDialog.getSelectionModel().getSelectedItem());
+        if (!employeeHomes.contains(homeDialog.getSelectionModel().getSelectedItem())) {
+            employeeHomes.add(homeDialog.getSelectionModel().getSelectedItem());
         }
     }
 

@@ -37,9 +37,11 @@ public class HandleplanValidation {
     }
 
     public boolean addressIsValid(String addresseTxt) {
-        if (addresseTxt != null) {
+        if (addresseTxt == null) {
+            return false;
+        } else {
             String[] addressElements = addresseTxt.split(" ");
-            if (addressElements.length >= 4) { // Skal følge formen [roadname] [houseNumber] [zip code] [city]
+            if (addressElements.length >= 4) { // Needs to follow this form: [roadname] [houseNumber] [zip code] [city]
                 for (Character charas : addressElements[0].toCharArray()) { // roadname check
                     if (Character.isDigit(charas)) {
                         return false;
@@ -78,6 +80,9 @@ public class HandleplanValidation {
     }
 
     public boolean phoneNumberIsValid(String telefonTxt) {
+        if (telefonTxt == null) {
+            return false;
+        }
         if (telefonTxt.length() != 8) {
             return false;
         } else {
@@ -105,6 +110,9 @@ public class HandleplanValidation {
     }
 
     public boolean mailIsValid(String mailTxt) {
+        if (mailTxt == null) {
+            return false;
+        }
         return mailTxt.contains("@");
     }
 
@@ -133,14 +141,14 @@ public class HandleplanValidation {
             }
         }
     }
-    
+
     public void clearAllErrors() {
         addressValidatorLabel.setVisible(false);
         addressValidateErrorImage.setVisible(false);
-        
+
         phoneNumberValidatorLabel.setVisible(false);
         phoneNumberValidatorErrorImage.setVisible(false);
-        
+
         mailValidatorLabel.setVisible(false);
         mailValidatorErrorImage.setVisible(false);
     }

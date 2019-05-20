@@ -52,7 +52,7 @@ public class nybeboerController implements Initializable {
     @FXML
     private Label invalidSearchLabel;
 
-    private CPRRegisterManager cprRegisterManager = CPRRegisterManager.getInstance();
+    private final CPRRegisterManager cprRegisterManager = CPRRegisterManager.getInstance();
     private boolean searchCPRisValid;
 
     @Override
@@ -97,7 +97,7 @@ public class nybeboerController implements Initializable {
         Home currentHome = InformationBridge.getInstance().getCurrentHome();
         EmployeeManager employeeManager = EmployeeManager.getInstance();
         employeeManager.addResidentToHome(currentHome.getId(), newRes);
-        InformationBridge.getInstance().getCurrentHome().addResident(newRes);
+        currentHome.addResident(newRes);
 
         Stage stage = (Stage) saveButton.getScene().getWindow();
         stage.close();

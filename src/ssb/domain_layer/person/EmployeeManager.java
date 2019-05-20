@@ -203,14 +203,10 @@ public class EmployeeManager {
 
     public void addEmployeeToDB(Employee employee, String username, String password, List<Home> homes) {
         database.insertEmployee(employee.getCprNr(), employee.getFirstName(), employee.getLastName(), employee.getPhoneNr(), employee.getEmployeeRole());
-        System.out.println("done 1");
         for (Home home : homes) {
-            System.out.println(home.getHomeName() + " " + home.getId());
             database.insertPersonHomeLink(employee.getCprNr(), home.getId());
-            System.out.println("done 2");
         }
         database.insertEmployeeLogin(employee.getCprNr(), username, password);
-        System.out.println("done 3");
     }
 
     public void loadAllEmployess() {

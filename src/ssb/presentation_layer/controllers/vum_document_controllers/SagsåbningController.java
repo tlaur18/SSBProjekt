@@ -21,7 +21,6 @@ public class SagsåbningController extends VumDocumentController implements Init
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         loadTabPaneChildren(tabPane);
-
         if (chosenDocument != null) {
             loadDocumentContent(chosenDocument);
         }

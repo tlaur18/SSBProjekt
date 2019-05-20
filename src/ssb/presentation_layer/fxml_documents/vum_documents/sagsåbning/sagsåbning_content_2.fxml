@@ -58,20 +58,20 @@
       </GridPane>
       <VBox prefHeight="200.0" prefWidth="100.0" spacing="4.0" GridPane.columnIndex="1">
          <children>
-            <CheckBox mnemonicParsing="false" text="Borger" />
-            <CheckBox mnemonicParsing="false" text="Pårørende [angiv kontaktoplysninger]" />
-            <CheckBox mnemonicParsing="false" text="Læge [angiv kontaktoplysninger] " />
-            <CheckBox mnemonicParsing="false" text="Hospital [angiv kontaktoplysninger]">
+            <CheckBox fx:id="checkBox0" mnemonicParsing="false" text="Borger" />
+            <CheckBox fx:id="checkBox1" mnemonicParsing="false" text="Pårørende [angiv kontaktoplysninger]" />
+            <CheckBox fx:id="checkBox2" mnemonicParsing="false" text="Læge [angiv kontaktoplysninger] " />
+            <CheckBox fx:id="checkBox3" mnemonicParsing="false" text="Hospital [angiv kontaktoplysninger]">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
             </CheckBox>
-            <CheckBox mnemonicParsing="false" text="Anden forvaltning [angiv kontaktoplysninger]" />
-            <CheckBox mnemonicParsing="false" text="Igangværende indsats [angiv kontaktoplysninger]" />
-            <CheckBox mnemonicParsing="false" text="Anden kommune" />
-            <CheckBox mnemonicParsing="false" text="Andre [angiv kontaktoplysninger]" />
+            <CheckBox fx:id="checkBox4" mnemonicParsing="false" text="Anden forvaltning [angiv kontaktoplysninger]" />
+            <CheckBox fx:id="checkBox5" mnemonicParsing="false" text="Igangværende indsats [angiv kontaktoplysninger]" />
+            <CheckBox fx:id="checkBox6" mnemonicParsing="false" text="Anden kommune" />
+            <CheckBox fx:id="checkBox7" mnemonicParsing="false" text="Andre [angiv kontaktoplysninger]" />
             <Label text="Eventuelle kontaktoplysninger:" />
-            <TextArea minHeight="-Infinity" prefHeight="100.0" prefWidth="200.0" wrapText="true">
+            <TextArea fx:id="textArea0" minHeight="-Infinity" prefHeight="100.0" prefWidth="200.0" wrapText="true">
                <VBox.margin>
                   <Insets left="50.0" right="50.0" />
                </VBox.margin>
@@ -81,8 +81,8 @@
                   <Insets />
                </VBox.margin>
                <children>
-                  <CheckBox mnemonicParsing="false" text="Ja" />
-                  <CheckBox mnemonicParsing="false" text="Nej" />
+                  <CheckBox fx:id="checkBox8" mnemonicParsing="false" text="Ja" />
+                  <CheckBox fx:id="checkBox9" mnemonicParsing="false" text="Nej" />
                </children>
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -103,24 +103,24 @@
       <VBox prefHeight="200.0" prefWidth="100.0" spacing="4.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
             <Label text="Værgemål" />
-            <CheckBox mnemonicParsing="false" text="Værgemål (§ 5) " />
-            <CheckBox mnemonicParsing="false" text="Værgemål med frataget retslig handleevne (§ 6)" />
-            <CheckBox mnemonicParsing="false" text="Samværgemål (§7)" />
-            <CheckBox mnemonicParsing="false" text="Værge [angiv kontaktoplysninger]">
+            <CheckBox fx:id="checkBox10" mnemonicParsing="false" text="Værgemål (§ 5) " />
+            <CheckBox fx:id="checkBox11" mnemonicParsing="false" text="Værgemål med frataget retslig handleevne (§ 6)" />
+            <CheckBox fx:id="checkBox12" mnemonicParsing="false" text="Samværgemål (§7)" />
+            <CheckBox fx:id="checkBox13" mnemonicParsing="false" text="Værge [angiv kontaktoplysninger]">
                <VBox.margin>
                   <Insets left="10.0" />
                </VBox.margin>
             </CheckBox>
-            <TextField>
+            <TextField fx:id="textField02">
                <VBox.margin>
                   <Insets left="50.0" right="30.0" />
                </VBox.margin>
             </TextField>
             <Label text="Repræsentation" />
-            <CheckBox mnemonicParsing="false" text="Bisidder" />
-            <CheckBox mnemonicParsing="false" text="Partsrepræsentan" />
-            <CheckBox mnemonicParsing="false" text="Fuldmagt. Hvis ja, angiv hvad der er givet fuldmagt til:" />
-            <TextField>
+            <CheckBox fx:id="checkBox14" mnemonicParsing="false" text="Bisidder" />
+            <CheckBox fx:id="checkBox15" mnemonicParsing="false" text="Partsrepræsentan" />
+            <CheckBox fx:id="checkBox16" mnemonicParsing="false" text="Fuldmagt. Hvis ja, angiv hvad der er givet fuldmagt til:" />
+            <TextField fx:id="textField01" >
                <VBox.margin>
                   <Insets left="50.0" right="30.0" />
                </VBox.margin>
@@ -147,7 +147,7 @@
       </VBox>
       <VBox prefHeight="200.0" prefWidth="100.0" spacing="4.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <children>
-            <CheckBox mnemonicParsing="false" text="Er borgeren informeret om ret til bisidder og partsrepræsentant?" />
+            <CheckBox fx:id="checkBox17" mnemonicParsing="false" text="Er borgeren informeret om ret til bisidder og partsrepræsentant?" />
          </children>
          <GridPane.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -160,8 +160,8 @@
       </VBox>
       <VBox prefHeight="200.0" prefWidth="100.0" spacing="4.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
          <children>
-            <CheckBox mnemonicParsing="false" text="Ja" />
-            <CheckBox mnemonicParsing="false" text="Nej" />
+            <CheckBox fx:id="checkBox18" mnemonicParsing="false" text="Ja" />
+            <CheckBox fx:id="checkBox19" mnemonicParsing="false" text="Nej" />
          </children>
          <GridPane.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -177,7 +177,7 @@
             <Label text="Hvilke aftaler er indgået med borgeren om det videre forløb" wrapText="true" />
          </children>
       </VBox>
-      <TextArea prefHeight="200.0" prefWidth="200.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="4">
+      <TextArea fx:id="textarea02" prefHeight="200.0" prefWidth="200.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="4">
          <GridPane.margin>
             <Insets bottom="20.0" left="50.0" right="50.0" top="20.0" />
          </GridPane.margin></TextArea>
@@ -205,14 +205,14 @@
       </GridPane>
       <VBox prefHeight="200.0" prefWidth="100.0" spacing="4.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
          <children>
-            <CheckBox mnemonicParsing="false" text="Ja" />
-            <CheckBox mnemonicParsing="false" text="Nej" />
-            <CheckBox mnemonicParsing="false" text="Mundtlig samtykke">
+            <CheckBox fx:id="checkBox20" mnemonicParsing="false" text="Ja" />
+            <CheckBox fx:id="checkBox21" mnemonicParsing="false" text="Nej" />
+            <CheckBox fx:id="checkBox22" mnemonicParsing="false" text="Mundtlig samtykke">
                <VBox.margin>
                   <Insets top="15.0" />
                </VBox.margin>
             </CheckBox>
-            <CheckBox mnemonicParsing="false" text="Skriftlig samtykke" />
+            <CheckBox fx:id="checkBox23" mnemonicParsing="false" text="Skriftlig samtykke" />
          </children>
          <GridPane.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -230,24 +230,24 @@
       </VBox>
       <VBox prefHeight="200.0" prefWidth="100.0" spacing="4.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
          <children>
-            <CheckBox mnemonicParsing="false" text="Egen læge [angiv læge]" />
-            <CheckBox mnemonicParsing="false" text="Speciallæge [angiv læge]" />
-            <CheckBox mnemonicParsing="false" text="Hospital [angiv hospital]" />
-            <CheckBox mnemonicParsing="false" text="A-kasse [angiv a-kasse]">
+            <CheckBox fx:id="checkBox24" mnemonicParsing="false" text="Egen læge [angiv læge]" />
+            <CheckBox fx:id="checkBox25" mnemonicParsing="false" text="Speciallæge [angiv læge]" />
+            <CheckBox fx:id="checkBox26" mnemonicParsing="false" text="Hospital [angiv hospital]" />
+            <CheckBox fx:id="checkBox27" mnemonicParsing="false" text="A-kasse [angiv a-kasse]">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
             </CheckBox>
-            <CheckBox mnemonicParsing="false" text="Tilbud [angiv konkret tilbudssted]" />
-            <CheckBox mnemonicParsing="false" text="Arbejdsgiver [angiv arbejdsgiver]" />
-            <CheckBox mnemonicParsing="false" text="Tidligere opholdskommune[angiv bopælskommune]" />
-            <CheckBox mnemonicParsing="false" text="Andre forvaltninger [angiv hvilke]" />
+            <CheckBox fx:id="checkBox28" mnemonicParsing="false" text="Tilbud [angiv konkret tilbudssted]" />
+            <CheckBox fx:id="checkBox29" mnemonicParsing="false" text="Arbejdsgiver [angiv arbejdsgiver]" />
+            <CheckBox fx:id="checkBox30" mnemonicParsing="false" text="Tidligere opholdskommune[angiv bopælskommune]" />
+            <CheckBox fx:id="checkBox31" mnemonicParsing="false" text="Andre forvaltninger [angiv hvilke]" />
             <Label text="Angiv:">
                <VBox.margin>
                   <Insets top="20.0" />
                </VBox.margin>
             </Label>
-            <TextArea prefHeight="100.0" prefWidth="200.0">
+            <TextArea fx:id="textArea02" prefHeight="100.0" prefWidth="200.0">
                <VBox.margin>
                   <Insets left="50.0" right="50.0" />
                </VBox.margin>
@@ -267,7 +267,7 @@
             <Label text="Eventuelle særlige forhold der skal adresseres for at borgeren kan inddrages i sagsbehandlingen?" wrapText="true" />
          </children>
       </VBox>
-      <TextArea prefHeight="200.0" prefWidth="200.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="7">
+      <TextArea fx:id="textArea04" prefHeight="200.0" prefWidth="200.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="7">
          <GridPane.margin>
             <Insets bottom="20.0" left="55.0" right="55.0" top="20.0" />
          </GridPane.margin></TextArea>
@@ -283,14 +283,14 @@
       </VBox>
       <VBox prefHeight="200.0" prefWidth="100.0" spacing="4.0" GridPane.columnIndex="1" GridPane.rowIndex="8">
          <children>
-            <CheckBox mnemonicParsing="false" text="Anden handlekommune [angiv hvilke]" />
-            <CheckBox mnemonicParsing="false" text="Anden betalingskommune [angiv hvilke]" />
+            <CheckBox fx:id="checkBox40" mnemonicParsing="false" text="Anden handlekommune [angiv hvilke]" />
+            <CheckBox fx:id="checkBox41" mnemonicParsing="false" text="Anden betalingskommune [angiv hvilke]" />
             <Label text="Angiv:">
                <VBox.margin>
                   <Insets top="20.0" />
                </VBox.margin>
             </Label>
-            <TextArea minHeight="-Infinity" prefHeight="100.0" prefWidth="200.0">
+            <TextArea fx:id="textArea05" minHeight="-Infinity" prefHeight="100.0" prefWidth="200.0">
                <VBox.margin>
                   <Insets left="50.0" right="50.0" />
                </VBox.margin>

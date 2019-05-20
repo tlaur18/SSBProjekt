@@ -43,7 +43,7 @@
       <Label text="Er det klart hvad borgeren søger om? " GridPane.rowIndex="1" />
       <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
-            <CheckBox fx:id="ChecBox"fx:id="ChecBox01"mnemonicParsing="false" text="Ja">
+            <CheckBox fx:id="ChecBox01" mnemonicParsing="false" text="Ja">
                <VBox.margin>
                   <Insets left="2.0" top="1.0" />
                </VBox.margin></CheckBox>

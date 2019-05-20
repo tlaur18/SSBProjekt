@@ -10,7 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import ssb.data_layer.DatabaseManager;
 import ssb.domain_layer.InformationBridge;
-import ssb.domain_layer.logger.EmployeeLoggerManager;
+import ssb.data_layer.logger.EmployeeLoggerManager;
 import ssb.domain_layer.person.Resident;
 
 public final class DocumentManager {

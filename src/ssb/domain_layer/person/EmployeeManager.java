@@ -17,8 +17,8 @@ import ssb.data_layer.contracts.PersonsContract;
 import ssb.domain_layer.Home;
 import ssb.domain_layer.InformationBridge;
 import ssb.domain_layer.callbacks.LoginCallBack;
-import ssb.domain_layer.logger.AdminLoggerManager;
-import ssb.domain_layer.logger.EmployeeLoggerManager;
+import ssb.data_layer.logger.AdminLoggerManager;
+import ssb.data_layer.logger.EmployeeLoggerManager;
 
 public class EmployeeManager {
 
@@ -50,6 +50,8 @@ public class EmployeeManager {
                     return database.getEmployeeDetails(employeeCPRString);
                 }
 
+                
+        
                 @Override
                 protected void succeeded() {
                     HashMap<String, String> employeeDetails = (HashMap<String, String>) getValue();
@@ -57,8 +59,12 @@ public class EmployeeManager {
                     EMPLOYEE_LOGGER.log(Level.INFO, "{0} Has logged in!", informationBridge.getLoggedInEmployee().getFirstName());
                     if (informationBridge.getLoggedInEmployee() instanceof Administrator) {
                         AdminLoggerManager.setupLogger();
+                        ADMIN_LOGGER.warning("Admin logger startet");
                         loginCallBack.adminLogin();
-                    }else EmployeeLoggerManager.setupLogger();
+                    }else {
+                        EmployeeLoggerManager.setupLogger();
+                        EMPLOYEE_LOGGER.warning("Employee logger Startet");
+                    } 
                 }
             });
             employeeDetailsThread.start();

@@ -6,8 +6,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import ssb.domain_layer.logger.AdminLoggerManager;
-import ssb.domain_layer.logger.EmployeeLoggerManager;
+import ssb.data_layer.logger.AdminLoggerManager;
+import ssb.data_layer.logger.EmployeeLoggerManager;
 
 public class SSB extends Application {
     private final static Logger employeeLogr = Logger.getLogger(EmployeeLoggerManager.class.getName() );   
@@ -15,10 +15,6 @@ public class SSB extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         
-        
-        
-        employeeLogr.warning("Employee logger Startet");
-        adminLogr.warning("Admin logger startet");
         stage.setTitle("Log ind");
         Parent root = FXMLLoader.load(getClass().getResource("fxml_documents/login_layout.fxml"));
         

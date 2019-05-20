@@ -1,0 +1,24 @@
+maj 20, 2019 9:46:40 AM ssb.domain_layer.person.EmployeeManager$1 succeeded
+WARNING: Admin logger startet
+maj 20, 2019 9:48:39 AM ssb.domain_layer.person.EmployeeManager updateEmployeeDetails
+SEVERE: morten has updated the details of: Ny Bruger 
+maj 20, 2019 9:48:58 AM ssb.domain_layer.person.EmployeeManager$1 succeeded
+WARNING: Admin logger startet
+maj 20, 2019 9:49:24 AM ssb.domain_layer.person.EmployeeManager updateEmployeeDetails
+SEVERE: morten has updated the details of: Ny Bruger 
+maj 20, 2019 9:49:50 AM ssb.domain_layer.person.EmployeeManager$1 succeeded
+WARNING: Admin logger startet
+maj 20, 2019 9:49:56 AM ssb.domain_layer.person.EmployeeManager deleteEmployeeFromDb
+SEVERE: morten has deleted the employee: Ny Bruger From the database!
+maj 20, 2019 9:59:03 AM ssb.domain_layer.person.EmployeeManager$1 succeeded
+WARNING: Admin logger startet
+maj 20, 2019 10:11:55 AM ssb.domain_layer.person.EmployeeManager$1 succeeded
+WARNING: Admin logger startet
+maj 20, 2019 10:12:06 AM ssb.domain_layer.person.EmployeeManager updateEmployeeDetails
+SEVERE: morten has updated the details of: jeppe schmidt 
+maj 20, 2019 10:14:54 AM ssb.domain_layer.person.EmployeeManager$1 succeeded
+WARNING: Admin logger startet
+maj 20, 2019 10:20:02 AM ssb.domain_layer.person.EmployeeManager$1 succeeded
+WARNING: Admin logger startet
+maj 20, 2019 10:21:27 AM ssb.domain_layer.person.EmployeeManager deleteEmployeeFromDb
+SEVERE: morten has deleted the employee: TestBruger TestBruger From the database!

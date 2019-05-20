@@ -41,12 +41,12 @@
                 </TableColumn>
                 <TableColumn fx:id="tableColumnCPR" prefWidth="190.0" text="CPR Nummer">
                     <cellValueFactory>
-                        <PropertyValueFactory property="phoneNr" />
+                        <PropertyValueFactory property="cprNr" />
                     </cellValueFactory>
                 </TableColumn>
                 <TableColumn fx:id="tableColumnTelefon" prefWidth="151.0" text="Telefon">
                     <cellValueFactory>
-                        <PropertyValueFactory property="cprNr" />
+                        <PropertyValueFactory property="phoneNr" />
                     </cellValueFactory>
                 </TableColumn>
                 <TableColumn fx:id="tableColumnRolle" prefWidth="89.0" text="Rolle" />

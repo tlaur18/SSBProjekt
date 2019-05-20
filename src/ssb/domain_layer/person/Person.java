@@ -2,11 +2,11 @@ package ssb.domain_layer.person;
 
 public abstract class Person {
 
-    private final String firstName;
-    private final String lastName;
-    private final String phoneNr;
-    private final String cprNr;
-    private final String ID;
+    private String firstName;
+    private String lastName;
+    private String phoneNr;
+    private String cprNr;
+    private String ID;
 
     public Person(String firstName, String lastName, String phoneNr, String cprNr) {
         this.firstName = firstName;
@@ -46,6 +46,26 @@ public abstract class Person {
 
     public String getID() {
         return ID;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setPhoneNr(String phoneNr) {
+        this.phoneNr = phoneNr;
+    }
+
+    public void setCprNr(String cprNr) {
+        this.cprNr = cprNr;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
     }
 
     @Override

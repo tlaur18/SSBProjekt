@@ -2,7 +2,9 @@ package ssb.data_layer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import javafx.util.Pair;
+import ssb.domain_layer.Home;
 import ssb.domain_layer.person.Person;
 
 public class DatabaseManager {
@@ -54,8 +56,9 @@ public class DatabaseManager {
         residentData.updateDocument(encodedDocument, documentID);
     }
 
-    public void insertResident(String residentCpr, String firstName, String lastName, String phoneNumber, int homeId) {
-        personData.insertPerson(residentCpr, firstName, lastName, phoneNumber, homeId);
+    public void insertResident(String residentCpr, String firstName, String lastName, String phoneNumber, int homeID) {
+        personData.insertPerson(residentCpr, firstName, lastName, phoneNumber);
+        personData.insertPersonHomeLink(residentCpr, homeID);
         residentData.insertResident(residentCpr);
     }
 
@@ -77,17 +80,17 @@ public class DatabaseManager {
         return homeData.getEmployeeHomes(employeeCPRString);
     }
 
-    public void insertEmployee(String employeecpr, String firstName, String lastName, String phoneNumber, String employeeRole, int homeID) {
-        personData.insertPerson(employeecpr, firstName, lastName, phoneNumber, homeID);
+    public void insertEmployee(String employeecpr, String firstName, String lastName, String phoneNumber, String employeeRole) {
+        personData.insertPerson(employeecpr, firstName, lastName, phoneNumber);
         employeeWorkData.insertEmployee(employeecpr, employeeRole);
     }
 
-    public ArrayList<HashMap<String, String>> GetAllEmployees() {
+    public ArrayList<HashMap<String, String>> getAllEmployees() {
         return employeeWorkData.loadAllEmployees();
     }
 
-    public void updateEmployeeData(String employeeCPR, String firstName, String lastName, String phoneNr, int homeID) {
-        personData.updatePerson(employeeCPR, firstName, lastName, phoneNr, homeID);
+    public void updateEmployeeData(String employeeCPR, String firstName, String lastName, String phoneNr) {
+        personData.updatePerson(employeeCPR, firstName, lastName, phoneNr);
     }
 
     public void updateEmployeeLogin(String userName, String passWord, String employeeCPR) {
@@ -95,8 +98,6 @@ public class DatabaseManager {
     }
 
     public void deleteEmployee(String employeeCPR) {
-//        logInData.deleteEmployee(employeeCPR);
-//        employeeWorkData.deleteEmployee(employeeCPR);
         personData.deletePerson(employeeCPR);
     }
 
@@ -107,8 +108,24 @@ public class DatabaseManager {
     public void insertEmployeeLogin(String cprNr, String username, String password) {
         logInData.insertLogin(cprNr, username, password);
     }
-    
+  
     public HashMap<String, String> searchCPRRegister(String cprToSearch) {
         return cprData.getPersonInformation(cprToSearch);
+    }
+
+    public void insertPersonHomeLink(String employeeCPR, int homeID) {
+        personData.insertPersonHomeLink(employeeCPR, homeID);
+    }
+
+    public void deletePersonHomeLink(String personCprNr, int homeID) {
+        homeData.deleteEmployeeHomeLink(personCprNr, homeID);
+    }
+
+    public ArrayList<HashMap<String, String>> getallEmployeeHomes(String employeeCPR) {
+        return homeData.getEmployeeHomes(employeeCPR);
+    }
+
+    public ArrayList<HashMap<String, String>> getAllHomes() {
+        return homeData.getAllHomes();
     }
 }

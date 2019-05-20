@@ -12,3 +12,23 @@ maj 20, 2019 9:49:50 AM ssb.domain_layer.person.EmployeeManager$1 succeeded
 INFO: morten Has logged in!
 maj 20, 2019 10:18:09 AM ssb.domain_layer.person.EmployeeManager$1 succeeded
 WARNING: Employee logger Startet
+maj 20, 2019 3:02:14 PM ssb.domain_layer.person.EmployeeManager$1 succeeded
+WARNING: Employee logger Startet
+maj 20, 2019 3:05:29 PM ssb.domain_layer.person.EmployeeManager$1 succeeded
+WARNING: Employee logger Startet
+maj 20, 2019 3:05:46 PM ssb.domain_layer.person.EmployeeManager addResidentToHome
+INFO: thomas has added resident: Dorthe Dumrian to home 1
+maj 20, 2019 3:06:05 PM ssb.domain_layer.document.DocumentManager updateDocument
+INFO: thomas has updated BenSAG Test for the resident Bente
+maj 20, 2019 3:06:16 PM ssb.domain_layer.document.DocumentManager updateDocument
+INFO: thomas has updated BenSAG Test for the resident Bente
+maj 20, 2019 3:06:32 PM ssb.domain_layer.person.EmployeeManager addResidentToHome
+INFO: thomas has added resident: asdasd asdasd to home 1
+maj 20, 2019 3:13:10 PM ssb.domain_layer.person.EmployeeManager$1 succeeded
+WARNING: Employee logger Startet
+maj 20, 2019 3:13:17 PM ssb.domain_layer.document.DocumentManager updateDocument
+INFO: thomas has updated BenSAG Test for the resident Bente
+maj 20, 2019 3:13:26 PM ssb.domain_layer.person.EmployeeManager addResidentToHome
+INFO: thomas has added resident: Georg Gregersen to home 1
+maj 20, 2019 3:13:31 PM ssb.domain_layer.document.DocumentManager addDocument
+INFO: thomas has added a new document for resident: Georg Gregersen

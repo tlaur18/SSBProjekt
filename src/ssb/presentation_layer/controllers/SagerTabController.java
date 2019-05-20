@@ -48,7 +48,7 @@ public class SagerTabController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO - Sagsbehandlere skal kun kunne oprette ny beboere med en ny sag hvor en resident bliver lavet med alle oplysninger
-        
+
         loggedInEmployee = informationBridge.getLoggedInEmployee();
         currentHome = informationBridge.getCurrentHome();
         vumDocumentTableView.setItems(documentManager.getAllDocuments());
@@ -64,7 +64,7 @@ public class SagerTabController implements Initializable {
             column1.prefWidthProperty().bind(vumDocumentTableView.widthProperty().divide(5));
         }
         openDocumentListener();
-        
+
         // Adds listeners to the search TextFields to invoke methods when text is typed
         searchResidentTxtField.textProperty().addListener((observable, oldValue, newValue) -> {
             documentSearch(newValue, searchDocNameTxtField.getText());
@@ -158,11 +158,12 @@ public class SagerTabController implements Initializable {
 
     public void selectVUMDialog(Resident resident) {
         InformationBridge.getInstance().putChosenResident(resident);
+        informationBridge.setChosenDocument(null);
 
-        //Initializes the drop down menu.
         if (loggedInEmployee.canCreateNewProcessDoc()) {
             loadDocument("src/ssb/presentation_layer/fxml_documents/vum_documents/sagsåbning/sagsåbning.fxml", "Sagsåbning");
         } else {
+            //Initializes the drop down menu.
             List<String> documentDialogChoices = new ArrayList<>();
             documentDialogChoices.add(Document.type.HANDLEPLAN.toString());
             ChoiceDialog<String> dialog = new ChoiceDialog<>("", documentDialogChoices);
@@ -204,7 +205,6 @@ public class SagerTabController implements Initializable {
             stageHandleplan.setTitle(vumDocumentTitle);
             stageHandleplan.show();
         } catch (IOException ex) {
-            ex.printStackTrace();
             System.out.println(ex.getMessage());
         }
     }

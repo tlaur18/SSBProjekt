@@ -64,12 +64,10 @@ public final class DocumentManager {
     }
 
     public Document decodeDocument(String encodedString) {
-        try {
             byte[] data = Base64.getDecoder().decode(encodedString);
-            Object o;
             try (ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data))) {
+                Object o;
                 o = ois.readObject();
-            }
             return (Document) o;
         } catch (ClassNotFoundException | IOException ex) {
             System.out.println("Decoding: something went wrong: " + ex.getMessage());

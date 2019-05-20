@@ -1,5 +1,5 @@
 
-package ssb.domain_layer.logger;
+package ssb.data_layer.logger;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

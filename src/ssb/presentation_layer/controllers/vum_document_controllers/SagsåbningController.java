@@ -28,7 +28,7 @@ public class SagsåbningController extends VumDocumentController implements Init
     
     @FXML
     public void cancelButtonOnAction(ActionEvent event) {
-        ((Stage) cancelButton.getScene().getWindow()).close();
+        ((Stage) saveButton.getScene().getWindow()).close();
     }
 
     @FXML

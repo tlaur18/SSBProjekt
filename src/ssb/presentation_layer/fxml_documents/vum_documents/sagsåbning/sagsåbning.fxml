@@ -16,7 +16,7 @@
                     <content>
                         <ScrollPane fitToWidth="true">
                             <content>
-                                <fx:include source="sagsåbning_content1.fxml" />
+                                <fx:include source="sagsåbning_content_1.fxml" />
                             </content>
                         </ScrollPane>
                     </content>
@@ -34,8 +34,8 @@
         </TabPane>
         <HBox alignment="CENTER_RIGHT" spacing="16.0">
             <children>
-                <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveBtnHandler" text="Gem" />
-                <Button mnemonicParsing="false" onAction="#cancelBtnHandler" text="Annuller" />
+                <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveButtonOnAction" text="Gem" />
+                <Button mnemonicParsing="false" onAction="#cancelButtonOnAction" text="Annuller" />
             </children>
             <VBox.margin>
                 <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />

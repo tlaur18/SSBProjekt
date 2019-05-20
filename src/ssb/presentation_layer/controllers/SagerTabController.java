@@ -84,7 +84,7 @@ public class SagerTabController implements Initializable {
                 loadDocument("src/ssb/presentation_layer/fxml_documents/vum_documents/handleplan/handleplan.fxml", "Handleplan");
                 break;
             case SAGSÅBNING:
-                loadDocument("src/ssb/presentation_layer/fxml_documents/vum_documents/sagsåbning.fxml", "Sagsåbning");
+                loadDocument("src/ssb/presentation_layer/fxml_documents/vum_documents/sagsåbning/sagsåbning.fxml", "Sagsåbning");
                 break;
         }
     }

@@ -26,12 +26,14 @@ public class SagsåbningController extends VumDocumentController implements Init
             loadDocumentContent(chosenDocument);
         }
     }
-
-    private void cancelButtonOnAction(ActionEvent event) {
+    
+    @FXML
+    public void cancelButtonOnAction(ActionEvent event) {
         ((Stage) cancelButton.getScene().getWindow()).close();
     }
 
-    private void saveButtonOnAction(ActionEvent event) {
+    @FXML
+    public void saveButtonOnAction(ActionEvent event) {
         saveInfo();
         if (chosenDocument != null) {
             saveExistingDocument();
@@ -40,13 +42,5 @@ public class SagsåbningController extends VumDocumentController implements Init
         }
         Stage stage = (Stage) saveButton.getScene().getWindow();
         stage.close();
-    }
-
-    @FXML
-    private void saveBtnHandler(ActionEvent event) {
-    }
-
-    @FXML
-    private void cancelBtnHandler(ActionEvent event) {
     }
 }

@@ -1,15 +1,14 @@
 package ssb.presentation_layer.controllers.vum_document_controllers.handleplan;
 
 import java.net.URL;
+import java.util.HashSet;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import ssb.domain_layer.InformationBridge;
 import ssb.domain_layer.document.Document;
@@ -42,7 +41,9 @@ public class HandleplanController extends VumDocumentController implements Initi
 
     @FXML
     private void saveBtnHandler(ActionEvent event) {
-        if (validateFields()) {
+        HashSet<TextField> wrongInputTextFields = validateFields();
+        if (wrongInputTextFields.isEmpty()) {
+            validation.clearAllErrors();
             saveInfo();
             if (chosenDocument != null) {
                 saveExistingDocument();
@@ -53,7 +54,7 @@ public class HandleplanController extends VumDocumentController implements Initi
             Stage stage = (Stage) saveButton.getScene().getWindow();
             stage.close();
         } else {
-            validation.setErrors();
+            validation.setErrors(wrongInputTextFields);
         }
     }
 
@@ -80,10 +81,16 @@ public class HandleplanController extends VumDocumentController implements Initi
         }
     }
 
-    private boolean validateFields() {
-        return (validation.addressIsValid(addresseTxtF.getText()) &&
-            validation.phoneNumberIsValid(telefonTxtF.getText()) && 
-            validation.mailIsValid(mailTxtF.getText()));
+    private HashSet<TextField> validateFields() {
+        HashSet<TextField> textFields = new HashSet<>();
+        if (!validation.addressIsValid(addresseTxtF.getText())) {
+            textFields.add(addresseTxtF);
+        } else if (! validation.phoneNumberIsValid(telefonTxtF.getText())) {
+            textFields.add(telefonTxtF);
+        } else if (! validation.mailIsValid(mailTxtF.getText())) {
+            textFields.add(mailTxtF);
+        }
+        return textFields;
     }
 
     private void setValidationListeners() {

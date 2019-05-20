@@ -1,5 +1,6 @@
 package ssb.presentation_layer.controllers.vum_document_controllers.handleplan;
 
+import java.util.Collection;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
@@ -27,7 +28,9 @@ public class HandleplanValidation {
         addresseTxtF.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) { //when focus lost
                 if (!addressIsValid(addresseTxtF.getText())) {
-                    reverseError(addressValidatorLabel, addressValidateErrorImage);
+                    setError(addressValidatorLabel, addressValidateErrorImage);
+                } else {
+                    clearError(addressValidatorLabel, addressValidateErrorImage);
                 }
             }
         });
@@ -66,7 +69,9 @@ public class HandleplanValidation {
         telefonTxtF.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) { //when focus lost
                 if (!phoneNumberIsValid(telefonTxtF.getText())) {
-                    reverseError(phoneNumberValidatorLabel, phoneNumberValidatorErrorImage);
+                    setError(phoneNumberValidatorLabel, phoneNumberValidatorErrorImage);
+                } else {
+                    clearError(phoneNumberValidatorLabel, phoneNumberValidatorErrorImage);
                 }
             }
         });
@@ -91,7 +96,9 @@ public class HandleplanValidation {
         mailTxtF.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) { //when focus lost
                 if (!mailIsValid(mailTxtF.getText())) {
-                    reverseError(mailValidatorLabel, mailValidatorErrorImage);
+                    setError(mailValidatorLabel, mailValidatorErrorImage);
+                } else {
+                    clearError(mailValidatorLabel, mailValidatorErrorImage);
                 }
             }
         });
@@ -101,19 +108,40 @@ public class HandleplanValidation {
         return mailTxt.contains("@");
     }
 
-    private void reverseError(Label label, ImageView imageView) {
-        if (label.isVisible() && imageView.isVisible()) {
-            label.setVisible(false);
-            imageView.setVisible(false);
-        } else {
-            label.setVisible(true);
-            imageView.setVisible(true);
-        }
+    private void clearError(Label label, ImageView imageView) {
+        label.setVisible(false);
+        imageView.setVisible(false);
     }
 
-    public void setErrors() {
-        reverseError(addressValidatorLabel, addressValidateErrorImage);
-        reverseError(phoneNumberValidatorLabel, phoneNumberValidatorErrorImage);
-        reverseError(mailValidatorLabel, mailValidatorErrorImage);
+    private void setError(Label label, ImageView imageView) {
+        label.setVisible(true);
+        imageView.setVisible(true);
+    }
+
+    public void setErrors(Collection<TextField> textFields) {
+        for (TextField txtF : textFields) {
+            switch (txtF.getId()) {
+                case "addresseTxtF":
+                    setError(addressValidatorLabel, addressValidateErrorImage);
+                    break;
+                case "telefonTxtF":
+                    setError(phoneNumberValidatorLabel, phoneNumberValidatorErrorImage);
+                    break;
+                case "mailTxtF":
+                    setError(mailValidatorLabel, mailValidatorErrorImage);
+                    break;
+            }
+        }
+    }
+    
+    public void clearAllErrors() {
+        addressValidatorLabel.setVisible(false);
+        addressValidateErrorImage.setVisible(false);
+        
+        phoneNumberValidatorLabel.setVisible(false);
+        phoneNumberValidatorErrorImage.setVisible(false);
+        
+        mailValidatorLabel.setVisible(false);
+        mailValidatorErrorImage.setVisible(false);
     }
 }

@@ -14,6 +14,7 @@ public class DatabaseManager {
     private final ResidentData residentData = new ResidentData();
     private final NotificationData notificationData = new NotificationData();
     private final HomeData homeData = new HomeData();
+    private final CPRRegisterData cprData = new CPRRegisterData();
 
     private DatabaseManager() {
     }
@@ -105,5 +106,9 @@ public class DatabaseManager {
 
     public void insertEmployeeLogin(String cprNr, String username, String password) {
         logInData.insertLogin(cprNr, username, password);
+    }
+    
+    public HashMap<String, String> searchCPRRegister(String cprToSearch) {
+        return cprData.getPersonInformation(cprToSearch);
     }
 }

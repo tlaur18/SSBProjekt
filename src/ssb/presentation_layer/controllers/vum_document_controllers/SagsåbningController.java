@@ -14,7 +14,6 @@ public class SagsåbningController extends VumDocumentController implements Init
 
     @FXML
     private Button saveButton;
-    @FXML
     private Button cancelButton;
     @FXML
     private TabPane tabPane;
@@ -28,12 +27,10 @@ public class SagsåbningController extends VumDocumentController implements Init
         }
     }
 
-    @FXML
     private void cancelButtonOnAction(ActionEvent event) {
         ((Stage) cancelButton.getScene().getWindow()).close();
     }
 
-    @FXML
     private void saveButtonOnAction(ActionEvent event) {
         saveInfo();
         if (chosenDocument != null) {
@@ -43,5 +40,13 @@ public class SagsåbningController extends VumDocumentController implements Init
         }
         Stage stage = (Stage) saveButton.getScene().getWindow();
         stage.close();
+    }
+
+    @FXML
+    private void saveBtnHandler(ActionEvent event) {
+    }
+
+    @FXML
+    private void cancelBtnHandler(ActionEvent event) {
     }
 }

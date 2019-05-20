@@ -7,9 +7,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class SSB extends Application {
-    
     @Override
     public void start(Stage stage) throws Exception {
+        
         stage.setTitle("Log ind");
         Parent root = FXMLLoader.load(getClass().getResource("fxml_documents/login_layout.fxml"));
         

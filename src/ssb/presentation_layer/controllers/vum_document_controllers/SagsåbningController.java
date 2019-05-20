@@ -14,7 +14,6 @@ public class SagsåbningController extends VumDocumentController implements Init
 
     @FXML
     private Button saveButton;
-    private Button cancelButton;
     @FXML
     private TabPane tabPane;
 

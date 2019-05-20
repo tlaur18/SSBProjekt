@@ -60,20 +60,20 @@ public class SagsåbningController extends VumDocumentController implements Init
     private void cancelBtnHandler(ActionEvent event) {
     }
 
-//    private void addTextListener(TextArea textArea, double oldHeight) {
-//        Text textHolder = new Text();
-//        textHolder.textProperty().bind(textArea.textProperty());
-//        textHolder.layoutBoundsProperty().addListener(new ChangeListener<Bounds>() {
-//            @Override
-//            public void changed(ObservableValue<? extends Bounds> observable, Bounds oldValue, Bounds newValue) {
-//                if (oldHeight != newValue.getHeight()) {
-//                    System.out.println("newValue = " + newValue.getHeight());
-//                    oldHeight = newValue.getHeight();
-//                    textArea.setPrefHeight(textHolder.getLayoutBounds().getHeight() + 20); // +20 is for paddings
-//                }
-//            }
-//        });
-//    }
+    private void addTextListener(TextArea textArea,final double oldHeight) {
+        Text textHolder = new Text();
+        textHolder.textProperty().bind(textArea.textProperty());
+        textHolder.layoutBoundsProperty().addListener(new ChangeListener<Bounds>() {
+            @Override
+            public void changed(ObservableValue<? extends Bounds> observable, Bounds oldValue, Bounds newValue) {
+                if (oldHeight != newValue.getHeight()) {
+                    System.out.println("newValue = " + newValue.getHeight());
+                    oldHeight = newValue.getHeight();
+                    textArea.setPrefHeight(textHolder.getLayoutBounds().getHeight() + 20); // +20 is for paddings
+                }
+            }
+        });
+    }
     
     
    private void pdfOutput(TextArea textArea){

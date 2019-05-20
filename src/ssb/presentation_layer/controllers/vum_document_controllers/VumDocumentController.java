@@ -2,12 +2,11 @@ package ssb.presentation_layer.controllers.vum_document_controllers;
 
 import java.util.HashMap;
 import javafx.scene.Node;
-import javafx.scene.control.Accordion;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextInputControl;
-import javafx.scene.control.TitledPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import ssb.domain_layer.document.Document;
@@ -58,7 +57,6 @@ public abstract class VumDocumentController {
     protected void loadDocumentContent(Document doc) {
         HashMap<String, Boolean> checkBoxesFromDoc = doc.getSelectedCheckboxes();
         HashMap<String, String> textAreasFromDoc = doc.getTextAreas();
-
         for (CheckBox checkBox : checkBoxes.keySet()) {
             for (String IDFromDoc : checkBoxesFromDoc.keySet()) {
                 if (checkBox.getId().equals(IDFromDoc)) {
@@ -66,6 +64,7 @@ public abstract class VumDocumentController {
                 }
             }
         }
+
         for (TextInputControl textArea : textAreas.keySet()) {
             for (String IDFromDoc : textAreasFromDoc.keySet()) {
                 if (textArea.getId().equals(IDFromDoc)) {
@@ -76,14 +75,13 @@ public abstract class VumDocumentController {
     }
 
     protected void loadTabPaneChildren(TabPane tabPane) {
-        // TODO - make recursive and also fix bug in sagsåbning tab værge and repræsentation (there is an anchorpane for no reason)
         for (Tab tabChild : tabPane.getTabs()) {
-            GridPane tabContents = (GridPane) tabChild.getContent();
-            for (Node gridChild : tabContents.getChildren()) {
+            GridPane scrollPaneContent = (GridPane) ((ScrollPane) tabChild.getContent()).getContent();
+            for (Node gridChild : scrollPaneContent.getChildren()) {
                 if (gridChild instanceof Pane) {
                     loadFieldsFromPane((Pane) gridChild);
                 } else {
-                    saveRelevantChildren(gridChild);
+                    setRelevantChildren(gridChild);
                 }
             }
         }
@@ -91,24 +89,65 @@ public abstract class VumDocumentController {
 
     private void loadFieldsFromPane(Pane pane) {
         for (Node gridChild : pane.getChildrenUnmodifiable()) {
-            if (gridChild instanceof Accordion) {
-                for (TitledPane titledPane : ((Accordion) gridChild).getPanes()) {
-                    GridPane titledPaneContents = (GridPane) titledPane.getContent();
-                    for (Node node : titledPaneContents.getChildren()) {
-                        saveRelevantChildren(node);
-                    }
-                }
+            if (gridChild instanceof Pane) {
+                loadFieldsFromPane((Pane) gridChild);
             } else {
-                saveRelevantChildren(gridChild);
+                setRelevantChildren(gridChild);
             }
         }
     }
 
-    private void saveRelevantChildren(Node node) {
+    private void setRelevantChildren(Node node) {
         if (node instanceof CheckBox) {
             checkBoxes.put((CheckBox) node, Boolean.FALSE);
         } else if (node instanceof TextInputControl) {
             textAreas.put((TextInputControl) node, "");
+        }
+    }
+
+    /**
+     *
+     * @param <T>
+     * @param childID
+     * @param tab
+     * @param type
+     * @return
+     */
+    public static <T extends Node> T findChildInTab(String childID, Tab tab, Class<T> type) {
+        GridPane contentOfTab = (GridPane) ((ScrollPane) tab.getContent()).getContent();
+        Node foundNode = searchPane(contentOfTab, childID);
+        if (foundNode != null) {
+            return type.cast(foundNode);
+        } else {
+            return null;
+        }
+    }
+
+    private static Node searchPane(Pane paneChild, String idSearch) {
+        for (Node child : paneChild.getChildren()) {
+            if (child instanceof Pane) {
+                Node foundNode = searchPane((Pane) child, idSearch); // recursive system
+                if (foundNode != null) { // searchpane has found the correct child
+                    return foundNode;
+                }
+            } else {
+                if (child.getId() == null) { // children without ID's is not searchable
+                    continue;
+                }
+                Node foundNode = searchForChild(child, idSearch); // checks if the child is the one we're looking for
+                if (foundNode != null) {
+                    return foundNode;
+                }
+            }
+        }
+        return null;
+    }
+
+    private static Node searchForChild(Node child, String idSearch) {
+        if (child.getId().equalsIgnoreCase(idSearch)) {
+            return child;
+        } else {
+            return null;
         }
     }
 }

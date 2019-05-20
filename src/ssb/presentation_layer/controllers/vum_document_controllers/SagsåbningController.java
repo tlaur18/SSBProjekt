@@ -15,26 +15,23 @@ public class SagsåbningController extends VumDocumentController implements Init
     @FXML
     private Button saveButton;
     @FXML
-    private Button cancelButton;
-    @FXML
     private TabPane tabPane;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         loadTabPaneChildren(tabPane);
-
         if (chosenDocument != null) {
             loadDocumentContent(chosenDocument);
         }
     }
-
+    
     @FXML
-    private void cancelButtonOnAction(ActionEvent event) {
-        ((Stage) cancelButton.getScene().getWindow()).close();
+    public void cancelButtonOnAction(ActionEvent event) {
+        ((Stage) saveButton.getScene().getWindow()).close();
     }
 
     @FXML
-    private void saveButtonOnAction(ActionEvent event) {
+    public void saveButtonOnAction(ActionEvent event) {
         saveInfo();
         if (chosenDocument != null) {
             saveExistingDocument();

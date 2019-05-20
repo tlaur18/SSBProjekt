@@ -6,6 +6,7 @@ import java.io.ObjectInputStream;
 import java.util.Base64;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import ssb.data_layer.DatabaseManager;
@@ -73,4 +74,19 @@ public final class DocumentManager {
         }
         return null;
     }
+
+    public ObservableList<Document> getSearchSubList(String keyWordResidentName, String keyWordDocumentName) {
+        ObservableList<Document> searchSubList = FXCollections.observableArrayList();
+        
+        for (Document document : allDocuments) {
+            if (document.getResidentName().toLowerCase().contains(keyWordResidentName.toLowerCase())
+                    && document.getDocumentName().toLowerCase().contains(keyWordDocumentName.toLowerCase())) {
+                searchSubList.add(document);
+            }
+        }
+        
+        return searchSubList;
+    }
+    
+    
 }

@@ -18,6 +18,7 @@ import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import ssb.domain_layer.document.Document;
@@ -31,6 +32,10 @@ public class SagerTabController implements Initializable {
 
     @FXML
     private TableView<Document> vumDocumentTableView;
+    @FXML
+    private TextField searchResidentTxtField;
+    @FXML
+    private TextField searchDocNameTxtField;
 
     private final DocumentManager documentManager = DocumentManager.getInstance();
     private final InformationBridge informationBridge = InformationBridge.getInstance();
@@ -49,6 +54,14 @@ public class SagerTabController implements Initializable {
             column1.prefWidthProperty().bind(vumDocumentTableView.widthProperty().divide(5));
         }
         openDocumentListener();
+        
+        // Adds listeners to the search TextFields to invoke methods when text is typed
+        searchResidentTxtField.textProperty().addListener((observable, oldValue, newValue) -> {
+            documentSearch(newValue, searchDocNameTxtField.getText());
+        });
+        searchDocNameTxtField.textProperty().addListener((observable, oldValue, newValue) -> {
+            documentSearch(searchResidentTxtField.getText(), newValue);
+        });
     }
 
     // Double click to open the document
@@ -187,5 +200,13 @@ public class SagerTabController implements Initializable {
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
+    }
+
+    private void documentSearch(String keyWordResidentName, String keyWordDocumentName) {
+        if (keyWordResidentName.isEmpty() && keyWordDocumentName.isEmpty()) {
+            vumDocumentTableView.setItems(documentManager.getAllDocuments());
+            return;
+        }
+        vumDocumentTableView.setItems(documentManager.getSearchSubList(keyWordResidentName, keyWordDocumentName));
     }
 }

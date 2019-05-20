@@ -179,8 +179,9 @@ public class EmployeeManager {
         database.insertResident(resident.getCprNr(), resident.getFirstName(), resident.getLastName(), resident.getPhoneNr(), homeId);
         EMPLOYEE_LOGGER.log(Level.INFO, "{0} has added resident: {1} {2} to home {3}", new Object[]{informationBridge.getLoggedInEmployee().getFirstName(), resident.getFirstName(), resident.getLastName(), homeId});
     }
-    public void addEmployeeToHome(int homeId, Employee employee) {
-        
+
+    public void addEmployeeToHome(int homeID, Employee employee) {
+        database.insertPersonHomeLink(employee.getCprNr(), homeID);
     }
 
     private List<Home> assembleHomes(ArrayList<HashMap<String, String>> homes) {
@@ -202,14 +203,17 @@ public class EmployeeManager {
         }
     }
 
-    public void addEmployeeToDB(Employee employee, String username, String password, int homeID) {
-        database.insertEmployee(employee.getCprNr(), employee.getFirstName(), employee.getLastName(), employee.getPhoneNr(), employee.getEmployeeRole(), homeID);
+    public void addEmployeeToDB(Employee employee, String username, String password, List<Home> homes) {
+        database.insertEmployee(employee.getCprNr(), employee.getFirstName(), employee.getLastName(), employee.getPhoneNr(), employee.getEmployeeRole());
+        for (Home home : homes) {
+            database.insertPersonHomeLink(employee.getCprNr(), home.getId());
+        }
         database.insertEmployeeLogin(employee.getCprNr(), username, password);
         EMPLOYEE_LOGGER.log(Level.INFO, "{0}Has added: {1} To the Database", new Object[]{informationBridge.getLoggedInEmployee().getFirstName(), employee.getFirstName()});
     }
 
     public void loadAllEmployess() {
-        for (HashMap<String, String> map : database.GetAllEmployees()) {
+        for (HashMap<String, String> map : database.getAllEmployees()) {
             setEmployeeDetails(map);
         }
     }
@@ -226,16 +230,25 @@ public class EmployeeManager {
         allEmployees.clear();
     }
 
-    public void updateEmployeeDetails(Person person, String userName, String passWord, int homeID) {
-        database.updateEmployeeData(person.getCprNr(), person.getFirstName(), person.getLastName(), person.getPhoneNr(), homeID);
+    public void updateEmployeeDetails(Person person, String userName, String passWord, List<Home> homes) {
+        database.updateEmployeeData(person.getCprNr(), person.getFirstName(), person.getLastName(), person.getPhoneNr());
         database.updateEmployeeLogin(userName, passWord, person.getCprNr());
         ADMIN_LOGGER.log(Level.SEVERE, "{0} has updated the details of: {1} {2} ", new Object[]{informationBridge.getLoggedInEmployee().getFirstName(), person.getFirstName(), person.getLastName()});
+        for (Home home : homes) {
+            database.insertPersonHomeLink(person.getCprNr(), home.getId());
+        }
+    }
+  
+    public void deletePersonHomeLink(Person person, List<Home> deletedHomes) {
+        for(Home home : deletedHomes) {
+            database.deletePersonHomeLink(person.getCprNr(), home.getId());
+        }
     }
 
     public void deleteEmployee(Person person) {
-        allEmployees.remove(person);        
+        allEmployees.remove(person);
     }
-    
+
     public void deleteEmployeeFromDb(Person person) {
         database.deleteEmployee(person.getCprNr());
         ADMIN_LOGGER.log(Level.SEVERE, "{0} has deleted the employee: {1} {2} From the database!", new Object[]{informationBridge.getLoggedInEmployee().getFirstName(), person.getFirstName(), person.getLastName()});
@@ -243,5 +256,13 @@ public class EmployeeManager {
 
     public Pair<String, String> getEmployeeLogin(Person person) {
         return database.getEmployeeLogin(person);
+    }
+
+    public List<Home> getAllEmployeeHomes(String employeeCPRString) {
+        return assembleHomes(database.getallEmployeeHomes(employeeCPRString));
+    }
+
+    public List<Home> getAllHomes() {
+        return assembleHomes(database.getAllHomes());
     }
 }

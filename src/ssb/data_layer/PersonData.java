@@ -10,7 +10,7 @@ public class PersonData {
 
     private final DatabaseConnection db = DatabaseConnection.getInstance();
 
-    void insertPerson(String personCpr, String firstName, String lastName, String phoneNumber, int homeId) {
+    void insertPerson(String personCpr, String firstName, String lastName, String phoneNumber) {
         String sqlPersonInsertion = "INSERT INTO " + PersonsContract.TABLE_NAME + " VALUES "
             + "(?, ?, ?, ?)";
         try (Connection connection = db.connect();
@@ -23,17 +23,21 @@ public class PersonData {
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        insertPersonHomeLink(personCpr, homeId);
     }
 
-    public void insertPersonHomeLink(String personCpr, int homeId) {
-        String sqlResidentInsertion = "INSERT INTO " + PersonsHomesLinkContract.TABLE_NAME + " VALUES "
-            + "(?, ?)";
+    public void insertPersonHomeLink(String personCPR, int homeID) {
+     String sqlUpdate = "INSERT INTO " + PersonsHomesLinkContract.TABLE_NAME
+                + " SELECT ?, ?"
+                + " WHERE NOT EXISTS (SELECT * FROM " + PersonsHomesLinkContract.TABLE_NAME 
+                + " WHERE " + PersonsHomesLinkContract.COLUMN_PERSON_CPR + " = ? AND " 
+                + PersonsHomesLinkContract.COLUMN_HOMES_ID + " = ?)";
         try (Connection connection = db.connect();
-            PreparedStatement insertStatement = connection.prepareStatement(sqlResidentInsertion)) {
-            insertStatement.setString(1, personCpr);
-            insertStatement.setInt(2, homeId);
-            insertStatement.execute();
+                PreparedStatement updateStatement = connection.prepareStatement(sqlUpdate)) {
+            updateStatement.setString(1, personCPR);
+            updateStatement.setInt(2, homeID);
+            updateStatement.setString(3, personCPR);
+            updateStatement.setInt(4, homeID);
+            updateStatement.execute();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
@@ -51,7 +55,7 @@ public class PersonData {
         }
     }
 
-    void updatePerson(String employeeCpr, String firstName, String lastName, String phoneNumber, int homeID) {
+    void updatePerson(String employeeCpr, String firstName, String lastName, String phoneNumber) {
         String sqlUpdate = "UPDATE " + PersonsContract.TABLE_NAME
             + " SET "
             + PersonsContract.COLUMN_FIRST_NAME + " = ?, "
@@ -64,23 +68,6 @@ public class PersonData {
             updateStatement.setString(2, lastName);
             updateStatement.setString(3, phoneNumber);
             updateStatement.setString(4, employeeCpr);
-            System.out.println(updateStatement);
-            updateStatement.execute();
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-        updatePersonHomeLink(employeeCpr, homeID);
-    }
-
-    private void updatePersonHomeLink(String employeeCpr, int homeID) {
-         String sqlUpdate = "UPDATE " + PersonsHomesLinkContract.TABLE_NAME
-            + " SET " 
-            + PersonsHomesLinkContract.COLUMN_HOMES_ID + " = ?"
-            + " WHERE " + PersonsHomesLinkContract.COLUMN_PERSON_CPR + " = ?";
-        try (Connection connection = db.connect();
-            PreparedStatement updateStatement = connection.prepareStatement(sqlUpdate)) {
-            updateStatement.setString(1, Integer.toString(homeID));
-            updateStatement.setString(2, employeeCpr);
             System.out.println(updateStatement);
             updateStatement.execute();
         } catch (SQLException ex) {

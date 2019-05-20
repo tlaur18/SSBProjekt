@@ -1,7 +1,7 @@
 package ssb.domain_layer.person;
 
 import ssb.domain_layer.person.Person;
-import ssb.domain_layer.document.Document;
+import ssb.domain_layer.document.SystemDocument;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,18 +10,18 @@ public class Resident extends Person {
     private String streetName;
     private String cityName;
     private String postCode;
-    private final List<Document> documents;
+    private final List<SystemDocument> documents;
 
     public Resident(String firstName, String lastName, String phoneNr, String cprNr) {
         super(firstName, lastName, phoneNr, cprNr);
         documents = new ArrayList<>();
     }
 
-    public List<Document> getDocuments() {
+    public List<SystemDocument> getDocuments() {
         return documents;
     }
 
-    public void addDocument(Document document) {
+    public void addDocument(SystemDocument document) {
         document.setResidentName(getFirstName());
         documents.add(document);
     }

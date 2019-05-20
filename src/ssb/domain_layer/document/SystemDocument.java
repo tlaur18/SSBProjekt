@@ -10,7 +10,7 @@ import java.util.HashMap;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextInputControl;
 
-public class Document implements Serializable {
+public class SystemDocument implements Serializable {
 
     public enum type {
         SAGSÅBNING, HANDLEPLAN
@@ -25,7 +25,7 @@ public class Document implements Serializable {
     private HashMap<String, Boolean> selectedCheckBoxes;
     private HashMap<String, String> textAreas;
 
-    public Document(type type) {
+    public SystemDocument(type type) {
         this.type = type;
         setEditDate();
         setCreationDate();

@@ -12,7 +12,7 @@ import ssb.domain_layer.person.Resident;
 
 public final class DocumentManager {
 
-    private ObservableList<Document> allDocuments = FXCollections.observableArrayList();
+    private ObservableList<SystemDocument> allDocuments = FXCollections.observableArrayList();
 
     private static DocumentManager INSTANCE = null;
 
@@ -21,7 +21,7 @@ public final class DocumentManager {
     
     public void setDocumentsForHome() {
         for (Resident resident : InformationBridge.getInstance().getCurrentHome().getResidents()) {
-            for (Document document : resident.getDocuments()) {
+            for (SystemDocument document : resident.getDocuments()) {
                 allDocuments.add(document);
             }
         }
@@ -34,21 +34,21 @@ public final class DocumentManager {
         return INSTANCE;
     }
 
-    public ObservableList<Document> getAllDocuments() {
+    public ObservableList<SystemDocument> getAllDocuments() {
         return this.allDocuments;
     }
 
     /*
     When a new document is to be added to a resident this methods is to be called.
      */
-    public void addDocument(Document document, Resident resident) {
+    public void addDocument(SystemDocument document, Resident resident) {
         resident.addDocument(document);
         allDocuments.add(document);
         document.setId(DatabaseManager.getInstance().getDocumentIdCount() + 1);
         DatabaseManager.getInstance().insertDocument(document.encodeDocument(), resident.getCprNr());
     }
 
-    public void updateDocument(Document document) {
+    public void updateDocument(SystemDocument document) {
         DatabaseManager.getInstance().updateDocument(document.encodeDocument(), (int) document.getId());
     }
 
@@ -56,13 +56,13 @@ public final class DocumentManager {
         allDocuments = FXCollections.observableArrayList();
     }
 
-    public Document decodeDocument(String encodedString) {
+    public SystemDocument decodeDocument(String encodedString) {
         try {
             byte[] data = Base64.getDecoder().decode(encodedString);
             ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data));
             Object o = ois.readObject();
             ois.close();
-            return (Document) o;
+            return (SystemDocument) o;
         } catch (ClassNotFoundException | IOException ex) {
             System.out.println("Decoding: something went wrong: " + ex.getMessage());
         }

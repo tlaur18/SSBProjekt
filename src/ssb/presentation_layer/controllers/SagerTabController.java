@@ -21,7 +21,7 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
-import ssb.domain_layer.document.Document;
+import ssb.domain_layer.document.SystemDocument;
 import ssb.domain_layer.document.DocumentManager;
 import ssb.domain_layer.person.Employee;
 import ssb.domain_layer.Home;
@@ -31,7 +31,7 @@ import ssb.domain_layer.person.Resident;
 public class SagerTabController implements Initializable {
 
     @FXML
-    private TableView<Document> vumDocumentTableView;
+    private TableView<SystemDocument> vumDocumentTableView;
     @FXML
     private Button createVUMDocBtn;
 
@@ -53,7 +53,7 @@ public class SagerTabController implements Initializable {
 
         // Columns width set to 20%
         for (Object column : vumDocumentTableView.getColumns().toArray()) {
-            TableColumn<Document, ?> column1 = (TableColumn<Document, ?>) column;
+            TableColumn<SystemDocument, ?> column1 = (TableColumn<SystemDocument, ?>) column;
             column1.prefWidthProperty().bind(vumDocumentTableView.widthProperty().divide(5));
         }
         openDocumentListener();
@@ -61,13 +61,13 @@ public class SagerTabController implements Initializable {
 
     // Double click to open the document
     private void openDocumentListener() {
-        vumDocumentTableView.setRowFactory((TableView<Document> tv) -> {
-            TableRow<Document> row = new TableRow<>();
+        vumDocumentTableView.setRowFactory((TableView<SystemDocument> tv) -> {
+            TableRow<SystemDocument> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (!row.isEmpty() && event.getButton() == MouseButton.PRIMARY
                         && event.getClickCount() == 2) {
 
-                    Document clickedRow = row.getItem();
+                    SystemDocument clickedRow = row.getItem();
                     InformationBridge.getInstance().setChosenDocument(clickedRow);
                     loadDocumentController(clickedRow);
                 }
@@ -77,7 +77,7 @@ public class SagerTabController implements Initializable {
     }
 
     // Selects the right FXML to load, based on the document type.
-    private void loadDocumentController(Document document) {
+    private void loadDocumentController(SystemDocument document) {
         switch (document.getType()) {
             case HANDLEPLAN:
                 loadDocument("src/ssb/presentation_layer/fxml_documents/vum_documents/handleplan/handleplan.fxml", "Handleplan");
@@ -150,7 +150,7 @@ public class SagerTabController implements Initializable {
             loadDocument("src/ssb/presentation_layer/fxml_documents/vum_documents/sagsåbning/sagsåbning.fxml", "Sagsåbning");
         } else {
             List<String> documentDialogChoices = new ArrayList<>();
-            documentDialogChoices.add(Document.type.HANDLEPLAN.toString());
+            documentDialogChoices.add(SystemDocument.type.HANDLEPLAN.toString());
             ChoiceDialog<String> dialog = new ChoiceDialog<>("", documentDialogChoices);
             dialog.setTitle("Opret VUM-Dokument");
             dialog.setHeaderText("Vælg dokument type til: " + resident.toString());

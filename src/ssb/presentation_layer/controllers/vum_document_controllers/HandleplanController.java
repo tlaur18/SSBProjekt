@@ -8,7 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
-import ssb.domain_layer.document.Document;
+import ssb.domain_layer.document.SystemDocument;
 
 public class HandleplanController extends VumDocumentController implements Initializable {
 
@@ -31,7 +31,7 @@ public class HandleplanController extends VumDocumentController implements Initi
         if (chosenDocument != null) {
             saveExistingDocument();
         } else {
-            saveNewDocument(Document.type.HANDLEPLAN);
+            saveNewDocument(SystemDocument.type.HANDLEPLAN);
         }
         Stage stage = (Stage) saveButton.getScene().getWindow();
         stage.close();

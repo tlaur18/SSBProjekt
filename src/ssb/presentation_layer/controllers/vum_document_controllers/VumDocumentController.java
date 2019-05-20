@@ -11,7 +11,7 @@ import javafx.scene.control.TextInputControl;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import ssb.domain_layer.document.Document;
+import ssb.domain_layer.document.SystemDocument;
 import ssb.domain_layer.document.DocumentManager;
 import ssb.domain_layer.InformationBridge;
 import ssb.domain_layer.person.Resident;
@@ -22,11 +22,11 @@ public abstract class VumDocumentController {
     protected HashMap<TextInputControl, String> textAreas = new HashMap<>();
     protected final DocumentManager documentManager = DocumentManager.getInstance();
     protected Resident chosenResident = InformationBridge.getInstance().getChosenResident();
-    protected Document chosenDocument = InformationBridge.getInstance().getChosenDocument();
+    protected SystemDocument chosenDocument = InformationBridge.getInstance().getChosenDocument();
 
     // Creating a new Document object, saves the checkboxes and textareas to it, and adds it to the residents list of Documents
-    protected void saveNewDocument(Document.type type) {
-        Document doc = new Document(type);
+    protected void saveNewDocument(SystemDocument.type type) {
+        SystemDocument doc = new SystemDocument(type);
         doc.setSelectedCheckboxes(checkBoxes);
         doc.setTextAreas(textAreas);
         new Thread(() -> {
@@ -36,7 +36,7 @@ public abstract class VumDocumentController {
 
     // adds the checkboxes and textAreas to the existing document
     protected void saveExistingDocument() {
-        Document document = InformationBridge.getInstance().getChosenDocument();
+        SystemDocument document = InformationBridge.getInstance().getChosenDocument();
         document.setSelectedCheckboxes(checkBoxes);
         document.setTextAreas(textAreas);
         new Thread(() -> {
@@ -56,7 +56,7 @@ public abstract class VumDocumentController {
     }
 
     // Gets the Hashmaps and set the values to the correct textAreas and checkboxes
-    protected void loadDocumentContent(Document doc) {
+    protected void loadDocumentContent(SystemDocument doc) {
         HashMap<String, Boolean> checkBoxesFromDoc = doc.getSelectedCheckboxes();
         HashMap<String, String> textAreasFromDoc = doc.getTextAreas();
 

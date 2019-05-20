@@ -3,7 +3,7 @@ package ssb.domain_layer;
 import ssb.domain_layer.person.Resident;
 import ssb.domain_layer.person.Person;
 import ssb.domain_layer.document.DocumentManager;
-import ssb.domain_layer.document.Document;
+import ssb.domain_layer.document.SystemDocument;
 import ssb.domain_layer.notification.NotificationManager;
 import ssb.domain_layer.person.Employee;
 
@@ -11,7 +11,7 @@ public class InformationBridge {
 
     private static final InformationBridge INSTANCE = new InformationBridge();
     private Resident chosenResident;
-    private Document chosenDocument;
+    private SystemDocument chosenDocument;
     private Employee loggedInEmployee = null;
     private Person chosenEmployee;
     private Home currentHome;
@@ -49,11 +49,11 @@ public class InformationBridge {
         this.loggedInEmployee = loggedInEmployee;
     }
 
-    public Document getChosenDocument() {
+    public SystemDocument getChosenDocument() {
         return this.chosenDocument;
     }
 
-    public void setChosenDocument(Document document) {
+    public void setChosenDocument(SystemDocument document) {
         this.chosenDocument = document;
     }
 

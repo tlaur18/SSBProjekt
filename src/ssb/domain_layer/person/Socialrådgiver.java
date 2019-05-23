@@ -9,7 +9,6 @@ public class Socialrådgiver extends Employee {
         setCanCloseCase(true);
         setCanPrintDoc(true);
         setCanCreateReportDocs(true);
-        setCanAccessCreateDocBtn(true);
         setCanEditDoc(true);
     }
 

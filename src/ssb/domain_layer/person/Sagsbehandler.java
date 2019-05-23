@@ -7,7 +7,6 @@ public class Sagsbehandler extends Employee {
         super(firstName, lastName, phoneNr, cprNr);
         setCanEditDoc(true);
         setCanPrintDoc(true);
-        setCanAccessCreateDocBtn(true);
         setCanCreateNewProcessDoc(true);
     }
 

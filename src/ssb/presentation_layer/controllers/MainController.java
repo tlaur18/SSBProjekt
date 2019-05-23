@@ -17,6 +17,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import ssb.domain_layer.InformationBridge;
+import ssb.domain_layer.person.Vikar;
 
 public class MainController implements Initializable {
 
@@ -41,7 +42,9 @@ public class MainController implements Initializable {
 
     @FXML
     private void sagerOnAction(ActionEvent event) {
-        loadFXML("tabs/sagerTab");
+        if (!(InformationBridge.getInstance().getLoggedInEmployee() instanceof Vikar)) {
+            loadFXML("tabs/sagerTab");
+        }
     }
 
     @FXML

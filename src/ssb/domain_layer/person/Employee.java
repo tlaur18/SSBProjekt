@@ -2,7 +2,6 @@ package ssb.domain_layer.person;
 
 public abstract class Employee extends Person {
 
-    private boolean canAccessCreateDocBtn;
     private boolean canPrintDoc;
     private boolean canEditDoc;
     private boolean canCreateNewProcessDoc;
@@ -14,14 +13,6 @@ public abstract class Employee extends Person {
 
     public Employee(String firstName, String lastName, String phoneNr, String cprNr) {
         super(firstName, lastName, phoneNr, cprNr);
-    }
-
-    public final boolean canAccessCreateDocBtn() {
-        return canAccessCreateDocBtn;
-    }
-
-    protected final void setCanAccessCreateDocBtn(boolean canAccessCreateDocBtn) {
-        this.canAccessCreateDocBtn = canAccessCreateDocBtn;
     }
 
     public final boolean canPrintDoc() {

@@ -57,6 +57,10 @@ public class SagerTabController implements Initializable {
         if (loggedInEmployee.canCreateNewProcessDoc()) {
             createVUMDocBtn.setText("Opret ny sag");
         }
+        
+        if (!loggedInEmployee.canCreateReportDocs()) {
+            createVUMDocBtn.setVisible(false);
+        }
 
         // Columns width set to 20%
         for (Object column : vumDocumentTableView.getColumns().toArray()) {

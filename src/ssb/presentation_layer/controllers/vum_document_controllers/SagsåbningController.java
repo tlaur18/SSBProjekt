@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
+import ssb.domain_layer.InformationBridge;
 import ssb.domain_layer.document.Document;
 
 public class SagsåbningController extends VumDocumentController implements Initializable {
@@ -22,6 +23,9 @@ public class SagsåbningController extends VumDocumentController implements Init
         loadTabPaneChildren(tabPane);
         if (chosenDocument != null) {
             loadDocumentContent(chosenDocument);
+        }
+        if (! InformationBridge.getInstance().getLoggedInEmployee().canCreateReportDocs()) {
+            saveButton.setDisable(true);
         }
     }
     

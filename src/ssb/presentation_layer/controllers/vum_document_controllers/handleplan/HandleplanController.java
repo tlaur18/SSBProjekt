@@ -37,6 +37,9 @@ public class HandleplanController extends VumDocumentController implements Initi
         fillOutKnownFields();
         validation = new HandleplanValidation(tabPane);
         setValidationListeners();
+        if (! InformationBridge.getInstance().getLoggedInEmployee().canCreateReportDocs()) {
+            saveButton.setDisable(true);
+        }
     }
 
     @FXML
@@ -85,9 +88,9 @@ public class HandleplanController extends VumDocumentController implements Initi
         HashSet<TextField> textFields = new HashSet<>();
         if (!validation.addressIsValid(addresseTxtF.getText())) {
             textFields.add(addresseTxtF);
-        } else if (! validation.phoneNumberIsValid(telefonTxtF.getText())) {
+        } else if (!validation.phoneNumberIsValid(telefonTxtF.getText())) {
             textFields.add(telefonTxtF);
-        } else if (! validation.mailIsValid(mailTxtF.getText())) {
+        } else if (!validation.mailIsValid(mailTxtF.getText())) {
             textFields.add(mailTxtF);
         }
         return textFields;

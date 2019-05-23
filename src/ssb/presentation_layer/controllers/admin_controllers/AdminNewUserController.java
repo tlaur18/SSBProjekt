@@ -52,10 +52,6 @@ public class AdminNewUserController implements Initializable {
     private ChoiceBox<Home> homeDialog;
     @FXML
     private ListView<Home> homeList;
-    @FXML
-    private Button addHomebttn;
-    @FXML
-    private Button removeHomeBttn;
     private final InformationBridge informationBridge = InformationBridge.getInstance();
     private final EmployeeManager employeeManager = EmployeeManager.getInstance();
     private final ObservableList<Home> employeeHomes = FXCollections.observableArrayList();
@@ -66,14 +62,12 @@ public class AdminNewUserController implements Initializable {
         setHomeDialog();
 
         homeList.setItems(employeeHomes);
-        if (informationBridge.getChosenEmployee() != null) {
-            // TODO - thread instead and then a progress indicator
+        if (informationBridge.getChosenEmployee() != null) { // if an employee is chosen
             new Thread(() -> {
                 loadEmployeeDetails();
                 loadHomes();
             }).start();
-            cprFxtf.setDisable(true);
-
+            cprFxtf.setVisible(false); // Only when a new employee is created should the cpr number be visible
         }
     }
 

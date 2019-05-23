@@ -1,0 +1,32 @@
+maj 21, 2019 3:05:15 PM ssb.domain_layer.person.EmployeeManager$1 succeeded
+WARNING: Employee logger Startet
+maj 21, 2019 3:06:08 PM ssb.domain_layer.document.DocumentManager updateDocument
+INFO: thomas has updated OleHAN Test for the resident Olenoget
+maj 21, 2019 3:06:17 PM ssb.domain_layer.document.DocumentManager updateDocument
+INFO: thomas has updated OleHAN Test for the resident Olenoget
+maj 21, 2019 3:06:32 PM ssb.domain_layer.document.DocumentManager updateDocument
+INFO: thomas has updated OleHAN Test for the resident Olenoget
+maj 21, 2019 3:06:39 PM ssb.domain_layer.document.DocumentManager updateDocument
+INFO: thomas has updated OleHAN Test for the resident Olenoget
+maj 21, 2019 3:06:45 PM ssb.domain_layer.document.DocumentManager updateDocument
+INFO: thomas has updated OleHAN Test for the resident Olenoget
+maj 21, 2019 3:06:57 PM ssb.domain_layer.person.EmployeeManager addResidentToHome
+INFO: thomas has added resident: Soeren Super to home 2
+maj 21, 2019 3:07:14 PM ssb.domain_layer.document.DocumentManager addDocument
+INFO: thomas has added a new document for resident: Soeren Super
+maj 21, 2019 3:07:24 PM ssb.domain_layer.person.EmployeeManager$1 succeeded
+INFO: oliver Has logged in!
+maj 21, 2019 3:07:24 PM ssb.domain_layer.person.EmployeeManager$1 succeeded
+WARNING: Employee logger Startet
+maj 21, 2019 3:07:47 PM ssb.domain_layer.document.DocumentManager addDocument
+INFO: oliver has added a new document for resident: Soeren Super
+maj 21, 2019 3:14:08 PM ssb.domain_layer.person.EmployeeManager$1 succeeded
+WARNING: Employee logger Startet
+maj 21, 2019 3:17:00 PM ssb.domain_layer.document.DocumentManager updateDocument
+INFO: thomas has updated OleHAN Test for the resident Olenoget
+maj 21, 2019 3:17:05 PM ssb.domain_layer.document.DocumentManager updateDocument
+INFO: thomas has updated SoeHAN Test for the resident Soeren
+maj 21, 2019 3:20:37 PM ssb.domain_layer.person.EmployeeManager$1 succeeded
+WARNING: Employee logger Startet
+maj 21, 2019 3:21:35 PM ssb.domain_layer.person.EmployeeManager$1 succeeded
+WARNING: Employee logger Startet

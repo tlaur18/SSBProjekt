@@ -58,7 +58,7 @@ public class SagerTabController implements Initializable {
             createVUMDocBtn.setText("Opret ny sag");
         }
         
-        if (!loggedInEmployee.canCreateReportDocs()) {
+        if (!loggedInEmployee.canCreateReportDocs() && !loggedInEmployee.canCreateNewProcessDoc()) {
             createVUMDocBtn.setVisible(false);
         }
 

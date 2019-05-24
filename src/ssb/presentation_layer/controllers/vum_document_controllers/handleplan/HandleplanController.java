@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import ssb.domain_layer.InformationBridge;
 import ssb.domain_layer.document.Document;
+import ssb.domain_layer.person.Employee;
 import ssb.presentation_layer.controllers.vum_document_controllers.VumDocumentController;
 
 public class HandleplanController extends VumDocumentController implements Initializable {
@@ -37,7 +38,8 @@ public class HandleplanController extends VumDocumentController implements Initi
         fillOutKnownFields();
         validation = new HandleplanValidation(tabPane);
         setValidationListeners();
-        if (! InformationBridge.getInstance().getLoggedInEmployee().canCreateReportDocs()) {
+        Employee loggedinEmployee = InformationBridge.getInstance().getLoggedInEmployee();
+        if (!loggedinEmployee.canCreateReportDocs() && !loggedinEmployee.canCreateNewProcessDoc()) {
             saveButton.setDisable(true);
         }
     }

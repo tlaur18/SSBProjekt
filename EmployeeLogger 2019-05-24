@@ -1,0 +1,18 @@
+maj 24, 2019 3:46:19 PM ssb.domain_layer.person.EmployeeManager$1 succeeded
+WARNING: Employee logger Startet
+maj 24, 2019 3:46:34 PM ssb.domain_layer.person.EmployeeManager addResidentToHome
+INFO: thomas has added resident: Iben Ingeborg to home 1
+maj 24, 2019 3:46:38 PM ssb.domain_layer.document.DocumentManager addDocument
+INFO: thomas has added a new document for resident: Iben Ingeborg
+maj 24, 2019 3:46:47 PM ssb.domain_layer.person.EmployeeManager$1 succeeded
+INFO: nicolai Has logged in!
+maj 24, 2019 3:46:47 PM ssb.domain_layer.person.EmployeeManager$1 succeeded
+WARNING: Employee logger Startet
+maj 24, 2019 3:47:20 PM ssb.domain_layer.person.EmployeeManager$1 succeeded
+INFO: nicolai Has logged in!
+maj 24, 2019 3:47:20 PM ssb.domain_layer.person.EmployeeManager$1 succeeded
+WARNING: Employee logger Startet
+maj 24, 2019 3:47:27 PM ssb.domain_layer.person.EmployeeManager$1 succeeded
+INFO: jeppe Has logged in!
+maj 24, 2019 3:47:27 PM ssb.domain_layer.person.EmployeeManager$1 succeeded
+WARNING: Employee logger Startet

@@ -10,6 +10,7 @@ import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 import ssb.domain_layer.InformationBridge;
 import ssb.domain_layer.document.Document;
+import ssb.domain_layer.person.Employee;
 
 public class SagsåbningController extends VumDocumentController implements Initializable {
 
@@ -24,7 +25,8 @@ public class SagsåbningController extends VumDocumentController implements Init
         if (chosenDocument != null) {
             loadDocumentContent(chosenDocument);
         }
-        if (! InformationBridge.getInstance().getLoggedInEmployee().canCreateReportDocs()) {
+        Employee loggedinEmployee = InformationBridge.getInstance().getLoggedInEmployee();
+        if (!loggedinEmployee.canCreateReportDocs() && !loggedinEmployee.canCreateNewProcessDoc()) {
             saveButton.setDisable(true);
         }
     }

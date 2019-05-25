@@ -11,7 +11,8 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextInputControl;
 
 public class Document implements Serializable {
-
+    private static final long serialVersionUID = 1L;
+    
     public enum type {
         SAGSÅBNING, HANDLEPLAN
     }
